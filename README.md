@@ -1,6 +1,6 @@
 # nyxio framework
 
-[![Build](https://github.com/nyxio-php/nyxio/actions/workflows/php.yml/badge.svg)](https://github.com/nyxio-php/framework/actions/workflows/php.yml)
+[![Build](https://github.com/nyxio-php/nyxio/actions/workflows/check.yml/badge.svg)](https://github.com/nyxio-php/framework/actions/workflows/php.yml)
 
 [Documentation](https://github.com/nyxio-php/docs)
 
