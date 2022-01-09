@@ -1,0 +1,22 @@
+{
+    "name": "nyxio/config",
+    "description": "nyxio config component",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Nyxio\\Config\\": ""
+        }
+    },
+    "authors": [
+        {
+            "name": "Aleksey Ishutin",
+            "email": "ishutin.alexey@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=8.1",
+        "nyxio/contract": "dev-main"
+    }
+}

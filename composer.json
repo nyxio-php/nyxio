@@ -1,0 +1,73 @@
+{
+    "name": "nyxio/nyxio",
+    "description": "nyxio framework",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "files": [
+            "src/Helper/Directory/Directory.php",
+            "src/Helper/Env/Env.php",
+            "src/Helper/Reflection/Reflection.php",
+            "src/Helper/Text/Text.php",
+            "src/Helper/Url/Url.php"
+        ],
+        "psr-4": {
+            "Nyxio\\": "src/",
+            "Nyxio\\Config\\": "src/Config/",
+            "Nyxio\\Container\\": "src/Container/",
+            "Nyxio\\Contract\\": "src/Contract/",
+            "Nyxio\\Event\\": "src/Event/",
+            "Nyxio\\Helper\\": "src/Helper/",
+            "Nyxio\\Http\\": "src/Http/",
+            "Nyxio\\Kernel\\": "src/Kernel/",
+            "Nyxio\\Provider\\": "src/Provider/",
+            "Nyxio\\Routing\\": "src/Routing/",
+            "Nyxio\\Server\\": "src/Server/",
+            "Nyxio\\Validation\\": "src/Validation/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Nyxio\\Tests\\": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Aleksey Ishutin",
+            "email": "ishutin.alexey@gmail.com"
+        }
+    ],
+    "require": {
+        "ext-mbstring": "*",
+        "nyholm/psr7": "^1.4",
+        "php": ">=8.1",
+        "php-http/message-factory": "^1.0",
+        "psr/http-factory": "^1.0",
+        "psr/http-message": "^1.0",
+        "workerman/workerman": "^4.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5",
+        "symplify/monorepo-builder": "^10.0",
+        "vimeo/psalm": "^4.16"
+    },
+    "config": {
+        "allow-plugins": {
+            "composer/package-versions-deprecated": false
+        }
+    },
+    "replace": {
+        "nyxio/config": "self.version",
+        "nyxio/container": "self.version",
+        "nyxio/contract": "self.version",
+        "nyxio/event": "self.version",
+        "nyxio/helper": "self.version",
+        "nyxio/http": "self.version",
+        "nyxio/kernel": "self.version",
+        "nyxio/provider": "self.version",
+        "nyxio/routing": "self.version",
+        "nyxio/server": "self.version",
+        "nyxio/validation": "self.version"
+    },
+    "minimum-stability": "dev"
+}

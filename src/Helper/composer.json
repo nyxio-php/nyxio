@@ -1,0 +1,29 @@
+{
+    "name": "nyxio/helper",
+    "description": "nyxio helper component",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Nyxio\\Helper\\": ""
+        },
+        "files": [
+            "Directory/Directory.php",
+            "Url/Url.php",
+            "Text/Text.php",
+            "Env/Env.php",
+            "Reflection/Reflection.php"
+        ]
+    },
+    "authors": [
+        {
+            "name": "Aleksey Ishutin",
+            "email": "ishutin.alexey@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=8.1",
+        "ext-mbstring": "*"
+    }
+}
