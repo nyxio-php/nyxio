@@ -1,4 +1,4 @@
-# NYX Framework
+# nyxio framework
 
 [![Build](https://github.com/nyxio-php/nyxio/actions/workflows/php.yml/badge.svg)](https://github.com/nyxio-php/framework/actions/workflows/php.yml)
 
