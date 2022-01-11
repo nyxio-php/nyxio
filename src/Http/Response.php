@@ -13,6 +13,20 @@ class Response
     {
     }
 
+    public function status(int $code): static
+    {
+        $this->response = $this->response->withStatus($code);
+
+        return $this;
+    }
+
+    public function header(string $name, string $value): static
+    {
+        $this->response = $this->response->withHeader($name, $value);
+
+        return $this;
+    }
+
     public function json(string|array|int|bool|float|\JsonSerializable $content, ?int $code = null): ResponseInterface
     {
         $response = $this->response;
