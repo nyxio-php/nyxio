@@ -1,4 +1,4 @@
-name: Split
+name: 'Split packages'
 
 on:
   push:
@@ -6,10 +6,10 @@ on:
     tags: '*'
     
 env:
-  GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     
 jobs:
-  packages_split:
+  split:
     runs-on: ubuntu-latest
 
     strategy:
