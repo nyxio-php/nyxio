@@ -56,5 +56,5 @@ jobs:
           repository_name: '${{ matrix.repo }}'
 
           repository_host: github.com
-          user-name: "GitHub Action"
-          user-email: "action@github.com"
+          user_name: "GitHub Action"
+          user_email: "action@github.com"
