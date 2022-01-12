@@ -48,12 +48,16 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: "symplify/monorepo-split-github-action@2.0"
         env:
           GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
         with:
-          package-directory: 'src/${{ matrix.path }}'
-          split-repository-organization: 'nyxio-php'
-          split-repository-name: '${{ matrix.repo }}'
-          user-name: "${{ github.actor }}"
-          user-email: "${{ github.actor }}@users.noreply.github.com"
+          run: |
+            mkdir temp
+            cd temp
+            git clone https://github.com/nyxio-php/${{ matrix.repo }}.git
+            rsync ../src/${{ matrix.path }} /${{ matrix.repo }}
+            cd ${{ matrix.repo }}
+            git add .
+            git commit -m 'sync'
+            git push
+            
