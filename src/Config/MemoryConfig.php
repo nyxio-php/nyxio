@@ -36,7 +36,6 @@ class MemoryConfig implements ConfigInterface
         }
 
         $configName = \array_shift($parsedParams);
-        $configName = \str_replace('/', \DIRECTORY_SEPARATOR, $configName);
 
         if (!$this->has($configName)) {
             return $default;
