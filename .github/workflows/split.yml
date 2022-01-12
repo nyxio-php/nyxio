@@ -57,5 +57,5 @@ jobs:
           package_directory: "src/${{ matrix.path }}"
           repository_organization: "nyxio-php"
           repository_name: "${{ matrix.repo }}"
-          user_name: "kaizen-ci"
-          user_email: "info@kaizen-ci.org"
+          user_name: "Aleksey Ishutin"
+          user_email: "ishutin.alexey@gmail.com"
