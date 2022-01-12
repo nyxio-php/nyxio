@@ -1,4 +1,4 @@
-name: 'Split packages'
+name: 'Update'
 
 on:
   push:
