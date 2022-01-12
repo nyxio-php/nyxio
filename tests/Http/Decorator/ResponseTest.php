@@ -29,4 +29,18 @@ class ResponseTest extends TestCase
 
         $this->assertEquals('', (string)$response->getBody());
     }
+
+    public function testStatus(): void
+    {
+        $response = new Response(new \Nyholm\Psr7\Response());
+        $response->status(404);
+        $this->assertEquals(404, $response->json([])->getStatusCode());
+    }
+
+    public function testHeader(): void
+    {
+        $response = new Response(new \Nyholm\Psr7\Response());
+        $response->header('test-header', 'test');
+        $this->assertEquals(['test'], $response->json([])->getHeader('test-header'));
+    }
 }
