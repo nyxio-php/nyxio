@@ -51,13 +51,15 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
         with:
-          run: |
-            mkdir temp
-            cd temp
-            git clone https://github.com/nyxio-php/${{ matrix.repo }}.git
-            rsync ../src/${{ matrix.path }} /${{ matrix.repo }}
-            cd ${{ matrix.repo }}
-            git add .
-            git commit -m 'sync'
-            git push
-            
+          package_directory: "src/${{ matrix.path }}"
+          # Host
+          repository_host: "github.com"
+          # Remote organization
+          repository_organization: "nyxio-php"
+          # Remote repository
+          repository_name: "${{ matrix.repo }}"
+          # Git branch
+          branch: "main"
+          # Git User Email
+          user_name: 'kaizen-ci'
+          user_email: 'info@kaizen-ci.org'
