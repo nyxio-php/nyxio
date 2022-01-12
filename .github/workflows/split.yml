@@ -5,8 +5,8 @@ on:
     branches: [ main ]
     #tags: '*'
     
-env:
-  GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+#env:
+#  GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
 
 jobs:
   split:
