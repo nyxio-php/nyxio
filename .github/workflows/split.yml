@@ -5,8 +5,8 @@ on:
     branches: [ main ]
     #tags: '*'
     
-#env:
-#  GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+env:
+  GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
 
 jobs:
   split:
@@ -57,5 +57,6 @@ jobs:
           package_directory: "src/${{ matrix.path }}"
           repository_organization: "nyxio-php"
           repository_name: "${{ matrix.repo }}"
+          repository_host: "git@github.com"
           user_name: "Aleksey Ishutin"
           user_email: "ishutin.alexey@gmail.com"
