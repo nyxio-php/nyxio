@@ -56,5 +56,5 @@ jobs:
           package_directory: 'src/${{ matrix.path }}'
           repository_organization: 'nyxio-php'
           repository_name: '${{ matrix.repo }}'
-          user_name: "GitHub Action"
+          user_name: "nyxio-php"
           user_email: "action@github.com"
