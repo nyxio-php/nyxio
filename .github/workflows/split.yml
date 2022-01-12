@@ -58,5 +58,7 @@ jobs:
             repository_organization: 'nyxio-php'
             repository_name: '${{ matrix.package.split_repository }}'
 
-            user_name: "nyxio-ci"
-            user_email: "dev@nyxio-framework.com"
+            #user_name: "nyxio-ci"
+            #user_email: "dev@nyxio-framework.com"
+            user_name: "ishutin"
+            user_email: "ishutin.alexey@gmail.com"
