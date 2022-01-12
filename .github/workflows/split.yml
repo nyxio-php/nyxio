@@ -4,6 +4,9 @@ on:
   push:
     branches: [ main ]
     #tags: '*'
+    
+env:
+  GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
 
 jobs:
   split:
@@ -48,19 +51,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: symplify/monorepo-split-github-action@2.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+      - if: "!startsWith(github.ref, 'refs/tags/')"
+        uses: symplify/monorepo-split-github-action@2.1
         with:
           package_directory: "src/${{ matrix.path }}"
-          # Host
-          repository_host: "github.com"
-          # Remote organization
           repository_organization: "nyxio-php"
-          # Remote repository
           repository_name: "${{ matrix.repo }}"
-          # Git branch
-          branch: "main"
-          # Git User Email
-          user_name: 'kaizen-ci'
-          user_email: 'info@kaizen-ci.org'
+          user_name: "kaizen-ci"
+          user_email: "info@kaizen-ci.org"
