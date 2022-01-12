@@ -51,10 +51,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: "symplify/monorepo-split-github-action@2.1"
+      - uses: "symplify/monorepo-split-github-action@2.0"
         with:
-          package_directory: 'src/${{ matrix.path }}'
-          repository_organization: 'nyxio-php'
-          repository_name: '${{ matrix.repo }}'
-          user_name: "${{ github.actor }}"
-          user_email: "${{ github.actor }}@users.noreply.github.com"
+          package-directory: 'src/${{ matrix.path }}'
+          split-repository-organization: 'nyxio-php'
+          split-repository-name: '${{ matrix.repo }}'
+          user-name: "${{ github.actor }}"
+          user-email: "${{ github.actor }}@users.noreply.github.com"
