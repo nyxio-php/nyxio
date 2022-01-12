@@ -3,7 +3,7 @@ name: 'Update'
 on:
   push:
     branches: [ main ]
-    tags: '*'
+    #tags: '*'
 
 jobs:
   split:
