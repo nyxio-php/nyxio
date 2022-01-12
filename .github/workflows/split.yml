@@ -18,38 +18,38 @@ jobs:
       fail-fast: false
       matrix:
         include:
-#           - path: 'Config'
-#             repo: 'config'
+          - path: 'Config'
+            repo: 'config'
 
-#           - path: 'Container'
-#             repo: 'config'
+          - path: 'Container'
+            repo: 'config'
 
           - path: 'Contract'
             repo: 'contract'
 
-#           - path: 'Event'
-#             repo: 'event'
+          - path: 'Event'
+            repo: 'event'
 
-#           - path: 'Helper'
-#             repo: 'helper'
+          - path: 'Helper'
+            repo: 'helper'
 
-#           - path: 'Http'
-#             repo: 'http'
+          - path: 'Http'
+            repo: 'http'
 
-#           - path: 'Kernel'
-#             repo: 'Kernel'
+          - path: 'Kernel'
+            repo: 'Kernel'
 
-#           - path: 'Provider'
-#             repo: 'Provider'
+          - path: 'Provider'
+            repo: 'Provider'
 
-#           - path: 'Routing'
-#             repo: 'routing'
+          - path: 'Routing'
+            repo: 'routing'
 
-#           - path: 'Server'
-#             repo: 'server'
+          - path: 'Server'
+            repo: 'server'
 
-#           - path: 'Validation'
-#             repo: 'validation'
+          - path: 'Validation'
+            repo: 'validation'
 
     steps:
       - uses: actions/checkout@v2
