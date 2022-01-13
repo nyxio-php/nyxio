@@ -38,10 +38,10 @@ class ValidationTest extends TestCase
         $rulesChecker = new RulesChecker($executorCollection);
         $validatorCollection = new ValidatorCollection($rulesChecker);
 
-        $validatorCollection->attribute('firstName')->rule('string')->notNullable()->notAllowsEmpty();
+        $validatorCollection->attribute('firstName')->rule('string')->notNullable()->required();
         $validatorCollection->attribute('lastName')->rule('string')->notNullable()->notAllowsEmpty('last name empty');
-        $validatorCollection->attribute('age')->rule('integer')->nullable()->notAllowsEmpty();
-        $validatorCollection->attribute('email')->rule('email')->notNullable()->notAllowsEmpty('EMPTY EMAIL');
+        $validatorCollection->attribute('age')->rule('integer')->nullable()->required();
+        $validatorCollection->attribute('email')->rule('email')->notNullable()->required('EMPTY EMAIL');
 
         $this->assertEquals(
             [
@@ -105,6 +105,32 @@ class ValidationTest extends TestCase
         );
     }
 
+    public function testRequired(): void
+    {
+        $data = [
+            'foo' => [
+                'bar' => 1,
+            ],
+            'bar' => [],
+        ];
+
+        $executorCollection = new RuleExecutorCollection(new Container(), new ExtractAttribute());
+        $executorCollection->register(DefaultRules::class);
+        $rulesChecker = new RulesChecker($executorCollection);
+        $validatorCollection = new ValidatorCollection($rulesChecker);
+
+        $validatorCollection->attribute('foo.bar')->required('bar is required');
+        $validatorCollection->attribute('bar.foo.test')->required('test is required');
+        $validatorCollection->attribute('code')->notRequired();
+
+        $this->assertEquals(
+            [
+                'bar.foo.test' => ['test is required'],
+            ],
+            $validatorCollection->getErrors($data)
+        );
+    }
+
     public function testNullable(): void
     {
         $data = [
@@ -138,7 +164,7 @@ class ValidationTest extends TestCase
         $rulesChecker = new RulesChecker($executorCollection);
         $validatorCollection = new ValidatorCollection($rulesChecker);
 
-        $validatorCollection->attribute('foo')->notAllowsEmpty('EMPTY');
+        $validatorCollection->attribute('foo')->required('EMPTY');
         $this->expectException(HttpException::class);
         $validatorCollection->validateOrException($data);
     }
@@ -158,7 +184,7 @@ class ValidationTest extends TestCase
         $rulesChecker = new RulesChecker($executorCollection);
         $validatorCollection = new ValidatorCollection($rulesChecker);
 
-        $validatorCollection->attribute('foo')->notAllowsEmpty('EMPTY');
+        $validatorCollection->attribute('foo')->required('EMPTY');
         $this->assertTrue($validatorCollection->validateOrException($data));
     }
 

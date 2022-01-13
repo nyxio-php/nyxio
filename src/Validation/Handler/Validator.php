@@ -10,11 +10,15 @@ class Validator
 
     private bool $isNullable = false;
 
+    private bool $required = false;
+
     private bool $allowsEmpty = true;
 
-    private string $emptyMessage = 'Attribute cannot be empty';
+    private string $requiredMessage = 'Attribute is required';
 
     private string $nullMessage = 'Attribute cannot be null';
+
+    private string $allowsEmptyMessage = 'Attribute cannot be empty';
 
     public function __construct(public readonly string $attribute)
     {
@@ -43,15 +47,38 @@ class Validator
         return $this;
     }
 
+    public function isRequired(): bool
+    {
+        return $this->required;
+    }
+
     public function isAllowsEmpty(): bool
     {
         return $this->allowsEmpty;
     }
 
+    public function required(?string $message = null): static
+    {
+        if ($message !== null) {
+            $this->requiredMessage = $message;
+        }
+
+        $this->required = true;
+
+        return $this;
+    }
+
+    public function notRequired(): static
+    {
+        $this->required = false;
+
+        return $this;
+    }
+
     public function notAllowsEmpty(?string $message = null): static
     {
         if ($message !== null) {
-            $this->emptyMessage = $message;
+            $this->allowsEmptyMessage = $message;
         }
 
         $this->allowsEmpty = false;
@@ -66,9 +93,14 @@ class Validator
         return $this;
     }
 
-    public function getEmptyMessage(): string
+    public function getAllowsEmptyMessage(): string
     {
-        return $this->emptyMessage;
+        return $this->allowsEmptyMessage;
+    }
+
+    public function getRequiredMessage(): string
+    {
+        return $this->requiredMessage;
     }
 
     public function getNullableMessage(): string

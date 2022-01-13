@@ -47,7 +47,7 @@ class DefaultRules
     #[Rule('email', 'Attribute is not email')]
     public function email(mixed $value): bool
     {
-        return is_string(\filter_var($value, \FILTER_VALIDATE_EMAIL));
+        return \filter_var($value, \FILTER_VALIDATE_EMAIL) !== false;
     }
 
     #[Rule('max-len', 'Attribute length larger :max')]

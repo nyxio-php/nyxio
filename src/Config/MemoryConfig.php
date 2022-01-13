@@ -41,9 +41,7 @@ class MemoryConfig implements ConfigInterface
             return $default;
         }
 
-        $config = $this->configs[$configName];
-
-        $value = $config;
+        $value = $this->configs[$configName];
 
         foreach ($parsedParams as $param) {
             if (!isset($value[$param])) {

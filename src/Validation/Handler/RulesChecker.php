@@ -19,29 +19,54 @@ class RulesChecker implements RulesCheckerInterface
     {
         $errors = [];
 
+        $attributeKeys = \explode('.', $validator->attribute);
+        $valueExists = false;
+        $mainKey = \array_shift($attributeKeys);
+        $value = null;
+
+        if (\array_key_exists($mainKey, $source)) {
+            $value = $source[$mainKey];
+            $valueExists = true;
+
+            foreach ($attributeKeys as $key) {
+                if (!\array_key_exists($key, $value)) {
+                    $valueExists = false;
+
+                    break;
+                }
+
+                $value = $value[$key];
+            }
+        }
+
         $defaultParams = [
             'source' => $source,
             'attribute' => $validator->attribute,
         ];
 
-        $valueExists = \array_key_exists($validator->attribute, $source);
-
         if ($valueExists) {
-            $defaultParams['value'] = $source[$validator->attribute];
-        }
+            $defaultParams['value'] = $value;
 
-        if ($valueExists && $source[$validator->attribute] === null && $validator->isNullable()) {
-            return [];
-        }
+            if ($value === null) {
+                if ($validator->isNullable()) {
+                    return [];
+                }
 
-        if (empty($source[$validator->attribute]) && !$validator->isAllowsEmpty()) {
-            $errors[$validator->attribute][] = getFormattedText($validator->getEmptyMessage(), $defaultParams);
+                $errors[$validator->attribute][] = getFormattedText(
+                    $validator->getNullableMessage(),
+                    $defaultParams
+                );
 
-            return $errors;
-        }
+                return $errors;
+            }
 
-        if ($valueExists && $source[$validator->attribute] === null && $validator->isNullable() === false) {
-            $errors[$validator->attribute][] = getFormattedText($validator->getNullableMessage(), $defaultParams);
+            if ($value === '' && !$validator->isAllowsEmpty()) {
+                $errors[$validator->attribute][] = getFormattedText($validator->getAllowsEmptyMessage(), $defaultParams);
+
+                return $errors;
+            }
+        } elseif ($validator->isRequired()) {
+            $errors[$validator->attribute][] = getFormattedText($validator->getRequiredMessage(), $defaultParams);
 
             return $errors;
         }
