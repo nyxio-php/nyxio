@@ -36,3 +36,35 @@ jobs:
 
     - name: Run test suite
       run: vendor/bin/phpunit
+  coverage:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Install PHP 
+      uses: shivammathur/setup-php@v2
+      with:
+        coverage: none
+        php-version: '8.1'    
+
+    - name: Validate composer.json and composer.lock
+      run: composer validate --strict
+
+    - name: Cache Composer packages
+      id: composer-cache
+      uses: actions/cache@v2
+      with:
+        path: vendor
+        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-php-
+
+    - name: Install dependencies
+      run: composer install --prefer-dist --no-progress
+
+    - name: coverage
+      run: |
+        ./vendor/bin/phpunit --coverage-clover coverage-clover.xml
+        curl -LO https://scrutinizer-ci.com/ocular.phar
+        php ocular.phar code-coverage:upload --format=php-clover coverage-clover.xml
