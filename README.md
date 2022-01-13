@@ -1,6 +1,7 @@
 # nyxio framework
 
 [![Build](https://github.com/nyxio-php/nyxio/actions/workflows/tests.yml/badge.svg)](https://github.com/nyxio-php/nyxio/actions/workflows/tests.yml)
+[![Code Coverage](https://scrutinizer-ci.com/g/nyxio-php/nyxio/badges/coverage.png?b=main)](https://scrutinizer-ci.com/g/nyxio-php/nyxio/?branch=main)
 
 [Documentation](https://github.com/nyxio-php/docs)
 
