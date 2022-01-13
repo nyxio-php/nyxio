@@ -15,7 +15,9 @@ use Nyxio\Kernel\Request\RequestHandler;
 use Nyxio\Routing\Group;
 use Nyxio\Routing\GroupCollection;
 use Nyxio\Routing\UriMatcher;
+use Nyxio\Tests\Kernel\Request\Fixture\ActionWithInvalidMiddleware;
 use Nyxio\Tests\Kernel\Request\Fixture\TestAction;
+use Nyxio\Tests\Kernel\Request\Fixture\TestActionWithQuery;
 use Nyxio\Validation\Handler\RulesChecker;
 use Nyxio\Validation\RuleExecutorCollection;
 use PHPUnit\Framework\TestCase;
@@ -57,5 +59,65 @@ class RequestHandlerTest extends TestCase
 
         $this->assertEquals('{"code":404,"message":"Page Not Found"}', (string)$response->getBody());
         $this->assertEquals(404, $response->getStatusCode());
+    }
+
+    /**
+     * @return void
+     * @throws \ReflectionException
+     */
+    public function testInvalidMiddlewares(): void
+    {
+        $container = new Container();
+        $extractAttribute = new ExtractAttribute();
+        $groupCollection = (new GroupCollection())->register(new Group('api', prefix: '/api/v1'));
+        $actionCollection = new ActionCollection($container, $extractAttribute, $groupCollection);
+        $actionCollection->create([ActionWithInvalidMiddleware::class]);
+
+        $handler = new RequestHandler(
+            matcher:              new UriMatcher(
+                                      new RulesChecker(new RuleExecutorCollection($container, $extractAttribute))
+                                  ),
+            container:            $container,
+            exceptionTransformer: new ExceptionTransformer(),
+            responseFactory:      new ResponseFactory(),
+            actionCollection:     $actionCollection,
+        );
+
+        $request = (new RequestFactory(new UriFactory()))->createServerRequest('POST', '/api/v1/invalid');
+
+        $response = $handler->handle($request);
+
+        $this->assertEquals('"test"', (string)$response->getBody());
+        $this->assertEquals(201, $response->getStatusCode());
+    }
+
+    /**
+     * @return void
+     * @throws \ReflectionException
+     */
+    public function testMergeQueryParams(): void
+    {
+        $container = new Container();
+        $extractAttribute = new ExtractAttribute();
+        $groupCollection = (new GroupCollection())->register(new Group('api', prefix: '/api/v1'));
+        $actionCollection = new ActionCollection($container, $extractAttribute, $groupCollection);
+        $actionCollection->create([TestActionWithQuery::class]);
+
+        $handler = new RequestHandler(
+            matcher:              new UriMatcher(
+                                      new RulesChecker(new RuleExecutorCollection($container, $extractAttribute))
+                                  ),
+            container:            $container,
+            exceptionTransformer: new ExceptionTransformer(),
+            responseFactory:      new ResponseFactory(),
+            actionCollection:     $actionCollection,
+        );
+
+        $request = (new RequestFactory(new UriFactory()))->createServerRequest('POST', '/api/v1/user/4?queryParam=1');
+
+        $response = $handler->handle($request);
+
+        $this->assertEquals('{"queryParam":1,"id":4}', (string)$response->getBody());
+        $this->assertEquals(201, $response->getStatusCode());
     }
 }
