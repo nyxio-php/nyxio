@@ -17,25 +17,25 @@ class MemoryConfig implements ConfigInterface
         return $this;
     }
 
-    public function get(string $params, mixed $default = null): mixed
+    public function get(string $name, mixed $default = null): mixed
     {
-        if (empty($params)) {
-            throw new \InvalidArgumentException(\sprintf('Invalid config name "%s"', $params));
+        if (empty($name)) {
+            throw new \InvalidArgumentException(\sprintf('Invalid config name "%s"', $name));
         }
 
-        $parsedParams = \explode('.', $params);
+        $nameKeys = \explode('.', $name);
 
-        if (\count($parsedParams) === 1) {
+        if (\count($nameKeys) === 1) {
             throw new \InvalidArgumentException(
                 \sprintf(
                     'Incorrect use of config "%s". Use %s.your-option-name',
-                    $params,
-                    $params
+                    $name,
+                    $name
                 )
             );
         }
 
-        $configName = \array_shift($parsedParams);
+        $configName = \array_shift($nameKeys);
 
         if (!$this->has($configName)) {
             return $default;
@@ -43,12 +43,12 @@ class MemoryConfig implements ConfigInterface
 
         $value = $this->configs[$configName];
 
-        foreach ($parsedParams as $param) {
-            if (!isset($value[$param])) {
+        foreach ($nameKeys as $nameKey) {
+            if (!\array_key_exists($nameKey, $value)) {
                 return $default;
             }
 
-            $value = $value[$param];
+            $value = $value[$nameKey];
         }
 
         return $value;
