@@ -108,9 +108,9 @@ class Validator
         return $this->nullMessage;
     }
 
-    public function rule(string $rule, array $parameters = []): static
+    public function rule(string $rule, array $parameters = [], ?string $message = null): static
     {
-        $this->rules[$rule] = $parameters;
+        $this->rules[$rule] = ['params' => $parameters, 'message' => $message];
 
         return $this;
     }

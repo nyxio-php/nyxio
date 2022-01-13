@@ -61,7 +61,10 @@ class RulesChecker implements RulesCheckerInterface
             }
 
             if ($value === '' && !$validator->isAllowsEmpty()) {
-                $errors[$validator->attribute][] = getFormattedText($validator->getAllowsEmptyMessage(), $defaultParams);
+                $errors[$validator->attribute][] = getFormattedText(
+                    $validator->getAllowsEmptyMessage(),
+                    $defaultParams
+                );
 
                 return $errors;
             }
@@ -71,7 +74,7 @@ class RulesChecker implements RulesCheckerInterface
             return $errors;
         }
 
-        foreach ($validator->getRules() as $rule => $parameters) {
+        foreach ($validator->getRules() as $rule => $ruleData) {
             $executor = $this->executorCollection->get($rule);
 
             if ($executor === null) {
@@ -80,14 +83,17 @@ class RulesChecker implements RulesCheckerInterface
 
             $validateParams = \array_merge(
                 $defaultParams,
-                $parameters
+                $ruleData['params']
             );
 
             if ($executor->validate($validateParams)) {
                 continue;
             }
 
-            $errors[$validator->attribute][] = getFormattedText($executor->rule->message, $validateParams);
+            $errors[$validator->attribute][] = getFormattedText(
+                $ruleData['message'] ?? $executor->rule->message,
+                $validateParams
+            );
         }
 
         return $errors;

@@ -81,6 +81,32 @@ class ValidationTest extends TestCase
         );
     }
 
+    public function testCustomMessages(): void
+    {
+        $data = [
+            'firstName' => 'Alex',
+            'age' => '25.4',
+        ];
+
+        $executorCollection = new RuleExecutorCollection(new Container(), new ExtractAttribute());
+        $executorCollection->register(DefaultRules::class);
+        $rulesChecker = new RulesChecker($executorCollection);
+        $validatorCollection = new ValidatorCollection($rulesChecker);
+
+        $validatorCollection->attribute('firstName')->rule('string', message: 'First name can be only string!');
+        $validatorCollection->attribute('age')->nullable()->rule(
+            rule:    'integer',
+            message: 'Age can be only integer or null!'
+        );
+
+        $this->assertEquals(
+            [
+                'age' => ['Age can be only integer or null!'],
+            ],
+            $validatorCollection->getErrors($data)
+        );
+    }
+
     public function testAllowsEmpty(): void
     {
         $data = [
