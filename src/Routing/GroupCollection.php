@@ -8,6 +8,9 @@ use Nyxio\Contract\Routing\GroupCollectionInterface;
 
 class GroupCollection implements GroupCollectionInterface
 {
+    /**
+     * @var Group[]
+     */
     private array $groups = [];
 
     public function register(Group $group): static
