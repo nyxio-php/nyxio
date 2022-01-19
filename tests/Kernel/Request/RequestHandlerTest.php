@@ -32,7 +32,7 @@ class RequestHandlerTest extends TestCase
     {
         $container = new Container();
         $extractAttribute = new ExtractAttribute();
-        $groupCollection = (new GroupCollection())->register(new Group('api', prefix: '/api/v1'));
+        $groupCollection = (new GroupCollection())->register(new Group('version1', prefix: '/api/v1'));
         $actionCollection = new ActionCollection($container, $extractAttribute, $groupCollection);
         $actionCollection->create([TestAction::class]);
 

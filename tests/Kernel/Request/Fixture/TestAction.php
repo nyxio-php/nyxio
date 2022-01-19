@@ -13,7 +13,7 @@ use Nyxio\Routing\Attribute\RouteGroup;
 use Psr\Http\Message\ResponseInterface;
 
 #[Route(Method::POST, '/user/@id', rules: ['id' => 'integer'])]
-#[RouteGroup('api')]
+#[RouteGroup('version1')]
 #[Middleware(TestMiddleware::class)]
 class TestAction
 {

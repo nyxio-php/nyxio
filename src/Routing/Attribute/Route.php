@@ -7,6 +7,7 @@ namespace Nyxio\Routing\Attribute;
 use Nyxio\Contract\Http\Method;
 use Nyxio\Routing\ValidatorTrait;
 
+use function Nyxio\Helper\Url\joinUri;
 use function Nyxio\Helper\Url\normalizeUri;
 
 #[\Attribute(\Attribute::TARGET_CLASS)]
@@ -30,7 +31,7 @@ class Route
 
     public function addPrefix(string $prefix): static
     {
-        $this->uri = normalizeUri(rtrim($prefix, '/') . '/' . ltrim($this->uri, '/'));
+        $this->uri = joinUri($prefix, $this->uri);
 
         return $this;
     }

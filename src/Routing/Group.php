@@ -13,9 +13,10 @@ class Group
     public function __construct(
         public readonly string $name,
         public ?string $prefix = null,
-        private readonly array $rules = [],
+        public readonly array $rules = [],
         public readonly array $middlewares = [],
-        public readonly array $validations = []
+        public readonly array $validations = [],
+        public readonly ?Group $parent = null,
     ) {
         if ($this->prefix !== null) {
             $this->prefix = normalizeUri($prefix);

@@ -22,3 +22,14 @@ function normalizeUri(string $uri): string
 
     return $uri;
 }
+
+function joinUri(string ...$uri): string
+{
+    $rootUri = rtrim(\array_shift($uri), '/');
+
+    \array_walk($uri, static function (string &$item) {
+        $item = \rtrim(\ltrim($item, '/'), '/');
+    });
+
+    return normalizeUri(\implode('/', \array_merge([$rootUri], $uri)));
+}

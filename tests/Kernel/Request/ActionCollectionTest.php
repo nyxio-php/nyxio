@@ -24,7 +24,18 @@ class ActionCollectionTest extends TestCase
     public function testBasic(): void
     {
         $groupCollection = new GroupCollection();
-        $groupCollection->register(new Group('api', 'api/v1'));
+        $groupCollection->register(
+            new Group(
+                name:   'version1', prefix: '/v1',
+                parent: new Group(
+                            name:   'api', prefix: '/api',
+                            parent: new Group(
+                                        name:   'beta',
+                                        prefix: '/beta'
+                                    )
+                        )
+            )
+        );
         $collection = new ActionCollection(new Container(), new ExtractAttribute(), $groupCollection);
         $collection->create([TestAction::class]);
 
@@ -33,7 +44,7 @@ class ActionCollectionTest extends TestCase
         $actionCache = $collection->all()[TestAction::class];
 
         $this->assertInstanceOf(ActionCache::class, $actionCache);
-        $this->assertEquals('/api/v1/user/@id', $actionCache->route->getUri());
+        $this->assertEquals('/beta/api/v1/user/@id', $actionCache->route->getUri());
     }
 
     /**

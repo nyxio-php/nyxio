@@ -6,6 +6,7 @@ namespace Nyxio\Tests\Helper\Url;
 
 use PHPUnit\Framework\TestCase;
 
+use function Nyxio\Helper\Url\joinUri;
 use function Nyxio\Helper\Url\normalizeUri;
 
 class UrlHelperTest extends TestCase
@@ -25,6 +26,21 @@ class UrlHelperTest extends TestCase
         );
     }
 
+    /**
+     * @param string $excepted
+     * @param ...$uri
+     * @return void
+     *
+     * @dataProvider getTestDataForJoinUri
+     */
+    public function testJoinUri(string $excepted, string ...$uri): void
+    {
+        $this->assertEquals(
+            $excepted,
+            joinUri(...$uri)
+        );
+    }
+
     public function getTestDataForNormalizeUri(): \Generator
     {
         yield ['value' => 'test', 'excepted' => '/test'];
@@ -35,5 +51,13 @@ class UrlHelperTest extends TestCase
         yield ['value' => '  /test  ', 'excepted' => '/test'];
         yield ['value' => '/test/', 'excepted' => '/test'];
         yield ['value' => 'test/uri/user/', 'excepted' => '/test/uri/user'];
+    }
+
+    public function getTestDataForJoinUri(): \Generator
+    {
+        yield ['value' => '/test/joined/uri', '/test', 'joined', '/uri/'];
+        yield ['value' => '/', ''];
+        yield ['value' => '/test/url/test/test/test', '/test/', 'url', '/test/', '/test', 'test/'];
+        yield ['value' => '/test/url/test/test/test', '/test/', 'url', '/test/', '/test', 'test/'];
     }
 }
