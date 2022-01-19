@@ -5,6 +5,6 @@
 
 [Documentation](https://github.com/nyxio-php/docs)
 
-<br>nyxio framework – fast and flexible framework for development microservices.
-The framework uses async framework `workerman/workerman` (https://github.com/walkor/workerman).
+<br>nyxio framework – microframework for development microservices.
+The framework uses async framework `workerman` (https://github.com/walkor/workerman).
 
