@@ -22,7 +22,7 @@ jobs:
             repo: 'config'
 
           - path: 'Container'
-            repo: 'config'
+            repo: 'container'
 
           - path: 'Contract'
             repo: 'contract'
