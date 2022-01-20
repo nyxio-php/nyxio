@@ -35,12 +35,13 @@ trait ValidatorTrait
 
     private function createValidators(array $data): void
     {
-        foreach ($data as $key => $rules) {
+        foreach ($data as $name => $rules) {
             $rules = \is_array($rules) ? $rules : [$rules];
-            $this->validators[$key] = new Validator($key);
+            $this->validators[$name] = new Validator($name);
 
-            foreach ($rules as $rule) {
-                $this->validators[$key]->rule($rule);
+            foreach ($rules as $key => $value) {
+                $withParams = \is_array($value);
+                $this->validators[$name]->rule($withParams ? $key : $value, $withParams ? $value : []);
             }
         }
     }

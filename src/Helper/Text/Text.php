@@ -14,29 +14,20 @@ function parseFromString(string $value): string|int|float|bool|null
         return (int)$value;
     }
 
-    $lowerCaseValue = \mb_strtolower($value);
-
-    if ($lowerCaseValue === 'null') {
-        return null;
-    }
-
-    if ($lowerCaseValue === 'true') {
-        return true;
-    }
-
-    if ($lowerCaseValue === 'false') {
-        return false;
-    }
-
-    return $value;
+    return match (\mb_strtolower($value)) {
+        'null' => null,
+        'true' => true,
+        'false' => false,
+        default => $value,
+    };
 }
 
 function getFormattedText(string $source, array $params = []): string
 {
-    $params = \array_filter($params,  static fn (mixed $param) => !\is_array($param));
+    $params = \array_filter($params, static fn(mixed $param) => !\is_array($param));
 
     return \str_replace(
-        \array_map(static fn ($value) => ':' . $value, \array_keys($params)),
+        \array_map(static fn($value) => ':' . $value, \array_keys($params)),
         $params,
         $source
     );

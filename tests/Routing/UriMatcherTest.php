@@ -121,6 +121,24 @@ class UriMatcherTest extends TestCase
             ],
             'excepted' => true,
         ];
+
+        yield [
+            'routeUri' => '/user/@userId',
+            'requestUri' => '/user/test-user-id',
+            'rules' => [
+                'userId' => ['string', 'max-len' => ['max' => 2]],
+            ],
+            'excepted' => false,
+        ];
+
+        yield [
+            'routeUri' => '/user/@userId',
+            'requestUri' => '/user/test-user-id',
+            'rules' => [
+                'userId' => ['string', 'max-len' => ['max' => 20]],
+            ],
+            'excepted' => true,
+        ];
     }
 
     private function createMatcherInstance(): UriMatcher
