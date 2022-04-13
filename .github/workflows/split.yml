@@ -45,9 +45,6 @@ jobs:
           - path: 'Routing'
             repo: 'routing'
 
-          - path: 'Server'
-            repo: 'server'
-
           - path: 'Validation'
             repo: 'validation'
 
