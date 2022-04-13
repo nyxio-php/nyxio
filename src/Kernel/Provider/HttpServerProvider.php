@@ -60,7 +60,8 @@ class HttpServerProvider implements ProviderInterface
     {
         $request = $this->requestFactory->createServerRequest(
             $swooleRequest->getMethod(),
-            $swooleRequest->header['uri'],
+            $swooleRequest->server['request_uri'],
+            $swooleRequest->server,
         );
 
         $request->withParsedBody($swooleRequest->post);
