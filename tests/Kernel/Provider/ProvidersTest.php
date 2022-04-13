@@ -20,7 +20,7 @@ use Nyxio\Contract\Validation\RuleExecutorCollectionInterface;
 use Nyxio\Kernel\Application;
 use Nyxio\Kernel\Provider\KernelProvider;
 use Nyxio\Kernel\Provider\ValidationProvider;
-use Nyxio\Kernel\Provider\HttpServerProvider;
+use Nyxio\Kernel\Provider\ServerProvider;
 use Nyxio\Routing\Group;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseFactoryInterface;

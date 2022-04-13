@@ -8,7 +8,7 @@ use Nyxio\Config\MemoryConfig;
 use Nyxio\Container\Container;
 use Nyxio\Contract\Provider\ProviderDispatcherInterface;
 use Nyxio\Kernel\Application;
-use Nyxio\Kernel\Provider\HttpServerProvider;
+use Nyxio\Kernel\Provider\ServerProvider;
 use Nyxio\Kernel\Provider\KernelProvider;
 use PHPUnit\Framework\TestCase;
 use Psalm\Internal\EventDispatcher;
@@ -23,7 +23,7 @@ class ApplicationTest extends TestCase
     {
         $config = (new MemoryConfig())->addConfig('app', [
             'providers' => [
-                HttpServerProvider::class,
+                ServerProvider::class,
             ],
         ]);
 
@@ -43,7 +43,7 @@ class ApplicationTest extends TestCase
         $config = (new MemoryConfig())->addConfig('app', [
             'providers' => [
                 KernelProvider::class,
-                HttpServerProvider::class,
+                ServerProvider::class,
             ],
         ]);
 
