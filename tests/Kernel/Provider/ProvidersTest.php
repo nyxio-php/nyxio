@@ -13,14 +13,14 @@ use Nyxio\Contract\Kernel\Request\RequestHandlerInterface;
 use Nyxio\Contract\Provider\ProviderDispatcherInterface;
 use Nyxio\Contract\Routing\GroupCollectionInterface;
 use Nyxio\Contract\Routing\UriMatcherInterface;
-use Nyxio\Contract\Server\HandlerInterface;
+use Nyxio\Contract\Server\ServerHandlerInterface;
 use Nyxio\Contract\Validation\Handler\RulesCheckerInterface;
 use Nyxio\Contract\Validation\Handler\ValidatorCollectionInterface;
 use Nyxio\Contract\Validation\RuleExecutorCollectionInterface;
 use Nyxio\Kernel\Application;
 use Nyxio\Kernel\Provider\KernelProvider;
 use Nyxio\Kernel\Provider\ValidationProvider;
-use Nyxio\Kernel\Provider\WorkermanProvider;
+use Nyxio\Kernel\Provider\HttpServerProvider;
 use Nyxio\Routing\Group;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseFactoryInterface;
@@ -48,14 +48,6 @@ class ProvidersTest extends TestCase
         $provider->process();
 
         $this->assertTrue($singleton ? $container->hasSingleton($alias) : $container->hasBind($alias));
-    }
-
-    public function testWorkermanProvider(): void
-    {
-        $container = new Container();
-        $provider = new WorkermanProvider($container);
-        $provider->process();
-        $this->assertTrue($container->hasSingleton(HandlerInterface::class));
     }
 
     private function getDataProviderForKernel(): array
