@@ -24,7 +24,9 @@ class ServerProvider implements ProviderInterface
             $protocol = $this->config->get('server.protocol', ServerProtocol::HTTP);
 
             if (!$protocol instanceof \BackedEnum) {
-                $protocol = ServerProtocol::tryFrom($protocol) ?? ServerProtocol::HTTP;
+                $protocol = ServerProtocol::tryFrom($protocol) ?? throw new \RuntimeException(
+                        \sprintf('Invalid protocol %s', $protocol)
+                    );
             }
 
             $host = $this->config->get('server.host', '127.0.0.1');
