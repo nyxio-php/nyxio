@@ -6,6 +6,6 @@ namespace Nyxio\Contract\Server;
 
 enum ServerProtocol: string
 {
-    case HTTP = 'HTTP';
-    case WebSocket = 'WebSocket';
+    case HTTP = 'http';
+    case WebSocket = 'ws';
 }
