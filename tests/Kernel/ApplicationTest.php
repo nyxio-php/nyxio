@@ -19,24 +19,6 @@ class ApplicationTest extends TestCase
      * @return void
      * @throws \ReflectionException
      */
-    public function testInvalidConfiguration2(): void
-    {
-        $config = (new MemoryConfig())->addConfig('app', [
-            'providers' => [
-                ServerProvider::class,
-            ],
-        ]);
-
-        $application = new Application(config: $config);
-
-        $this->expectException(\ReflectionException::class);
-        $application->bootstrap();
-    }
-
-    /**
-     * @return void
-     * @throws \ReflectionException
-     */
     public function testInvalidConfiguration3(): void
     {
         $container = new Container();
