@@ -55,6 +55,10 @@ class ServerProvider implements ProviderInterface
             $this->config->get('server.port', 9501)
         );
 
+        foreach ($this->config->get('server.options', []) as $key => $option) {
+            echo \sprintf(" %s \e[1m\033[32m%s\033[0m" . \PHP_EOL, $key, $option);
+        }
+
         echo "------------------------------\e[7mApplication settings\e[0m-------------------------------------------" . \PHP_EOL;
         echo sprintf(
             "* Debug mode: \e[1m%s\033[0m" . \PHP_EOL,
