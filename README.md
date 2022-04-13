@@ -6,5 +6,4 @@
 [Documentation](https://github.com/nyxio-php/docs)
 
 <br>nyxio – microframework for development microservices.
-The framework uses [Swoole](https://openswoole.com).
 
