@@ -18,7 +18,7 @@ jobs:
       with:
         coverage: none
         php-version: '8.1'
-        extensions: swoole
+        extensions: openswoole
 
     - name: Validate composer.json and composer.lock
       run: composer validate --strict
