@@ -22,7 +22,6 @@
             "Nyxio\\Kernel\\": "src/Kernel/",
             "Nyxio\\Provider\\": "src/Provider/",
             "Nyxio\\Routing\\": "src/Routing/",
-            "Nyxio\\Server\\": "src/Server/",
             "Nyxio\\Validation\\": "src/Validation/"
         }
     },
@@ -66,7 +65,6 @@
         "nyxio/kernel": "self.version",
         "nyxio/provider": "self.version",
         "nyxio/routing": "self.version",
-        "nyxio/server": "self.version",
         "nyxio/validation": "self.version"
     },
     "minimum-stability": "dev"
