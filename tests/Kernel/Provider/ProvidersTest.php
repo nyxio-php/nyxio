@@ -10,6 +10,7 @@ use Nyxio\Contract\Event\EventDispatcherInterface;
 use Nyxio\Contract\Kernel\Exception\Transformer\ExceptionTransformerInterface;
 use Nyxio\Contract\Kernel\Request\ActionCollectionInterface;
 use Nyxio\Contract\Kernel\Request\RequestHandlerInterface;
+use Nyxio\Contract\Kernel\Server\ServerEventHandlerInterface;
 use Nyxio\Contract\Provider\ProviderDispatcherInterface;
 use Nyxio\Contract\Routing\GroupCollectionInterface;
 use Nyxio\Contract\Routing\UriMatcherInterface;
@@ -18,6 +19,7 @@ use Nyxio\Contract\Validation\Handler\ValidatorCollectionInterface;
 use Nyxio\Contract\Validation\RuleExecutorCollectionInterface;
 use Nyxio\Kernel\Application;
 use Nyxio\Kernel\Provider\KernelProvider;
+use Nyxio\Kernel\Provider\ServerProvider;
 use Nyxio\Routing\Group;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseFactoryInterface;
@@ -25,6 +27,7 @@ use Psr\Http\Message\ServerRequestFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\UploadedFileFactoryInterface;
 use Psr\Http\Message\UriFactoryInterface;
+use Swoole\Server;
 
 class ProvidersTest extends TestCase
 {
@@ -45,6 +48,20 @@ class ProvidersTest extends TestCase
         $provider->process();
 
         $this->assertTrue($singleton ? $container->hasSingleton($alias) : $container->hasBind($alias));
+    }
+
+    public function testServerProvider(): void
+    {
+        $container = new Container();
+        $provider = new ServerProvider(
+            container: $container,
+            config:    (new MemoryConfig())->addConfig('server', [])
+        );
+
+        $provider->process();
+
+        $this->assertTrue($container->hasSingleton(Server::class));
+        $this->assertTrue($container->hasSingleton(ServerEventHandlerInterface::class));
     }
 
     private function getDataProviderForKernel(): array

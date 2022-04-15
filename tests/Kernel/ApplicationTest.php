@@ -6,6 +6,7 @@ namespace Nyxio\Tests\Kernel;
 
 use Nyxio\Config\MemoryConfig;
 use Nyxio\Container\Container;
+use Nyxio\Contract\Kernel\Server\ServerEventHandlerInterface;
 use Nyxio\Contract\Provider\ProviderDispatcherInterface;
 use Nyxio\Kernel\Application;
 use Nyxio\Kernel\Provider\KernelProvider;
@@ -19,7 +20,7 @@ class ApplicationTest extends TestCase
      * @return void
      * @throws \ReflectionException
      */
-    public function testInvalidConfiguration3(): void
+    public function testInvalidConfiguration1(): void
     {
         $container = new Container();
         $config = (new MemoryConfig())->addConfig('app', [
@@ -40,6 +41,30 @@ class ApplicationTest extends TestCase
     /**
      * @return void
      * @throws \ReflectionException
+     * @runInSeparateProcess
+     */
+    public function testInvalidConfiguration2(): void
+    {
+        $container = new Container();
+        $config = (new MemoryConfig())->addConfig('app', [
+            'providers' => [
+                KernelProvider::class,
+            ],
+        ]);
+
+        $application = new Application(config: $config, container: $container);
+
+        $this->expectExceptionMessage(\sprintf('%s was not specified', ServerEventHandlerInterface::class));
+        $this->expectException(\RuntimeException::class);
+        $application->bootstrap();
+
+        $application->bootstrap();
+    }
+
+    /**
+     * @return void
+     * @throws \ReflectionException
+     * @runInSeparateProcess
      */
     public function testApplicationBootstrap(): void
     {

@@ -8,5 +8,5 @@ use Swoole\Server;
 
 interface ServerEventHandlerInterface
 {
-    public function handle(Server $server): void;
+    public function handle(): void;
 }
