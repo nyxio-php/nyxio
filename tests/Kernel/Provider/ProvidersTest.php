@@ -27,7 +27,7 @@ use Psr\Http\Message\ServerRequestFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\UploadedFileFactoryInterface;
 use Psr\Http\Message\UriFactoryInterface;
-use Swoole\Server;
+use Swoole\Http\Server;
 
 class ProvidersTest extends TestCase
 {
