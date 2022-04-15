@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Nyxio\Contract\Server;
+namespace Nyxio\Contract\Kernel\Server;
 
 use Swoole\Server;
 
-interface ServerHandlerInterface
+interface ServerEventHandlerInterface
 {
     public function handle(Server $server): void;
 }
