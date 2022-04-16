@@ -12,12 +12,7 @@ class ConfigTest extends TestCase
     public function testPreload(): void
     {
         $config = $this->getFilesConfig();
-        $config->preloadConfigs(
-            [
-                'app',
-                'checkout/amazon',
-            ]
-        );
+        $config->preload();
 
         $this->assertEquals(true, $config->get('app.debug'));
         $this->assertEquals('root', $config->get('app.database.user'));
