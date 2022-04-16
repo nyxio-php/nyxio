@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Nyxio\Tests\Validation;
 
 use Nyxio\Container\Container;
+use Nyxio\Contract\Validation\Rule;
 use Nyxio\Helper\Attribute\ExtractAttribute;
 use Nyxio\Http\Exception\HttpException;
 use Nyxio\Tests\Validation\Fixture\RulesWithGroup;
@@ -38,10 +39,12 @@ class ValidationTest extends TestCase
         $rulesChecker = new RulesChecker($executorCollection);
         $validatorCollection = new ValidatorCollection($rulesChecker);
 
-        $validatorCollection->attribute('firstName')->rule('string')->notNullable()->required();
-        $validatorCollection->attribute('lastName')->rule('string')->notNullable()->notAllowsEmpty('last name empty');
-        $validatorCollection->attribute('age')->rule('integer')->nullable()->required();
-        $validatorCollection->attribute('email')->rule('email')->notNullable()->required('EMPTY EMAIL');
+        $validatorCollection->attribute('firstName')->rule(Rule::String)->notNullable()->required();
+        $validatorCollection->attribute('lastName')->rule(Rule::String)->notNullable()->notAllowsEmpty(
+            'last name empty'
+        );
+        $validatorCollection->attribute('age')->rule(Rule::Integer)->nullable()->required();
+        $validatorCollection->attribute('email')->rule(Rule::Email)->notNullable()->required('EMPTY EMAIL');
 
         $this->assertEquals(
             [
@@ -95,7 +98,7 @@ class ValidationTest extends TestCase
 
         $validatorCollection->attribute('firstName')->rule('string', message: 'First name can be only string!');
         $validatorCollection->attribute('age')->nullable()->rule(
-            rule:    'integer',
+            rule: 'integer',
             message: 'Age can be only integer or null!'
         );
 

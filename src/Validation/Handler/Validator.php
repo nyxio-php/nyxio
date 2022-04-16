@@ -108,9 +108,12 @@ class Validator
         return $this->nullMessage;
     }
 
-    public function rule(string $rule, array $parameters = [], ?string $message = null): static
+    public function rule(string|\BackedEnum $rule, array $parameters = [], ?string $message = null): static
     {
-        $this->rules[$rule] = ['params' => $parameters, 'message' => $message];
+        $this->rules[$rule instanceof \BackedEnum ? $rule->value : $rule] = [
+            'params' => $parameters,
+            'message' => $message,
+        ];
 
         return $this;
     }

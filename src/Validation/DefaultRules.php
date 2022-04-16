@@ -4,53 +4,54 @@ declare(strict_types=1);
 
 namespace Nyxio\Validation;
 
+use Nyxio\Contract\Validation\Rule as RuleEnum;
 use Nyxio\Validation\Attribute\Rule;
 
 class DefaultRules
 {
-    #[Rule('string', 'Attribute is not string')]
+    #[Rule(RuleEnum::String, 'Attribute is not string')]
     public function string(mixed $value): bool
     {
         return \is_string($value);
     }
 
-    #[Rule('integer', 'Attribute is not integer')]
+    #[Rule(RuleEnum::Integer, 'Attribute is not integer')]
     public function integer(mixed $value): bool
     {
         return \is_int($value);
     }
 
-    #[Rule('numeric', 'Attribute is not numeric')]
+    #[Rule(RuleEnum::Numeric, 'Attribute is not numeric')]
     public function numeric(mixed $value): bool
     {
         return \is_numeric($value);
     }
 
-    #[Rule('float', 'Attribute is not float')]
+    #[Rule(RuleEnum::Float, 'Attribute is not float')]
     public function float(mixed $value): bool
     {
         return \is_float($value);
     }
 
-    #[Rule('bool', 'Attribute is not boolean')]
+    #[Rule(RuleEnum::Bool, 'Attribute is not boolean')]
     public function bool(mixed $value): bool
     {
         return \is_bool($value);
     }
 
-    #[Rule('array', 'Attribute is not array')]
+    #[Rule(RuleEnum::Array, 'Attribute is not array')]
     public function array(mixed $value): bool
     {
         return \is_array($value);
     }
 
-    #[Rule('email', 'Attribute is not email')]
+    #[Rule(RuleEnum::Email, 'Attribute is not email')]
     public function email(mixed $value): bool
     {
         return \filter_var($value, \FILTER_VALIDATE_EMAIL) !== false;
     }
 
-    #[Rule('max-len', 'Attribute length larger :max')]
+    #[Rule(RuleEnum::MaxLength, 'Attribute length larger :max')]
     public function maxLength(mixed $value, int $max): bool
     {
         if ($max <= 0) {
@@ -60,7 +61,7 @@ class DefaultRules
         return strlen($value) <= $max;
     }
 
-    #[Rule('min-len', 'Attribute length shorter :min')]
+    #[Rule(RuleEnum::MinLength, 'Attribute length shorter :min')]
     public function minLength(mixed $value, int $min): bool
     {
         if ($min < 0) {
