@@ -15,4 +15,6 @@ enum Rule: string
     case Email = 'email';
     case MaxLength = 'max-len';
     case MinLength = 'min-len';
+    case Max = 'max';
+    case Min = 'min';
 }

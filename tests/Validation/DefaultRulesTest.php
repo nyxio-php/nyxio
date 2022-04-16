@@ -50,6 +50,15 @@ class DefaultRulesTest extends TestCase
 
         $this->assertEquals(true, $collection->get('min-len')->validate(['value' => 'test@mail.com', 'min' => 13]));
         $this->assertEquals(false, $collection->get('min-len')->validate(['value' => 'test@mail.com', 'min' => 20]));
+
+        $this->assertEquals(true, $collection->get('min')->validate(['value' => 10, 'min' => 2]));
+        $this->assertEquals(false, $collection->get('min')->validate(['value' => 15, 'min' => 20]));
+        $this->assertEquals(false, $collection->get('min')->validate(['value' => 'asfadg', 'min' => 20]));
+
+        $this->assertEquals(true, $collection->get('max')->validate(['value' => 10, 'max' => 11]));
+        $this->assertEquals(false, $collection->get('max')->validate(['value' => 12, 'max' => 11]));
+        $this->assertEquals(false, $collection->get('max')->validate(['value' => 'asdf', 'max' => 11]));
+        $this->assertEquals(true, $collection->get('max')->validate(['value' => '10', 'max' => 11]));
     }
 
     public function testInvalidArgumentMinLength(): void

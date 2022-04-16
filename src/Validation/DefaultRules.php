@@ -70,4 +70,32 @@ class DefaultRules
 
         return strlen($value) >= $min;
     }
+
+    #[Rule(RuleEnum::Min, 'Value shorter :min')]
+    public function min(mixed $value, float|int $min): bool
+    {
+        if (!$this->numeric($value)) {
+            return false;
+        }
+
+        if ($min < 0) {
+            throw new \InvalidArgumentException('Min cannot be less than zero');
+        }
+
+        return $value >= $min;
+    }
+
+    #[Rule(RuleEnum::Max, 'Value larger :max')]
+    public function max(mixed $value, float|int $max): bool
+    {
+        if (!$this->numeric($value)) {
+            return false;
+        }
+
+        if ($max < 0) {
+            throw new \InvalidArgumentException('Min cannot be less than zero');
+        }
+
+        return $value <= $max;
+    }
 }
