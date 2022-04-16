@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Nyxio\Routing;
 
-use Nyxio\Validation\Handler\Validator;
+use Nyxio\Validation\Handler\Field;
 
 trait ValidatorTrait
 {
     /**
-     * @var Validator[]
+     * @var Field[]
      */
     private array $validators = [];
 
@@ -21,14 +21,14 @@ trait ValidatorTrait
     }
 
     /**
-     * @return Validator[]
+     * @return Field[]
      */
     public function getValidators(): array
     {
         return $this->validators;
     }
 
-    public function getValidator(string $param): ?Validator
+    public function getValidator(string $param): ?Field
     {
         return $this->validators[$param] ?? null;
     }
@@ -37,7 +37,7 @@ trait ValidatorTrait
     {
         foreach ($data as $name => $rules) {
             $rules = \is_array($rules) ? $rules : [$rules];
-            $this->validators[$name] = new Validator($name);
+            $this->validators[$name] = new Field($name);
 
             foreach ($rules as $key => $value) {
                 $withParams = \is_array($value);

@@ -7,7 +7,7 @@ namespace Nyxio\Routing;
 use Nyxio\Contract\Routing\UriMatcherInterface;
 use Nyxio\Contract\Validation\Handler\RulesCheckerInterface;
 use Nyxio\Routing\Attribute\Route;
-use Nyxio\Validation\Handler\Validator;
+use Nyxio\Validation\Handler\Field;
 use Psr\Http\Message\ServerRequestInterface;
 
 use function Nyxio\Helper\Text\parseFromString;
@@ -57,7 +57,7 @@ class UriMatcher implements UriMatcherInterface
 
             $this->params[$param] = $parsedValue;
 
-            if ($validator instanceof Validator
+            if ($validator instanceof Field
                 && !empty($this->rulesChecker->check($this->params, $validator))) {
                 return false;
             }

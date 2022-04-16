@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace Nyxio\Tests\Routing;
 
 use Nyholm\Psr7\ServerRequest;
+use Nyxio\Config\MemoryConfig;
 use Nyxio\Container\Container;
 use Nyxio\Contract\Http\Method;
 use Nyxio\Helper\Attribute\ExtractAttribute;
+use Nyxio\Kernel\Text\Message;
 use Nyxio\Routing\Attribute\Route;
 use Nyxio\Routing\UriMatcher;
 use Nyxio\Validation\DefaultRules;
@@ -146,6 +148,6 @@ class UriMatcherTest extends TestCase
         $collection = new RuleExecutorCollection(new Container(), new ExtractAttribute());
         $collection->register(DefaultRules::class);
 
-        return new UriMatcher(new RulesChecker($collection));
+        return new UriMatcher(new RulesChecker($collection, new Message(new MemoryConfig())));
     }
 }

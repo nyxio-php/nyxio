@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Nyxio\Contract\Validation\Handler;
 
 use Nyxio\Http\Exception\HttpException;
-use Nyxio\Validation\Handler\Validator;
+use Nyxio\Validation\Handler\Field;
 
 interface ValidatorCollectionInterface
 {
-    public function attribute(string $attribute): Validator;
+    public function field(string $name): Field;
 
     /**
      * @param array $source

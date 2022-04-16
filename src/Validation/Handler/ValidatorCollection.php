@@ -12,7 +12,7 @@ use Nyxio\Http\Exception\HttpException;
 class ValidatorCollection implements ValidatorCollectionInterface
 {
     /**
-     * @var Validator[]
+     * @var Field[]
      */
     protected array $validators = [];
 
@@ -20,9 +20,9 @@ class ValidatorCollection implements ValidatorCollectionInterface
     {
     }
 
-    public function attribute(string $attribute): Validator
+    public function field(string $name): Field
     {
-        return $this->validators[] = new Validator($attribute);
+        return $this->validators[] = new Field($name);
     }
 
     /**
@@ -32,7 +32,7 @@ class ValidatorCollection implements ValidatorCollectionInterface
     {
         return \array_merge(
             ...\array_map(
-                   fn(Validator $validator) => $this->rulesChecker->check($source, $validator),
+                   fn(Field $validator) => $this->rulesChecker->check($source, $validator),
                    $this->validators
                )
         );

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Nyxio\Tests\Kernel\Request;
 
+use Nyxio\Config\MemoryConfig;
 use Nyxio\Container\Container;
 use Nyxio\Helper\Attribute\ExtractAttribute;
 use Nyxio\Http\Factory\RequestFactory;
@@ -12,6 +13,7 @@ use Nyxio\Http\Factory\UriFactory;
 use Nyxio\Kernel\Exception\Transformer\ExceptionTransformer;
 use Nyxio\Kernel\Request\ActionCollection;
 use Nyxio\Kernel\Request\RequestHandler;
+use Nyxio\Kernel\Text\Message;
 use Nyxio\Routing\Group;
 use Nyxio\Routing\GroupCollection;
 use Nyxio\Routing\UriMatcher;
@@ -31,6 +33,7 @@ class RequestHandlerTest extends TestCase
     public function testBasic(): void
     {
         $container = new Container();
+        $config = new MemoryConfig();
         $extractAttribute = new ExtractAttribute();
         $groupCollection = (new GroupCollection())->register(new Group('version1', prefix: '/api/v1'));
         $actionCollection = new ActionCollection($container, $extractAttribute, $groupCollection);
@@ -38,7 +41,7 @@ class RequestHandlerTest extends TestCase
 
         $handler = new RequestHandler(
             matcher:              new UriMatcher(
-                                      new RulesChecker(new RuleExecutorCollection($container, $extractAttribute))
+                                      new RulesChecker(new RuleExecutorCollection($container, $extractAttribute), new Message($config))
                                   ),
             container:            $container,
             exceptionTransformer: new ExceptionTransformer(),
@@ -68,6 +71,7 @@ class RequestHandlerTest extends TestCase
     public function testInvalidMiddlewares(): void
     {
         $container = new Container();
+        $config = new MemoryConfig();
         $extractAttribute = new ExtractAttribute();
         $groupCollection = (new GroupCollection())->register(new Group('api', prefix: '/api/v1'));
         $actionCollection = new ActionCollection($container, $extractAttribute, $groupCollection);
@@ -75,7 +79,7 @@ class RequestHandlerTest extends TestCase
 
         $handler = new RequestHandler(
             matcher:              new UriMatcher(
-                                      new RulesChecker(new RuleExecutorCollection($container, $extractAttribute))
+                                      new RulesChecker(new RuleExecutorCollection($container, $extractAttribute), new Message($config))
                                   ),
             container:            $container,
             exceptionTransformer: new ExceptionTransformer(),
@@ -98,6 +102,7 @@ class RequestHandlerTest extends TestCase
     public function testMergeQueryParams(): void
     {
         $container = new Container();
+        $config = new MemoryConfig();
         $extractAttribute = new ExtractAttribute();
         $groupCollection = (new GroupCollection())->register(new Group('api', prefix: '/api/v1'));
         $actionCollection = new ActionCollection($container, $extractAttribute, $groupCollection);
@@ -105,7 +110,10 @@ class RequestHandlerTest extends TestCase
 
         $handler = new RequestHandler(
             matcher:              new UriMatcher(
-                                      new RulesChecker(new RuleExecutorCollection($container, $extractAttribute))
+                                      new RulesChecker(
+                                          new RuleExecutorCollection($container, $extractAttribute),
+                                          new Message($config)
+                                      )
                                   ),
             container:            $container,
             exceptionTransformer: new ExceptionTransformer(),

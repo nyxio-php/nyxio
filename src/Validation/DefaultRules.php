@@ -9,49 +9,49 @@ use Nyxio\Validation\Attribute\Rule;
 
 class DefaultRules
 {
-    #[Rule(RuleEnum::String, 'Attribute is not string')]
+    #[Rule(RuleEnum::String, 'field_is_not_string')]
     public function string(mixed $value): bool
     {
         return \is_string($value);
     }
 
-    #[Rule(RuleEnum::Integer, 'Attribute is not integer')]
+    #[Rule(RuleEnum::Integer, 'field_is_not_int')]
     public function integer(mixed $value): bool
     {
         return \is_int($value);
     }
 
-    #[Rule(RuleEnum::Numeric, 'Attribute is not numeric')]
+    #[Rule(RuleEnum::Numeric, 'field_is_not_numeric')]
     public function numeric(mixed $value): bool
     {
         return \is_numeric($value);
     }
 
-    #[Rule(RuleEnum::Float, 'Attribute is not float')]
+    #[Rule(RuleEnum::Float, 'field_is_not_float')]
     public function float(mixed $value): bool
     {
         return \is_float($value);
     }
 
-    #[Rule(RuleEnum::Bool, 'Attribute is not boolean')]
+    #[Rule(RuleEnum::Bool, 'field_is_not_boolean')]
     public function bool(mixed $value): bool
     {
         return \is_bool($value);
     }
 
-    #[Rule(RuleEnum::Array, 'Attribute is not array')]
+    #[Rule(RuleEnum::Array, 'field_is_not_array')]
     public function array(mixed $value): bool
     {
         return \is_array($value);
     }
 
-    #[Rule(RuleEnum::Email, 'Attribute is not email')]
+    #[Rule(RuleEnum::Email, 'field_is_not_email')]
     public function email(mixed $value): bool
     {
         return \filter_var($value, \FILTER_VALIDATE_EMAIL) !== false;
     }
 
-    #[Rule(RuleEnum::MaxLength, 'Attribute length larger :max')]
+    #[Rule(RuleEnum::MaxLength, 'field_length_larger')]
     public function maxLength(mixed $value, int $max): bool
     {
         if ($max <= 0) {
@@ -61,7 +61,7 @@ class DefaultRules
         return strlen($value) <= $max;
     }
 
-    #[Rule(RuleEnum::MinLength, 'Attribute length shorter :min')]
+    #[Rule(RuleEnum::MinLength, 'field_length_shorter')]
     public function minLength(mixed $value, int $min): bool
     {
         if ($min < 0) {
@@ -71,7 +71,7 @@ class DefaultRules
         return strlen($value) >= $min;
     }
 
-    #[Rule(RuleEnum::Min, 'Value shorter :min')]
+    #[Rule(RuleEnum::Min, 'field_value_smaller')]
     public function min(mixed $value, float|int $min): bool
     {
         if (!$this->numeric($value)) {
@@ -85,7 +85,7 @@ class DefaultRules
         return $value >= $min;
     }
 
-    #[Rule(RuleEnum::Max, 'Value larger :max')]
+    #[Rule(RuleEnum::Max, 'field_value_bigger')]
     public function max(mixed $value, float|int $max): bool
     {
         if (!$this->numeric($value)) {
@@ -99,7 +99,7 @@ class DefaultRules
         return $value <= $max;
     }
 
-    #[Rule(RuleEnum::Enum, 'Invalid value')]
+    #[Rule(RuleEnum::Enum, 'field_value_not_in_enum')]
     public function enum(mixed $value, array $enum, bool $strict = true): bool
     {
         return \in_array($value, $enum, $strict);

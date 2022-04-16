@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Nyxio\Validation\Handler;
 
-class Validator
+class Field
 {
     private array $rules = [];
 
@@ -14,13 +14,13 @@ class Validator
 
     private bool $allowsEmpty = true;
 
-    private string $requiredMessage = 'Attribute is required';
+    private string $requiredMessage = 'field_is_required';
 
-    private string $nullMessage = 'Attribute cannot be null';
+    private string $nullMessage = 'field_cannot_be_null';
 
-    private string $allowsEmptyMessage = 'Attribute cannot be empty';
+    private string $allowsEmptyMessage = 'field_cannot_be_empty';
 
-    public function __construct(public readonly string $attribute)
+    public function __construct(public readonly string $name)
     {
     }
 

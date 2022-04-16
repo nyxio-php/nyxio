@@ -4,31 +4,32 @@ declare(strict_types=1);
 
 namespace Nyxio\Validation\Handler;
 
+use Nyxio\Contract\Kernel\Text\MessageInterface;
 use Nyxio\Contract\Validation\Handler\RulesCheckerInterface;
 use Nyxio\Contract\Validation\RuleExecutorCollectionInterface;
 
-use function Nyxio\Helper\Text\getFormattedText;
-
 class RulesChecker implements RulesCheckerInterface
 {
-    public function __construct(private readonly RuleExecutorCollectionInterface $executorCollection)
-    {
+    public function __construct(
+        private readonly RuleExecutorCollectionInterface $executorCollection,
+        private readonly MessageInterface $message,
+    ) {
     }
 
-    public function check(array $source, Validator $validator): array
+    public function check(array $source, Field $field): array
     {
         $errors = [];
 
-        $attributeKeys = \explode('.', $validator->attribute);
+        $fieldKeys = \explode('.', $field->name);
         $valueExists = false;
-        $mainKey = \array_shift($attributeKeys);
+        $mainKey = \array_shift($fieldKeys);
         $value = null;
 
         if (\array_key_exists($mainKey, $source)) {
             $value = $source[$mainKey];
             $valueExists = true;
 
-            foreach ($attributeKeys as $key) {
+            foreach ($fieldKeys as $key) {
                 if (!\array_key_exists($key, $value)) {
                     $valueExists = false;
 
@@ -41,40 +42,40 @@ class RulesChecker implements RulesCheckerInterface
 
         $defaultParams = [
             'source' => $source,
-            'attribute' => $validator->attribute,
+            'field' => $field->name,
         ];
 
         if ($valueExists) {
             $defaultParams['value'] = $value;
 
             if ($value === null) {
-                if ($validator->isNullable()) {
+                if ($field->isNullable()) {
                     return [];
                 }
 
-                $errors[$validator->attribute][] = getFormattedText(
-                    $validator->getNullableMessage(),
+                $errors[$field->name][] = $this->message->text(
+                    $field->getNullableMessage(),
                     $defaultParams
                 );
 
                 return $errors;
             }
 
-            if ($value === '' && !$validator->isAllowsEmpty()) {
-                $errors[$validator->attribute][] = getFormattedText(
-                    $validator->getAllowsEmptyMessage(),
+            if ($value === '' && !$field->isAllowsEmpty()) {
+                $errors[$field->name][] = $this->message->text(
+                    $field->getAllowsEmptyMessage(),
                     $defaultParams
                 );
 
                 return $errors;
             }
-        } elseif ($validator->isRequired()) {
-            $errors[$validator->attribute][] = getFormattedText($validator->getRequiredMessage(), $defaultParams);
+        } elseif ($field->isRequired()) {
+            $errors[$field->name][] = $this->message->text($field->getRequiredMessage(), $defaultParams);
 
             return $errors;
         }
 
-        foreach ($validator->getRules() as $rule => $ruleData) {
+        foreach ($field->getRules() as $rule => $ruleData) {
             $executor = $this->executorCollection->get($rule);
 
             if ($executor === null) {
@@ -90,7 +91,7 @@ class RulesChecker implements RulesCheckerInterface
                 continue;
             }
 
-            $errors[$validator->attribute][] = getFormattedText(
+            $errors[$field->name][] = $this->message->text(
                 $ruleData['message'] ?? $executor->rule->message,
                 $validateParams
             );
