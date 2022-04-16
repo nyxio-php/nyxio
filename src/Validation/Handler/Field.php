@@ -14,11 +14,11 @@ class Field
 
     private bool $allowsEmpty = true;
 
-    private string $requiredMessage = 'field_is_required';
+    private string $requiredMessage = 'validation.field_is_required';
 
-    private string $nullMessage = 'field_cannot_be_null';
+    private string $nullMessage = 'validation.field_cannot_be_null';
 
-    private string $allowsEmptyMessage = 'field_cannot_be_empty';
+    private string $allowsEmptyMessage = 'validation.field_cannot_be_empty';
 
     public function __construct(public readonly string $name)
     {
