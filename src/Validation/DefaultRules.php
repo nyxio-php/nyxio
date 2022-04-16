@@ -98,4 +98,10 @@ class DefaultRules
 
         return $value <= $max;
     }
+
+    #[Rule(RuleEnum::Enum, 'Invalid value')]
+    public function enum(mixed $value, array $enum, bool $strict = true): bool
+    {
+        return \in_array($value, $enum, $strict);
+    }
 }

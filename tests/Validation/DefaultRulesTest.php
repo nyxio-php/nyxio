@@ -59,6 +59,17 @@ class DefaultRulesTest extends TestCase
         $this->assertEquals(false, $collection->get('max')->validate(['value' => 12, 'max' => 11]));
         $this->assertEquals(false, $collection->get('max')->validate(['value' => 'asdf', 'max' => 11]));
         $this->assertEquals(true, $collection->get('max')->validate(['value' => '10', 'max' => 11]));
+
+        $this->assertEquals(true, $collection->get('enum')->validate(['value' => 'test', 'enum' => ['test', 'test2']]));
+        $this->assertEquals(
+            false,
+            $collection->get('enum')->validate(['value' => 'test', 'enum' => ['test1', 'test2']])
+        );
+        $this->assertEquals(true, $collection->get('enum')->validate(['value' => 1, 'enum' => [1, 2, 3]]));
+        $this->assertEquals(
+            false,
+            $collection->get('enum')->validate(['value' => '1', 'enum' => [1, 2, 3], 'strict' => true])
+        );
     }
 
     public function testInvalidArgumentMinLength(): void
