@@ -6,6 +6,7 @@ namespace Nyxio\Tests\Helper\Text;
 
 use PHPUnit\Framework\TestCase;
 
+use function Nyxio\Helper\Text\getFormattedText;
 use function Nyxio\Helper\Text\parseFromString;
 
 class TextHelperTest extends TestCase
@@ -23,6 +24,32 @@ class TextHelperTest extends TestCase
             $excepted,
             parseFromString($value)
         );
+    }
+
+    /**
+     * @param string $value
+     * @param array $params
+     * @param mixed $excepted
+     * @return void
+     *
+     * @dataProvider getTestDataForFormattedText
+     */
+    public function testGetFormattedText(string $value, array $params, mixed $excepted): void
+    {
+        $this->assertEquals(
+            $excepted,
+            getFormattedText($value, $params)
+        );
+    }
+
+    public function getTestDataForFormattedText(): \Generator
+    {
+        yield ['value' => 'Test param :param', 'params' => ['param' => 'test'], 'Test param test'];
+        yield ['value' => 'Test param :param', 'params' => ['param' => [1, 2, 3]], 'Test param 1, 2, 3'];
+        yield ['value' => 'Test param :param', 'params' => ['param' => 1], 'Test param 1'];
+        yield ['value' => 'Test param :param', 'params' => ['param' => false], 'Test param false'];
+        yield ['value' => 'Test param :param', 'params' => ['param' => true], 'Test param true'];
+        yield ['value' => 'Test param :param', 'params' => ['param' => 1.0], 'Test param 1'];
     }
 
     public function getTestDataForParseFromString(): \Generator

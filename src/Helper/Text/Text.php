@@ -24,7 +24,28 @@ function parseFromString(string $value): string|int|float|bool|null
 
 function getFormattedText(string $source, array $params = []): string
 {
-    $params = \array_filter($params, static fn(mixed $param) => !\is_array($param));
+    $params = \array_filter(
+        $params,
+        static fn(mixed $param) => !(\is_array($param) && count($param) !== count(
+                    $param,
+                    \COUNT_RECURSIVE
+                )) && !\is_object($param)
+    );
+
+    $params = \array_map(
+        static function (mixed $param) {
+            if (\is_array($param)) {
+                return \implode(', ', $param);
+            }
+
+            if (\is_bool($param)) {
+                return $param ? 'true' : 'false';
+            }
+
+            return $param;
+        },
+        $params,
+    );
 
     return \str_replace(
         \array_map(static fn($value) => ':' . $value, \array_keys($params)),

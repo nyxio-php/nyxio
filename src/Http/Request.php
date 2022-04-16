@@ -26,7 +26,7 @@ class Request
     public function post(?string $name = null, mixed $default = null): mixed
     {
         if (!\is_array($this->request->getParsedBody())) {
-            return $default;
+            return [];
         }
 
         if ($name === null) {

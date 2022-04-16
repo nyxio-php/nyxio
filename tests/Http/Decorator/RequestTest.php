@@ -60,6 +60,6 @@ class RequestTest extends TestCase
         $serverRequest = $serverRequest->withParsedBody(null);
         $request = new Request($serverRequest);
 
-        $this->assertEquals(1337, $request->post(default: 1337));
+        $this->assertEquals([], $request->post());
     }
 }
