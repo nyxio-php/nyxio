@@ -19,16 +19,19 @@ class ApplicationTest extends TestCase
     /**
      * @return void
      * @throws \ReflectionException
+     * @runInSeparateProcess
      */
     public function testInvalidConfiguration1(): void
     {
         $container = new Container();
-        $config = (new MemoryConfig())->addConfig('app', [
-            'providers' => [
-                KernelProvider::class,
-                ServerProvider::class,
-            ],
-        ]);
+        $config = (new MemoryConfig())
+            ->addConfig('app', [
+                'providers' => [
+                    KernelProvider::class,
+                    ServerProvider::class,
+                ],
+            ])
+            ->addConfig('server', ['port' => 1245]);
 
         $application = new Application(config: $config, container: $container);
         $container->singleton(ProviderDispatcherInterface::class, EventDispatcher::class);
@@ -57,8 +60,6 @@ class ApplicationTest extends TestCase
         $this->expectExceptionMessage(\sprintf('%s was not specified', ServerEventHandlerInterface::class));
         $this->expectException(\RuntimeException::class);
         $application->bootstrap();
-
-        $application->bootstrap();
     }
 
     /**
@@ -69,12 +70,14 @@ class ApplicationTest extends TestCase
     public function testApplicationBootstrap(): void
     {
         $container = new Container();
-        $config = (new MemoryConfig())->addConfig('app', [
-            'providers' => [
-                KernelProvider::class,
-                ServerProvider::class,
-            ],
-        ]);
+        $config = (new MemoryConfig())
+            ->addConfig('app', [
+                'providers' => [
+                    KernelProvider::class,
+                    ServerProvider::class,
+                ],
+            ])
+            ->addConfig('server', ['port' => 1245]);
 
         $application = new Application(config: $config, container: $container);
 
