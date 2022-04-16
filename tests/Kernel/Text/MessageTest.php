@@ -12,12 +12,10 @@ class MessageTest extends TestCase
 {
     public function testBasic(): void
     {
-        $config = (new MemoryConfig())->addConfig('lang', [
-            'en' => [
+        $config = (new MemoryConfig())->addConfig('lang/en', [
 
-                'secret_answer' => 'I\'m :type message',
-                'secret_question' => 'Who are you?',
-            ],
+            'secret_answer' => 'I\'m :type message',
+            'secret_question' => 'Who are you?',
         ]);
 
         $message = new Message($config);
@@ -36,17 +34,14 @@ class MessageTest extends TestCase
     public function testLanguages(): void
     {
         $config = (new MemoryConfig())
-            ->addConfig('lang', [
-                'en' => [
+            ->addConfig('lang/en', [
 
-                    'secret_answer' => 'I\'m :type message',
-                    'secret_question' => 'Who are you?',
-                ],
-                'digital' => [
-
-                    'secret_answer' => 'AMA MSG',
-                    'secret_question' => 'WAY??????',
-                ],
+                'secret_answer' => 'I\'m :type message',
+                'secret_question' => 'Who are you?',
+            ])
+            ->addConfig('lang/digital', [
+                'secret_answer' => 'AMA MSG',
+                'secret_question' => 'WAY??????',
             ])
             ->addConfig('app', [
                 'lang' => 'digital',
