@@ -145,6 +145,11 @@ class Field
         return $this->rule(Rule::Email, message: $message);
     }
 
+    public function isUrl(?string $message = null): static
+    {
+        return $this->rule(Rule::Url, message: $message);
+    }
+
     public function rule(string|\BackedEnum $rule, array $parameters = [], ?string $message = null): static
     {
         $this->rules[$rule instanceof \BackedEnum ? $rule->value : $rule] = [

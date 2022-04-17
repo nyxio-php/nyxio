@@ -13,6 +13,7 @@ enum Rule: string
     case Bool = 'bool';
     case Array = 'array';
     case Email = 'email';
+    case Url = 'url';
     case MaxLength = 'max-len';
     case MinLength = 'min-len';
     case Max = 'max';
@@ -21,5 +22,6 @@ enum Rule: string
     case Equal = 'equal';
     case NotEqual = 'not-equal';
     case Enum = 'enum';
+    case Exclude = 'exclude';
     case Contains = 'contains';
 }

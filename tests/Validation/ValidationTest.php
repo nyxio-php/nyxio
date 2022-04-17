@@ -195,7 +195,8 @@ class ValidationTest extends TestCase
             'numeric2' => 1,
             'numeric3' => 1.1,
             'array' => ['a', 'b'],
-            'email' => 'test@gmail.com'
+            'email' => 'test@gmail.com',
+            'url' => 'https://github.com',
         ];
 
         $executorCollection = new RuleExecutorCollection(new Container(), new ExtractAttribute());
@@ -212,6 +213,7 @@ class ValidationTest extends TestCase
         $validatorCollection->field('numeric3')->isNumeric();
         $validatorCollection->field('array')->isArray();
         $validatorCollection->field('email')->isEmail();
+        $validatorCollection->field('url')->isUrl();
 
         $this->assertEquals(
             [
@@ -229,8 +231,10 @@ class ValidationTest extends TestCase
         $validatorCollection->field('numeric2')->isBool();
         $validatorCollection->field('numeric3')->isArray();
         $validatorCollection->field('array')->isEmail();
+        $validatorCollection->field('email')->isUrl();
+        $validatorCollection->field('url')->isEmail();
 
-        $this->assertCount(8, $validatorCollection->getErrors($data));
+        $this->assertCount(count($data), $validatorCollection->getErrors($data));
     }
 
     public function testNullable(): void

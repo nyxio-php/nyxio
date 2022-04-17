@@ -51,6 +51,12 @@ class DefaultRules
         return \filter_var($value, \FILTER_VALIDATE_EMAIL) !== false;
     }
 
+    #[Rule(RuleEnum::Url, 'validation.field_is_not_url')]
+    public function url(mixed $value): bool
+    {
+        return \filter_var($value, \FILTER_VALIDATE_URL) !== false;
+    }
+
     #[Rule(RuleEnum::MaxLength, 'validation.field_length_larger')]
     public function maxLength(mixed $value, int $max): bool
     {
@@ -105,6 +111,12 @@ class DefaultRules
     public function enum(mixed $value, array $enum, bool $strict = true): bool
     {
         return \in_array($value, $enum, $strict);
+    }
+
+    #[Rule(RuleEnum::Exclude, 'validation.field_value_excluded')]
+    public function exclude(mixed $value, array $enum, bool $strict = true): bool
+    {
+        return !$this->enum($value, $enum, $strict);
     }
 
     #[Rule(RuleEnum::Equal, 'validation.field_not_equal')]
