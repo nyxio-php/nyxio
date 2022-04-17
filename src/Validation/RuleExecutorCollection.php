@@ -38,7 +38,13 @@ class RuleExecutorCollection implements RuleExecutorCollectionInterface
 
                 $group = $this->extractAttribute->first($method->getDeclaringClass(), RuleGroup::class);
 
-                $alias = $group instanceof RuleGroup ? \sprintf('%s.%s', $group->name, $rule->getShort()) : $rule->getShort();
+                $alias = $group instanceof RuleGroup
+                    ? \sprintf(
+                        '%s.%s',
+                        $group->name,
+                        $rule->getShort()
+                    )
+                    : $rule->getShort();
 
                 $this->executors[$alias] = new RuleExecutor(
                     $method,

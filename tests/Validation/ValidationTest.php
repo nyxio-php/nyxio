@@ -100,7 +100,7 @@ class ValidationTest extends TestCase
 
         $validatorCollection->field('firstName')->isString(message: 'First name can be only string!');
         $validatorCollection->field('age')->nullable()->rule(
-            rule: 'integer',
+            rule:    'integer',
             message: 'Age can be only integer or null!'
         );
 
