@@ -24,4 +24,5 @@ enum Rule: string
     case Enum = 'enum';
     case Exclude = 'exclude';
     case Contains = 'contains';
+    case RegEx = 'regex';
 }

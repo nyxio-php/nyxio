@@ -135,4 +135,10 @@ class DefaultRules
     {
         return !$this->equal($value, $equal, $strict, $caseSensitive);
     }
+
+    #[Rule(RuleEnum::RegEx, 'validation.field_does_not_match_expression')]
+    public function regEx(mixed $value, string $pattern): bool
+    {
+        return \preg_match($pattern, $value) === 1;
+    }
 }

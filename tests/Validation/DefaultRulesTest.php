@@ -133,6 +133,39 @@ class DefaultRulesTest extends TestCase
             false,
             $collection->get('not-equal')->validate(['value' => '1', 'equal' => 1, 'strict' => false])
         );
+
+        $this->assertEquals(
+            true,
+            $collection->get('regex')
+                ->validate(
+                    [
+                        'value' => '1234',
+                        'pattern' => "/\d+/",
+                    ]
+                )
+        );
+
+        $this->assertEquals(
+            true,
+            $collection->get('regex')
+                ->validate(
+                    [
+                        'value' => '1',
+                        'pattern' => "/[0-9]+/",
+                    ]
+                )
+        );
+
+        $this->assertEquals(
+            false,
+            $collection->get('regex')
+                ->validate(
+                    [
+                        'value' => 'asdasd+!+@#+#!@!@',
+                        'pattern' => "/[0-9]+/",
+                    ]
+                )
+        );
     }
 
     public function testInvalidArgumentMinLength(): void
