@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Nyxio\Validation\Handler;
 
+use Nyxio\Contract\Validation\Rule;
+
 class Field
 {
     private array $rules = [];
@@ -106,6 +108,41 @@ class Field
     public function getNullableMessage(): string
     {
         return $this->nullMessage;
+    }
+
+    public function isInteger(?string $message = null): static
+    {
+        return $this->rule(Rule::Integer, message: $message);
+    }
+
+    public function isString(?string $message = null): static
+    {
+        return $this->rule(Rule::String, message: $message);
+    }
+
+    public function isBool(?string $message = null): static
+    {
+        return $this->rule(Rule::Bool, message: $message);
+    }
+
+    public function isNumeric(?string $message = null): static
+    {
+        return $this->rule(Rule::Numeric, message: $message);
+    }
+
+    public function isFloat(?string $message = null): static
+    {
+        return $this->rule(Rule::Float, message: $message);
+    }
+
+    public function isArray(?string $message = null): static
+    {
+        return $this->rule(Rule::Array, message: $message);
+    }
+
+    public function isEmail(?string $message = null): static
+    {
+        return $this->rule(Rule::Email, message: $message);
     }
 
     public function rule(string|\BackedEnum $rule, array $parameters = [], ?string $message = null): static

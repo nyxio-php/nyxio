@@ -41,8 +41,8 @@ class ValidationTest extends TestCase
         $rulesChecker = new RulesChecker($executorCollection, new Message(new MemoryConfig()));
         $validatorCollection = new ValidatorCollection($rulesChecker);
 
-        $validatorCollection->field('firstName')->rule(Rule::String)->notNullable()->required();
-        $validatorCollection->field('lastName')->rule(Rule::String)->notNullable()->notAllowsEmpty(
+        $validatorCollection->field('firstName')->isString()->notNullable()->required();
+        $validatorCollection->field('lastName')->isString()->notNullable()->notAllowsEmpty(
             'last name empty'
         );
         $validatorCollection->field('age')->rule(Rule::Integer)->nullable()->required();
@@ -98,7 +98,7 @@ class ValidationTest extends TestCase
         $rulesChecker = new RulesChecker($executorCollection, new Message(new MemoryConfig()));
         $validatorCollection = new ValidatorCollection($rulesChecker);
 
-        $validatorCollection->field('firstName')->rule('string', message: 'First name can be only string!');
+        $validatorCollection->field('firstName')->isString(message: 'First name can be only string!');
         $validatorCollection->field('age')->nullable()->rule(
             rule: 'integer',
             message: 'Age can be only integer or null!'
