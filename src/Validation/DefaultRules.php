@@ -78,10 +78,6 @@ class DefaultRules
             return false;
         }
 
-        if ($min < 0) {
-            throw new \InvalidArgumentException('Min cannot be less than zero');
-        }
-
         return $value >= $min;
     }
 
@@ -92,16 +88,39 @@ class DefaultRules
             return false;
         }
 
-        if ($max < 0) {
-            throw new \InvalidArgumentException('Min cannot be less than zero');
+        return $value <= $max;
+    }
+
+    #[Rule(RuleEnum::Between, 'validation.field_value_not_between')]
+    public function between(mixed $value, float|int $from, float|int $to): bool
+    {
+        if (!$this->numeric($value)) {
+            return false;
         }
 
-        return $value <= $max;
+        return $value >= $from && $value <= $to;
     }
 
     #[Rule(RuleEnum::Enum, 'validation.field_value_not_in_enum')]
     public function enum(mixed $value, array $enum, bool $strict = true): bool
     {
         return \in_array($value, $enum, $strict);
+    }
+
+    #[Rule(RuleEnum::Equal, 'validation.field_not_equal')]
+    public function equal(mixed $value, mixed $equal, bool $strict = true, bool $caseSensitive = true): bool
+    {
+        if (\is_string($value) && \is_string($equal) && !$caseSensitive) {
+            $value = \mb_strtolower($value);
+            $equal = \mb_strtolower($equal);
+        }
+
+        return $strict ? $value === $equal : $value == $equal;
+    }
+
+    #[Rule(RuleEnum::NotEqual, 'validation.field_cannot_be_equal')]
+    public function notEqual(mixed $value, mixed $equal, bool $strict = true, bool $caseSensitive = true): bool
+    {
+        return !$this->equal($value, $equal, $strict, $caseSensitive);
     }
 }

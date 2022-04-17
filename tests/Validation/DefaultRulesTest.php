@@ -70,6 +70,29 @@ class DefaultRulesTest extends TestCase
             false,
             $collection->get('enum')->validate(['value' => '1', 'enum' => [1, 2, 3], 'strict' => true])
         );
+
+        $this->assertEquals(true, $collection->get('between')->validate(['value' => 10, 'from' => 10, 'to' => 12]));
+        $this->assertEquals(true, $collection->get('between')->validate(['value' => 4, 'from' => -4, 'to' => 5]));
+        $this->assertEquals(false, $collection->get('between')->validate(['value' => 14, 'from' => 10, 'to' => 12]));
+        $this->assertEquals(false, $collection->get('between')->validate(['value' => '14', 'from' => 10, 'to' => 12]));
+        $this->assertEquals(
+            false,
+            $collection->get('between')->validate(['value' => 'asdf', 'from' => 10, 'to' => 12])
+        );
+
+        $this->assertEquals(true, $collection->get('equal')->validate(['value' => 10, 'equal' => 10]));
+        $this->assertEquals(true, $collection->get('equal')->validate(['value' => 'test', 'equal' => 'test']));
+        $this->assertEquals(false, $collection->get('equal')->validate(['value' => 'Test', 'equal' => 'test']));
+        $this->assertEquals(true, $collection->get('equal')->validate(['value' => 'Test', 'equal' => 'test', 'caseSensitive' => false]));
+        $this->assertEquals(false, $collection->get('equal')->validate(['value' => '1', 'equal' => 1]));
+        $this->assertEquals(true, $collection->get('equal')->validate(['value' => '1', 'equal' => 1, 'strict' => false]));
+
+        $this->assertEquals(false, $collection->get('not-equal')->validate(['value' => 10, 'equal' => 10]));
+        $this->assertEquals(false, $collection->get('not-equal')->validate(['value' => 'test', 'equal' => 'test']));
+        $this->assertEquals(true, $collection->get('not-equal')->validate(['value' => 'Test', 'equal' => 'test']));
+        $this->assertEquals(false, $collection->get('not-equal')->validate(['value' => 'Test', 'equal' => 'test', 'caseSensitive' => false]));
+        $this->assertEquals(true, $collection->get('not-equal')->validate(['value' => '1', 'equal' => 1]));
+        $this->assertEquals(false, $collection->get('not-equal')->validate(['value' => '1', 'equal' => 1, 'strict' => false]));
     }
 
     public function testInvalidArgumentMinLength(): void

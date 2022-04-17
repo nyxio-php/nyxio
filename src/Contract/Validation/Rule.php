@@ -17,6 +17,9 @@ enum Rule: string
     case MinLength = 'min-len';
     case Max = 'max';
     case Min = 'min';
+    case Between = 'between';
+    case Equal = 'equal';
+    case NotEqual = 'not-equal';
     case Enum = 'enum';
     case Contains = 'contains';
 }
