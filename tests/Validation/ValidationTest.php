@@ -45,8 +45,8 @@ class ValidationTest extends TestCase
         $validatorCollection->field('lastName')->isString()->notNullable()->notAllowsEmpty(
             'last name empty'
         );
-        $validatorCollection->field('age')->rule(Rule::Integer)->nullable()->required();
-        $validatorCollection->field('email')->rule(Rule::Email)->notNullable()->required('EMPTY EMAIL');
+        $validatorCollection->field('age')->isInteger()->nullable()->required();
+        $validatorCollection->field('email')->isEmail()->notNullable()->required('EMPTY EMAIL');
 
         $this->assertEquals(
             [
@@ -160,6 +160,77 @@ class ValidationTest extends TestCase
             ],
             $validatorCollection->getErrors($data)
         );
+    }
+
+    public function testRemoveRule(): void
+    {
+        $data = [
+            'test' => 'asdf',
+        ];
+
+        $executorCollection = new RuleExecutorCollection(new Container(), new ExtractAttribute());
+        $executorCollection->register(DefaultRules::class);
+        $rulesChecker = new RulesChecker($executorCollection, new Message(new MemoryConfig()));
+        $validatorCollection = new ValidatorCollection($rulesChecker);
+
+        $field = $validatorCollection->field('test')->isInteger();
+        $this->assertTrue($field->hasRule(Rule::Integer));
+        $field->removeRule(Rule::Integer);
+
+        $this->assertEquals(
+            [
+            ],
+            $validatorCollection->getErrors($data)
+        );
+    }
+
+    public function testTypes(): void
+    {
+        $data = [
+            'float' => 1.1,
+            'integer' => 1,
+            'bool' => false,
+            'string' => 'test',
+            'numeric1' => '1',
+            'numeric2' => 1,
+            'numeric3' => 1.1,
+            'array' => ['a', 'b'],
+            'email' => 'test@gmail.com'
+        ];
+
+        $executorCollection = new RuleExecutorCollection(new Container(), new ExtractAttribute());
+        $executorCollection->register(DefaultRules::class);
+        $rulesChecker = new RulesChecker($executorCollection, new Message(new MemoryConfig()));
+        $validatorCollection = new ValidatorCollection($rulesChecker);
+
+        $validatorCollection->field('float')->isFloat();
+        $validatorCollection->field('integer')->isInteger();
+        $validatorCollection->field('bool')->isBool();
+        $validatorCollection->field('string')->isString();
+        $validatorCollection->field('numeric1')->isNumeric();
+        $validatorCollection->field('numeric2')->isNumeric();
+        $validatorCollection->field('numeric3')->isNumeric();
+        $validatorCollection->field('array')->isArray();
+        $validatorCollection->field('email')->isEmail();
+
+        $this->assertEquals(
+            [
+            ],
+            $validatorCollection->getErrors($data)
+        );
+
+        $validatorCollection = new ValidatorCollection($rulesChecker);
+
+        $validatorCollection->field('float')->isInteger();
+        $validatorCollection->field('integer')->isFloat();
+        $validatorCollection->field('bool')->isString();
+        $validatorCollection->field('string')->isInteger();
+        $validatorCollection->field('numeric1')->isFloat();
+        $validatorCollection->field('numeric2')->isBool();
+        $validatorCollection->field('numeric3')->isArray();
+        $validatorCollection->field('array')->isEmail();
+
+        $this->assertCount(8, $validatorCollection->getErrors($data));
     }
 
     public function testNullable(): void

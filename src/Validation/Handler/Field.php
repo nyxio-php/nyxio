@@ -155,6 +155,20 @@ class Field
         return $this;
     }
 
+    public function hasRule(string|\BackedEnum $rule): bool
+    {
+        return isset($this->rules[$rule instanceof \BackedEnum ? $rule->value : $rule]);
+    }
+
+    public function removeRule(string|\BackedEnum $rule): static
+    {
+        if ($this->hasRule($rule)) {
+            unset($this->rules[$rule instanceof \BackedEnum ? $rule->value : $rule]);
+        }
+
+        return $this;
+    }
+
     public function getRules(): array
     {
         return $this->rules;
