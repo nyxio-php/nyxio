@@ -25,4 +25,7 @@ enum Rule: string
     case Exclude = 'exclude';
     case Contains = 'contains';
     case RegEx = 'regex';
+    case Date = 'date';
+    case DateTime = 'date-time';
+    case Time = 'time';
 }

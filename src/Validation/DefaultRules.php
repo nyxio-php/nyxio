@@ -141,4 +141,28 @@ class DefaultRules
     {
         return \preg_match($pattern, $value) === 1;
     }
+
+    #[Rule(RuleEnum::Date, 'validation.field_is_not_a_date')]
+    public function date(mixed $value, string $format = 'Y-m-d'): bool
+    {
+        $date = \DateTimeImmutable::createFromFormat($format, $value);
+
+        return $date !== false && $date->format($format) === $value;
+    }
+
+    #[Rule(RuleEnum::DateTime, 'validation.field_is_not_a_date_time')]
+    public function dateTime(mixed $value, string $format = 'Y-m-d H:i:s'): bool
+    {
+        $dateTime = \DateTimeImmutable::createFromFormat($format, $value);
+
+        return $dateTime !== false && $dateTime->format($format) === $value;
+    }
+
+    #[Rule(RuleEnum::Time, 'validation.field_is_not_a_time')]
+    public function time(mixed $value, string $format = 'H:i:s'): bool
+    {
+        $time = \DateTimeImmutable::createFromFormat($format, $value);
+
+        return $time !== false && $time->format($format) === $value;
+    }
 }

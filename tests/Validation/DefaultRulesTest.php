@@ -166,6 +166,28 @@ class DefaultRulesTest extends TestCase
                     ]
                 )
         );
+
+        $this->assertEquals(true, $collection->get('date')->validate(['value' => '2022-04-05']));
+        $this->assertEquals(false, $collection->get('date')->validate(['value' => '44-12-05']));
+        $this->assertEquals(true, $collection->get('date')->validate(['value' => '05-12-2024', 'format' => 'd-m-Y']));
+
+        $this->assertEquals(true, $collection->get('date-time')->validate(['value' => '2022-04-05 12:24:05']));
+        $this->assertEquals(false, $collection->get('date-time')->validate(['value' => '44-12-05']));
+        $this->assertEquals(
+            true,
+            $collection->get('date-time')->validate(
+                ['value' => '05-12-2024 12:24:05', 'format' => 'd-m-Y H:i:s']
+            )
+        );
+
+        $this->assertEquals(true, $collection->get('time')->validate(['value' => '12:24:05']));
+        $this->assertEquals(false, $collection->get('time')->validate(['value' => '44-12-05']));
+        $this->assertEquals(
+            true,
+            $collection->get('time')->validate(
+                ['value' => '_12:24', 'format' => '_H:i']
+            )
+        );
     }
 
     public function testInvalidArgumentMinLength(): void
