@@ -25,6 +25,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     ]);
 
     $parameters->set(Option::PACKAGE_DIRECTORIES, ['src']);
+    $parameters->set(Option::DEFAULT_BRANCH_NAME, 'main');
 
     $services = $containerConfigurator->services();
     # release workers - in order to execute
