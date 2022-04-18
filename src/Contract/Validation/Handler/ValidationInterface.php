@@ -7,7 +7,7 @@ namespace Nyxio\Contract\Validation\Handler;
 use Nyxio\Http\Exception\HttpException;
 use Nyxio\Validation\Handler\Field;
 
-interface ValidatorCollectionInterface
+interface ValidationInterface
 {
     public function field(string $name): Field;
 

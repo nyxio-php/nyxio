@@ -15,7 +15,7 @@ use Nyxio\Contract\Provider\ProviderDispatcherInterface;
 use Nyxio\Contract\Routing\GroupCollectionInterface;
 use Nyxio\Contract\Routing\UriMatcherInterface;
 use Nyxio\Contract\Validation\Handler\RulesCheckerInterface;
-use Nyxio\Contract\Validation\Handler\ValidatorCollectionInterface;
+use Nyxio\Contract\Validation\Handler\ValidationInterface;
 use Nyxio\Contract\Validation\RuleExecutorCollectionInterface;
 use Nyxio\Kernel\Application;
 use Nyxio\Kernel\Provider\KernelProvider;
@@ -85,7 +85,7 @@ class ProvidersTest extends TestCase
 
             [RuleExecutorCollectionInterface::class, true],
             [RulesCheckerInterface::class, true],
-            [ValidatorCollectionInterface::class, false],
+            [ValidationInterface::class, false],
         ];
     }
 }
