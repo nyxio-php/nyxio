@@ -116,6 +116,35 @@ class ValidationTest extends TestCase
         );
     }
 
+    public function testResetCustomRules(): void
+    {
+        $data = [
+            'firstName' => 'Alex',
+            'lastName' => '',
+        ];
+
+        $executorCollection = new RuleExecutorCollection(new Container(), new ExtractAttribute());
+        $executorCollection->register(DefaultRules::class);
+        $rulesChecker = new RulesChecker($executorCollection, new Message(new MemoryConfig()));
+        $validatorCollection = new ValidatorCollection($rulesChecker);
+
+        $validatorCollection->field('firstName')->custom(static function (mixed $value): bool {
+            return $value === 'Alex';
+        }, 'Invalid first name');
+
+        $field = $validatorCollection->field('lastName')->custom(static function (mixed $value): bool {
+            return !empty($value);
+        }, 'Invalid :field: cannot be empty');
+
+        $field->resetCustomRules();
+
+        $this->assertEquals(
+            [
+            ],
+            $validatorCollection->getErrors($data)
+        );
+    }
+
     public function testCustomMessages(): void
     {
         $data = [
