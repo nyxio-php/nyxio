@@ -20,8 +20,8 @@ use Nyxio\Routing\UriMatcher;
 use Nyxio\Tests\Kernel\Request\Fixture\ActionWithInvalidMiddleware;
 use Nyxio\Tests\Kernel\Request\Fixture\TestAction;
 use Nyxio\Tests\Kernel\Request\Fixture\TestActionWithQuery;
-use Nyxio\Validation\Handler\RulesChecker;
 use Nyxio\Validation\RuleExecutorCollection;
+use Nyxio\Validation\RulesChecker;
 use PHPUnit\Framework\TestCase;
 
 class RequestHandlerTest extends TestCase

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Nyxio\Contract\Kernel\Request;
 
-use Nyxio\Kernel\Request\ActionCache;
+use Nyxio\Kernel\Request\Action;
 
 interface ActionCollectionInterface
 {
     /**
-     * @return ActionCache[]
+     * @return Action[]
      */
     public function all(): array;
 

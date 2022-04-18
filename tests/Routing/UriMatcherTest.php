@@ -12,9 +12,9 @@ use Nyxio\Helper\Attribute\ExtractAttribute;
 use Nyxio\Kernel\Text\Message;
 use Nyxio\Routing\Attribute\Route;
 use Nyxio\Routing\UriMatcher;
-use Nyxio\Validation\DefaultRules;
-use Nyxio\Validation\Handler\RulesChecker;
+use Nyxio\Validation\Helper\DefaultRules;
 use Nyxio\Validation\RuleExecutorCollection;
+use Nyxio\Validation\RulesChecker;
 use PHPUnit\Framework\TestCase;
 
 class UriMatcherTest extends TestCase

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Nyxio\Routing;
 
-use Nyxio\Validation\Handler\Field;
+use Nyxio\Validation\DTO\Field;
 
 trait ValidatorTrait
 {

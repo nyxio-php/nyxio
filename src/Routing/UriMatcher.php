@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Nyxio\Routing;
 
 use Nyxio\Contract\Routing\UriMatcherInterface;
-use Nyxio\Contract\Validation\Handler\RulesCheckerInterface;
+use Nyxio\Contract\Validation\RulesCheckerInterface;
 use Nyxio\Routing\Attribute\Route;
-use Nyxio\Validation\Handler\Field;
+use Nyxio\Validation\DTO\Field;
 use Psr\Http\Message\ServerRequestInterface;
 
 use function Nyxio\Helper\Text\parseFromString;
@@ -53,12 +53,12 @@ class UriMatcher implements UriMatcherInterface
 
             $parsedValue = parseFromString($partsRequest[$key]);
 
-            $field = $route->getField($param);
+            $validator = $route->getField($param);
 
             $this->params[$param] = $parsedValue;
 
-            if ($field instanceof Field
-                && !empty($this->rulesChecker->check($this->params, $field))) {
+            if ($validator instanceof Field
+                && !empty($this->rulesChecker->check($this->params, $validator))) {
                 return false;
             }
         }

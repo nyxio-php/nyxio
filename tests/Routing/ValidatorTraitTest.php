@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Nyxio\Tests\Routing;
 
 use Nyxio\Routing\ValidatorTrait;
-use Nyxio\Validation\Handler\Field;
+use Nyxio\Validation\DTO\Field;
 use PHPUnit\Framework\TestCase;
 
 class ValidatorTraitTest extends TestCase

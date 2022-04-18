@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Nyxio\Validation\Handler;
+namespace Nyxio\Validation;
 
 use Nyxio\Contract\Http\HttpStatus;
-use Nyxio\Contract\Validation\Handler\RulesCheckerInterface;
-use Nyxio\Contract\Validation\Handler\ValidationInterface;
+use Nyxio\Contract\Validation\RulesCheckerInterface;
+use Nyxio\Contract\Validation\ValidationInterface;
 use Nyxio\Http\Exception\HttpException;
+use Nyxio\Validation\DTO\Field;
 
 class Validation implements ValidationInterface
 {

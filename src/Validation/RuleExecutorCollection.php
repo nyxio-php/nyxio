@@ -9,6 +9,7 @@ use Nyxio\Contract\Validation\RuleExecutorCollectionInterface;
 use Nyxio\Helper\Attribute\ExtractAttribute;
 use Nyxio\Validation\Attribute\Rule;
 use Nyxio\Validation\Attribute\RuleGroup;
+use Nyxio\Validation\DTO\RuleExecutor;
 
 class RuleExecutorCollection implements RuleExecutorCollectionInterface
 {

@@ -6,7 +6,7 @@ namespace Nyxio\Tests\Kernel\Request;
 
 use Nyxio\Container\Container;
 use Nyxio\Helper\Attribute\ExtractAttribute;
-use Nyxio\Kernel\Request\ActionCache;
+use Nyxio\Kernel\Request\Action;
 use Nyxio\Kernel\Request\ActionCollection;
 use Nyxio\Routing\Group;
 use Nyxio\Routing\GroupCollection;
@@ -43,7 +43,7 @@ class ActionCollectionTest extends TestCase
 
         $actionCache = $collection->all()[TestAction::class];
 
-        $this->assertInstanceOf(ActionCache::class, $actionCache);
+        $this->assertInstanceOf(Action::class, $actionCache);
         $this->assertEquals('/beta/api/v1/user/@id', $actionCache->route->getUri());
     }
 

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Nyxio\Validation\Handler;
+namespace Nyxio\Validation\DTO;
 
 use Nyxio\Contract\Helper\DateFormat;
 use Nyxio\Contract\Validation\Rule;

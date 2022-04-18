@@ -12,10 +12,10 @@ use Nyxio\Http\Exception\HttpException;
 use Nyxio\Kernel\Text\Message;
 use Nyxio\Tests\Validation\Fixture\RulesWithGroup;
 use Nyxio\Validation\Attribute;
-use Nyxio\Validation\DefaultRules;
-use Nyxio\Validation\Handler\RulesChecker;
-use Nyxio\Validation\Handler\Validation;
+use Nyxio\Validation\Helper\DefaultRules;
 use Nyxio\Validation\RuleExecutorCollection;
+use Nyxio\Validation\RulesChecker;
+use Nyxio\Validation\Validation;
 use PHPUnit\Framework\TestCase;
 
 class ValidationTest extends TestCase

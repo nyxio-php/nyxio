@@ -7,7 +7,7 @@ namespace Nyxio\Tests\Validation;
 use Nyxio\Container\Container;
 use Nyxio\Helper\Attribute\ExtractAttribute;
 use Nyxio\Tests\Validation\Fixture\RulesWithoutAttribute;
-use Nyxio\Validation\DefaultRules;
+use Nyxio\Validation\Helper\DefaultRules;
 use Nyxio\Validation\RuleExecutorCollection;
 use PHPUnit\Framework\TestCase;
 

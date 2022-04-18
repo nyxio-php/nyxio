@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Nyxio\Contract\Validation;
 
-use Nyxio\Validation\RuleExecutor;
+use Nyxio\Validation\DTO\RuleExecutor;
 
 interface RuleExecutorCollectionInterface
 {

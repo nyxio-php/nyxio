@@ -85,7 +85,6 @@ class Container implements ContainerInterface
         return $arguments;
     }
 
-
     /**
      * @param \ReflectionMethod $method
      * @param \ReflectionParameter $parameter

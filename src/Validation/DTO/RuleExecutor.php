@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Nyxio\Validation;
+namespace Nyxio\Validation\DTO;
 
 use Nyxio\Validation\Attribute\Rule;
 

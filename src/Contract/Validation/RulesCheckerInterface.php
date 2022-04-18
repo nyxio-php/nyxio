@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Nyxio\Contract\Validation\Handler;
+namespace Nyxio\Contract\Validation;
 
-use Nyxio\Validation\Handler\Field;
+use Nyxio\Validation\DTO\Field;
 
 interface RulesCheckerInterface
 {
