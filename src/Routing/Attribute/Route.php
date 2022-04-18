@@ -26,7 +26,7 @@ class Route
         private readonly array $rules = [],
     ) {
         $this->uri = normalizeUri($uri);
-        $this->createValidators($rules);
+        $this->createFields($rules);
     }
 
     public function addPrefix(string $prefix): static

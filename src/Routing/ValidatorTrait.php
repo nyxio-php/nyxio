@@ -11,11 +11,11 @@ trait ValidatorTrait
     /**
      * @var Field[]
      */
-    private array $validators = [];
+    private array $fields = [];
 
-    public function appendValidators(array $validators): static
+    public function appendFields(array $fields): static
     {
-        $this->validators = \array_merge($this->validators, $validators);
+        $this->fields = \array_merge($this->fields, $fields);
 
         return $this;
     }
@@ -23,25 +23,25 @@ trait ValidatorTrait
     /**
      * @return Field[]
      */
-    public function getValidators(): array
+    public function getFields(): array
     {
-        return $this->validators;
+        return $this->fields;
     }
 
-    public function getValidator(string $param): ?Field
+    public function getField(string $param): ?Field
     {
-        return $this->validators[$param] ?? null;
+        return $this->fields[$param] ?? null;
     }
 
-    private function createValidators(array $data): void
+    private function createFields(array $data): void
     {
         foreach ($data as $name => $rules) {
             $rules = \is_array($rules) ? $rules : [$rules];
-            $this->validators[$name] = new Field($name);
+            $this->fields[$name] = new Field($name);
 
             foreach ($rules as $key => $value) {
                 $withParams = \is_array($value);
-                $this->validators[$name]->rule($withParams ? $key : $value, $withParams ? $value : []);
+                $this->fields[$name]->rule($withParams ? $key : $value, $withParams ? $value : []);
             }
         }
     }

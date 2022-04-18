@@ -22,6 +22,6 @@ class Group
             $this->prefix = normalizeUri($prefix);
         }
 
-        $this->createValidators($this->rules);
+        $this->createFields($this->rules);
     }
 }

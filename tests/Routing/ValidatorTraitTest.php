@@ -16,11 +16,11 @@ class ValidatorTraitTest extends TestCase
             use ValidatorTrait;
         };
 
-        $validators = ['test' => new Field('attribute')];
-        $class->appendValidators($validators);
-        $this->assertEquals($validators, $class->getValidators());
+        $fields = ['test' => new Field('attribute')];
+        $class->appendFields($fields);
+        $this->assertEquals($fields, $class->getFields());
 
-        $validator = $class->getValidator('test');
+        $validator = $class->getField('test');
         $this->assertInstanceOf(Field::class, $validator);
         $this->assertEquals('attribute', $validator->name);
     }

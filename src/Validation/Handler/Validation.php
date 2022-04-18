@@ -6,15 +6,15 @@ namespace Nyxio\Validation\Handler;
 
 use Nyxio\Contract\Http\HttpStatus;
 use Nyxio\Contract\Validation\Handler\RulesCheckerInterface;
-use Nyxio\Contract\Validation\Handler\ValidatorCollectionInterface;
+use Nyxio\Contract\Validation\Handler\ValidationInterface;
 use Nyxio\Http\Exception\HttpException;
 
-class ValidatorCollection implements ValidatorCollectionInterface
+class Validation implements ValidationInterface
 {
     /**
      * @var Field[]
      */
-    protected array $validators = [];
+    protected array $fields = [];
 
     public function __construct(private readonly RulesCheckerInterface $rulesChecker)
     {
@@ -22,7 +22,7 @@ class ValidatorCollection implements ValidatorCollectionInterface
 
     public function field(string $name): Field
     {
-        return $this->validators[] = new Field($name);
+        return $this->fields[] = new Field($name);
     }
 
     /**
@@ -33,7 +33,7 @@ class ValidatorCollection implements ValidatorCollectionInterface
         return \array_merge(
             ...\array_map(
                    fn(Field $validator) => $this->rulesChecker->check($source, $validator),
-                   $this->validators
+                   $this->fields
                )
         );
     }

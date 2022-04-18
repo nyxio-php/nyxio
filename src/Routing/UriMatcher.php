@@ -53,12 +53,12 @@ class UriMatcher implements UriMatcherInterface
 
             $parsedValue = parseFromString($partsRequest[$key]);
 
-            $validator = $route->getValidator($param);
+            $field = $route->getField($param);
 
             $this->params[$param] = $parsedValue;
 
-            if ($validator instanceof Field
-                && !empty($this->rulesChecker->check($this->params, $validator))) {
+            if ($field instanceof Field
+                && !empty($this->rulesChecker->check($this->params, $field))) {
                 return false;
             }
         }

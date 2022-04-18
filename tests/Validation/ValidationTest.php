@@ -11,10 +11,10 @@ use Nyxio\Helper\Attribute\ExtractAttribute;
 use Nyxio\Http\Exception\HttpException;
 use Nyxio\Kernel\Text\Message;
 use Nyxio\Tests\Validation\Fixture\RulesWithGroup;
-use Nyxio\Validation\Attribute\Validation;
+use Nyxio\Validation\Attribute;
 use Nyxio\Validation\DefaultRules;
 use Nyxio\Validation\Handler\RulesChecker;
-use Nyxio\Validation\Handler\ValidatorCollection;
+use Nyxio\Validation\Handler\Validation;
 use Nyxio\Validation\RuleExecutorCollection;
 use PHPUnit\Framework\TestCase;
 
@@ -39,7 +39,7 @@ class ValidationTest extends TestCase
         $executorCollection = new RuleExecutorCollection(new Container(), new ExtractAttribute());
         $executorCollection->register(DefaultRules::class);
         $rulesChecker = new RulesChecker($executorCollection, new Message(new MemoryConfig()));
-        $validatorCollection = new ValidatorCollection($rulesChecker);
+        $validatorCollection = new Validation($rulesChecker);
 
         $validatorCollection->field('firstName')->isString()->notNullable()->required();
         $validatorCollection->field('lastName')->isString()->notNullable()->notAllowsEmpty(
@@ -72,7 +72,7 @@ class ValidationTest extends TestCase
         $executorCollection = new RuleExecutorCollection(new Container(), new ExtractAttribute());
         $executorCollection->register(DefaultRules::class);
         $rulesChecker = new RulesChecker($executorCollection, new Message(new MemoryConfig()));
-        $validatorCollection = new ValidatorCollection($rulesChecker);
+        $validatorCollection = new Validation($rulesChecker);
 
         $validatorCollection->field('firstName')->rule('asdasd');
         $validatorCollection->field('lastName')->rule('dgadgadg');
@@ -96,7 +96,7 @@ class ValidationTest extends TestCase
         $executorCollection = new RuleExecutorCollection(new Container(), new ExtractAttribute());
         $executorCollection->register(DefaultRules::class);
         $rulesChecker = new RulesChecker($executorCollection, new Message(new MemoryConfig()));
-        $validatorCollection = new ValidatorCollection($rulesChecker);
+        $validatorCollection = new Validation($rulesChecker);
 
         $validatorCollection->field('firstName')->custom(static function (mixed $value): bool {
             return $value === 'Alex';
@@ -126,7 +126,7 @@ class ValidationTest extends TestCase
         $executorCollection = new RuleExecutorCollection(new Container(), new ExtractAttribute());
         $executorCollection->register(DefaultRules::class);
         $rulesChecker = new RulesChecker($executorCollection, new Message(new MemoryConfig()));
-        $validatorCollection = new ValidatorCollection($rulesChecker);
+        $validatorCollection = new Validation($rulesChecker);
 
         $validatorCollection->field('firstName')->custom(static function (mixed $value): bool {
             return $value === 'Alex';
@@ -155,7 +155,7 @@ class ValidationTest extends TestCase
         $executorCollection = new RuleExecutorCollection(new Container(), new ExtractAttribute());
         $executorCollection->register(DefaultRules::class);
         $rulesChecker = new RulesChecker($executorCollection, new Message(new MemoryConfig()));
-        $validatorCollection = new ValidatorCollection($rulesChecker);
+        $validatorCollection = new Validation($rulesChecker);
 
         $validatorCollection->field('firstName')->isString(message: 'First name can be only string!');
         $validatorCollection->field('age')->nullable()->rule(
@@ -181,7 +181,7 @@ class ValidationTest extends TestCase
         $executorCollection = new RuleExecutorCollection(new Container(), new ExtractAttribute());
         $executorCollection->register(DefaultRules::class);
         $rulesChecker = new RulesChecker($executorCollection, new Message(new MemoryConfig()));
-        $validatorCollection = new ValidatorCollection($rulesChecker);
+        $validatorCollection = new Validation($rulesChecker);
 
         $validatorCollection->field('foo')->notAllowsEmpty('empty error');
         $validatorCollection->field('bar')->allowsEmpty();
@@ -207,7 +207,7 @@ class ValidationTest extends TestCase
         $executorCollection = new RuleExecutorCollection(new Container(), new ExtractAttribute());
         $executorCollection->register(DefaultRules::class);
         $rulesChecker = new RulesChecker($executorCollection, new Message(new MemoryConfig()));
-        $validatorCollection = new ValidatorCollection($rulesChecker);
+        $validatorCollection = new Validation($rulesChecker);
 
         $validatorCollection->field('foo.bar')->required('bar is required');
         $validatorCollection->field('bar.foo.test')->required('test is required');
@@ -230,7 +230,7 @@ class ValidationTest extends TestCase
         $executorCollection = new RuleExecutorCollection(new Container(), new ExtractAttribute());
         $executorCollection->register(DefaultRules::class);
         $rulesChecker = new RulesChecker($executorCollection, new Message(new MemoryConfig()));
-        $validatorCollection = new ValidatorCollection($rulesChecker);
+        $validatorCollection = new Validation($rulesChecker);
 
         $field = $validatorCollection->field('test')->isInteger();
         $this->assertTrue($field->hasRule(Rule::Integer));
@@ -267,7 +267,7 @@ class ValidationTest extends TestCase
         $executorCollection = new RuleExecutorCollection(new Container(), new ExtractAttribute());
         $executorCollection->register(DefaultRules::class);
         $rulesChecker = new RulesChecker($executorCollection, new Message(new MemoryConfig()));
-        $validatorCollection = new ValidatorCollection($rulesChecker);
+        $validatorCollection = new Validation($rulesChecker);
 
         $validatorCollection->field('float')->isFloat();
         $validatorCollection->field('integer')->isInteger();
@@ -292,7 +292,7 @@ class ValidationTest extends TestCase
             $validatorCollection->getErrors($data)
         );
 
-        $validatorCollection = new ValidatorCollection($rulesChecker);
+        $validatorCollection = new Validation($rulesChecker);
 
         $validatorCollection->field('float')->isInteger();
         $validatorCollection->field('integer')->isFloat();
@@ -324,7 +324,7 @@ class ValidationTest extends TestCase
         $executorCollection = new RuleExecutorCollection(new Container(), new ExtractAttribute());
         $executorCollection->register(DefaultRules::class);
         $rulesChecker = new RulesChecker($executorCollection, new Message(new MemoryConfig()));
-        $validatorCollection = new ValidatorCollection($rulesChecker);
+        $validatorCollection = new Validation($rulesChecker);
 
         $validatorCollection->field('foo')->notNullable('null error');
         $validatorCollection->field('bar')->nullable();
@@ -345,7 +345,7 @@ class ValidationTest extends TestCase
         $executorCollection = new RuleExecutorCollection(new Container(), new ExtractAttribute());
         $executorCollection->register(DefaultRules::class);
         $rulesChecker = new RulesChecker($executorCollection, new Message(new MemoryConfig()));
-        $validatorCollection = new ValidatorCollection($rulesChecker);
+        $validatorCollection = new Validation($rulesChecker);
 
         $validatorCollection->field('foo')->required('EMPTY');
         $this->expectException(HttpException::class);
@@ -365,7 +365,7 @@ class ValidationTest extends TestCase
         $executorCollection = new RuleExecutorCollection(new Container(), new ExtractAttribute());
         $executorCollection->register(DefaultRules::class);
         $rulesChecker = new RulesChecker($executorCollection, new Message(new MemoryConfig()));
-        $validatorCollection = new ValidatorCollection($rulesChecker);
+        $validatorCollection = new Validation($rulesChecker);
 
         $validatorCollection->field('foo')->required('EMPTY');
         $this->assertTrue($validatorCollection->validateOrException($data));
@@ -380,7 +380,7 @@ class ValidationTest extends TestCase
         $executorCollection = new RuleExecutorCollection(new Container(), new ExtractAttribute());
         $executorCollection->register(RulesWithGroup::class);
         $rulesChecker = new RulesChecker($executorCollection, new Message(new MemoryConfig()));
-        $validatorCollection = new ValidatorCollection($rulesChecker);
+        $validatorCollection = new Validation($rulesChecker);
 
         $validatorCollection->field('foo')->rule('test:test');
         $this->assertEmpty($validatorCollection->getErrors($data));
@@ -388,7 +388,7 @@ class ValidationTest extends TestCase
 
     public function testValidationAttribute(): void
     {
-        $attribute = new Validation('test');
+        $attribute = new Attribute\Validation('test');
 
         $this->assertEquals('test', $attribute->name);
     }
