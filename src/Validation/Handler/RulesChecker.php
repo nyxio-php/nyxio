@@ -97,6 +97,14 @@ class RulesChecker implements RulesCheckerInterface
             );
         }
 
+        foreach ($field->getCustomRules() as $customRule) {
+            if ($customRule['validator']($defaultParams['value'])) {
+                continue;
+            }
+
+            $errors[$field->name][] = $this->message->text($customRule['message'], $defaultParams);
+        }
+
         return $errors;
     }
 }

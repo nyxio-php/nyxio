@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace Nyxio\Validation\Handler;
 
+use Nyxio\Contract\Helper\DateFormat;
 use Nyxio\Contract\Validation\Rule;
 
 class Field
 {
     private array $rules = [];
+
+    private array $customRules = [];
 
     private bool $isNullable = false;
 
@@ -150,6 +153,33 @@ class Field
         return $this->rule(Rule::Url, message: $message);
     }
 
+    public function isDateTime(string $format = DateFormat::DATE_TIME, ?string $message = null): static
+    {
+        return $this->rule(
+                        Rule::DateTime,
+            parameters: ['format' => $format],
+            message:    $message
+        );
+    }
+
+    public function isDate(string $format = DateFormat::DATE, ?string $message = null): static
+    {
+        return $this->rule(
+                        Rule::Date,
+            parameters: ['format' => $format],
+            message:    $message
+        );
+    }
+
+    public function isTime(string $format = DateFormat::TIME, ?string $message = null): static
+    {
+        return $this->rule(
+                        Rule::Time,
+            parameters: ['format' => $format],
+            message:    $message
+        );
+    }
+
     public function rule(string|\BackedEnum $rule, array $parameters = [], ?string $message = null): static
     {
         $this->rules[$rule instanceof \BackedEnum ? $rule->value : $rule] = [
@@ -165,6 +195,16 @@ class Field
         return isset($this->rules[$rule instanceof \BackedEnum ? $rule->value : $rule]);
     }
 
+    public function custom(\Closure $check, string $message): static
+    {
+        $this->customRules[] = [
+            'validator' => $check,
+            'message' => $message,
+        ];
+
+        return $this;
+    }
+
     public function removeRule(string|\BackedEnum $rule): static
     {
         if ($this->hasRule($rule)) {
@@ -177,5 +217,10 @@ class Field
     public function getRules(): array
     {
         return $this->rules;
+    }
+
+    public function getCustomRules(): array
+    {
+        return $this->customRules;
     }
 }

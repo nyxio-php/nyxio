@@ -86,6 +86,36 @@ class ValidationTest extends TestCase
         );
     }
 
+    public function testCustomRule(): void
+    {
+        $data = [
+            'firstName' => 'Alex',
+            'lastName' => '',
+        ];
+
+        $executorCollection = new RuleExecutorCollection(new Container(), new ExtractAttribute());
+        $executorCollection->register(DefaultRules::class);
+        $rulesChecker = new RulesChecker($executorCollection, new Message(new MemoryConfig()));
+        $validatorCollection = new ValidatorCollection($rulesChecker);
+
+        $validatorCollection->field('firstName')->custom(static function (mixed $value): bool {
+            return $value === 'Alex';
+        }, 'Invalid first name');
+
+        $validatorCollection->field('lastName')->custom(static function (mixed $value): bool {
+            return !empty($value);
+        }, 'Invalid :field: cannot be empty');
+
+        $this->assertEquals(
+            [
+                'lastName' => [
+                    'Invalid lastName: cannot be empty',
+                ]
+            ],
+            $validatorCollection->getErrors($data)
+        );
+    }
+
     public function testCustomMessages(): void
     {
         $data = [
@@ -197,6 +227,12 @@ class ValidationTest extends TestCase
             'array' => ['a', 'b'],
             'email' => 'test@gmail.com',
             'url' => 'https://github.com',
+            'dateTime' => '2022-04-18T09:24:12+00:00',
+            'date' => '2022-04-18',
+            'time' => 'T09:24:12+00:00',
+            'altDateTime' => '2022-04-18 09:24:12',
+            'altDate' => '04-18-2022',
+            'altTime' => '04:22',
         ];
 
         $executorCollection = new RuleExecutorCollection(new Container(), new ExtractAttribute());
@@ -214,6 +250,12 @@ class ValidationTest extends TestCase
         $validatorCollection->field('array')->isArray();
         $validatorCollection->field('email')->isEmail();
         $validatorCollection->field('url')->isUrl();
+        $validatorCollection->field('dateTime')->isDateTime();
+        $validatorCollection->field('date')->isDate();
+        $validatorCollection->field('time')->isTime();
+        $validatorCollection->field('altDateTime')->isDateTime('Y-m-d H:i:s');
+        $validatorCollection->field('altDate')->isDate(format: 'm-d-Y');
+        $validatorCollection->field('altTime')->isTime(format: 'H:i');
 
         $this->assertEquals(
             [
@@ -232,7 +274,13 @@ class ValidationTest extends TestCase
         $validatorCollection->field('numeric3')->isArray();
         $validatorCollection->field('array')->isEmail();
         $validatorCollection->field('email')->isUrl();
-        $validatorCollection->field('url')->isEmail();
+        $validatorCollection->field('url')->isDate();
+        $validatorCollection->field('dateTime')->isUrl();
+        $validatorCollection->field('date')->isTime();
+        $validatorCollection->field('time')->isDate();
+        $validatorCollection->field('altDateTime')->isDateTime();
+        $validatorCollection->field('altDate')->isDate();
+        $validatorCollection->field('altTime')->isTime();
 
         $this->assertCount(count($data), $validatorCollection->getErrors($data));
     }

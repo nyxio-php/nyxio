@@ -171,7 +171,7 @@ class DefaultRulesTest extends TestCase
         $this->assertEquals(false, $collection->get('date')->validate(['value' => '44-12-05']));
         $this->assertEquals(true, $collection->get('date')->validate(['value' => '05-12-2024', 'format' => 'd-m-Y']));
 
-        $this->assertEquals(true, $collection->get('date-time')->validate(['value' => '2022-04-05 12:24:05']));
+        $this->assertEquals(true, $collection->get('date-time')->validate(['value' => '2022-04-18T09:24:12+00:00']));
         $this->assertEquals(false, $collection->get('date-time')->validate(['value' => '44-12-05']));
         $this->assertEquals(
             true,
@@ -180,7 +180,7 @@ class DefaultRulesTest extends TestCase
             )
         );
 
-        $this->assertEquals(true, $collection->get('time')->validate(['value' => '12:24:05']));
+        $this->assertEquals(true, $collection->get('time')->validate(['value' => 'T09:24:12+00:00']));
         $this->assertEquals(false, $collection->get('time')->validate(['value' => '44-12-05']));
         $this->assertEquals(
             true,
