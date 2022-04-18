@@ -1,11 +1,11 @@
-name: 'Update'
+name: 'Packages Split'
 
 on:
   push:
     branches: [ main ]
     tags: '*'
-    paths:
-      - 'src/**'
+#     paths:
+#       - 'src/**'
     
 env:
   GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
@@ -53,6 +53,17 @@ jobs:
       - if: "!startsWith(github.ref, 'refs/tags/')"
         uses: symplify/monorepo-split-github-action@2.1
         with:
+          package_directory: "src/${{ matrix.path }}"
+          repository_organization: "nyxio-php"
+          repository_name: "${{ matrix.repo }}"
+          repository_host: "github.com"
+          user_name: "Aleksey Ishutin"
+          user_email: "ishutin.alexey@gmail.com"
+      
+      - if: "startsWith(github.ref, 'refs/tags/')"
+        uses: symplify/monorepo-split-github-action@2.1
+        with:
+          tag: ${GITHUB_REF#refs/tags/}
           package_directory: "src/${{ matrix.path }}"
           repository_organization: "nyxio-php"
           repository_name: "${{ matrix.repo }}"
