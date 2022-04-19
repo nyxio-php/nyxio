@@ -6,7 +6,6 @@ namespace Nyxio\Tests\Kernel;
 
 use Nyxio\Config\MemoryConfig;
 use Nyxio\Container\Container;
-use Nyxio\Contract\Kernel\Server\ServerEventHandlerInterface;
 use Nyxio\Contract\Provider\ProviderDispatcherInterface;
 use Nyxio\Kernel\Application;
 use Nyxio\Kernel\Provider\KernelProvider;
