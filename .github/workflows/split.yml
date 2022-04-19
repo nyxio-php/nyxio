@@ -48,6 +48,9 @@ jobs:
           - path: 'Validation'
             repo: 'validation'
 
+          - path: 'Queue'
+            repo: 'queue'
+
     steps:
       - uses: actions/checkout@v2
       - if: "!startsWith(github.ref, 'refs/tags/')"
