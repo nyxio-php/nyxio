@@ -22,8 +22,7 @@
             "Nyxio\\Kernel\\": "src/Kernel/",
             "Nyxio\\Provider\\": "src/Provider/",
             "Nyxio\\Routing\\": "src/Routing/",
-            "Nyxio\\Validation\\": "src/Validation/",
-            "Nyxio\\Queue\\": "src/Queue/"
+            "Nyxio\\Validation\\": "src/Validation/"
         }
     },
     "autoload-dev": {
@@ -66,8 +65,7 @@
         "nyxio/kernel": "1.0.6",
         "nyxio/provider": "1.0.6",
         "nyxio/routing": "1.0.6",
-        "nyxio/validation": "1.0.6",
-        "nyxio/queue": "1.0.6"
+        "nyxio/validation": "1.0.6"
     },
     "minimum-stability": "dev"
 }

@@ -6,5 +6,5 @@ namespace Nyxio\Contract\Kernel\Server;
 
 interface ServerEventHandlerInterface
 {
-    public function handle(): void;
+    public function attach(string $event, string $class): static;
 }

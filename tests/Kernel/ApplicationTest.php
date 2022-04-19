@@ -46,27 +46,6 @@ class ApplicationTest extends TestCase
      * @throws \ReflectionException
      * @runInSeparateProcess
      */
-    public function testInvalidConfiguration2(): void
-    {
-        $container = new Container();
-        $config = (new MemoryConfig())->addConfig('app', [
-            'providers' => [
-                KernelProvider::class,
-            ],
-        ]);
-
-        $application = new Application(config: $config, container: $container);
-
-        $this->expectExceptionMessage(\sprintf('%s was not specified', ServerEventHandlerInterface::class));
-        $this->expectException(\RuntimeException::class);
-        $application->bootstrap();
-    }
-
-    /**
-     * @return void
-     * @throws \ReflectionException
-     * @runInSeparateProcess
-     */
     public function testApplicationBootstrap(): void
     {
         $container = new Container();

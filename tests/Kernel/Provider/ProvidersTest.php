@@ -20,6 +20,7 @@ use Nyxio\Contract\Validation\ValidationInterface;
 use Nyxio\Kernel\Application;
 use Nyxio\Kernel\Provider\KernelProvider;
 use Nyxio\Kernel\Provider\ServerProvider;
+use Nyxio\Kernel\Server\Http\ServerEventHandler;
 use Nyxio\Routing\Group;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseFactoryInterface;
@@ -37,6 +38,7 @@ class ProvidersTest extends TestCase
      * @return void
      *
      * @dataProvider getDataProviderForKernel
+     * @runInSeparateProcess
      */
     public function testKernelProvider(string $alias, bool $singleton): void
     {
@@ -48,20 +50,6 @@ class ProvidersTest extends TestCase
         $provider->process();
 
         $this->assertTrue($singleton ? $container->hasSingleton($alias) : $container->hasBind($alias));
-    }
-
-    public function testServerProvider(): void
-    {
-        $container = new Container();
-        $provider = new ServerProvider(
-            container: $container,
-            config:    (new MemoryConfig())->addConfig('server', [])
-        );
-
-        $provider->process();
-
-        $this->assertTrue($container->hasSingleton(Server::class));
-        $this->assertTrue($container->hasSingleton(ServerEventHandlerInterface::class));
     }
 
     private function getDataProviderForKernel(): array
@@ -86,6 +74,9 @@ class ProvidersTest extends TestCase
             [RuleExecutorCollectionInterface::class, true],
             [RulesCheckerInterface::class, true],
             [ValidationInterface::class, false],
+
+            [Server::class, true],
+            [ServerEventHandlerInterface::class, true],
         ];
     }
 }
