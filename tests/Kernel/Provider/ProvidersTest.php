@@ -19,8 +19,6 @@ use Nyxio\Contract\Validation\RulesCheckerInterface;
 use Nyxio\Contract\Validation\ValidationInterface;
 use Nyxio\Kernel\Application;
 use Nyxio\Kernel\Provider\KernelProvider;
-use Nyxio\Kernel\Provider\ServerProvider;
-use Nyxio\Kernel\Server\Http\ServerEventHandler;
 use Nyxio\Routing\Group;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseFactoryInterface;
