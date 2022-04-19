@@ -16,4 +16,22 @@ class OptionsTest extends TestCase
         $this->assertEquals(1000, $options->getRetryDelay());
         $this->assertEquals(5, $options->getDelay());
     }
+
+    public function testException1(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        new Options(retryCount: 10, retryDelay: 1000, delay: -1);
+    }
+
+    public function testException2(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        new Options(retryCount: 10, retryDelay: -1, delay: 100);
+    }
+
+    public function testException3(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        new Options(retryCount: -1, retryDelay: 10, delay: 100);
+    }
 }
