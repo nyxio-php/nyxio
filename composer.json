@@ -22,7 +22,7 @@
             "Nyxio\\Kernel\\": "src/Kernel/",
             "Nyxio\\Provider\\": "src/Provider/",
             "Nyxio\\Routing\\": "src/Routing/",
-            "Nyxio\\Validation\\": "src/Validation/"
+            "Nyxio\\Validation\\": "src/Validation/",
             "Nyxio\\Queue\\": "src/Queue/"
         }
     },
