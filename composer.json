@@ -56,16 +56,16 @@
         }
     },
     "replace": {
-        "nyxio/config": "1.0.6",
-        "nyxio/container": "1.0.6",
-        "nyxio/contract": "1.0.6",
-        "nyxio/event": "1.0.6",
-        "nyxio/helper": "1.0.6",
-        "nyxio/http": "1.0.6",
-        "nyxio/kernel": "1.0.6",
-        "nyxio/provider": "1.0.6",
-        "nyxio/routing": "1.0.6",
-        "nyxio/validation": "1.0.6"
+        "nyxio/config": "1.0.7",
+        "nyxio/container": "1.0.7",
+        "nyxio/contract": "1.0.7",
+        "nyxio/event": "1.0.7",
+        "nyxio/helper": "1.0.7",
+        "nyxio/http": "1.0.7",
+        "nyxio/kernel": "1.0.7",
+        "nyxio/provider": "1.0.7",
+        "nyxio/routing": "1.0.7",
+        "nyxio/validation": "1.0.7"
     },
     "minimum-stability": "dev"
 }
