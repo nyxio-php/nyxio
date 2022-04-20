@@ -9,6 +9,7 @@ interface QueueInterface
     public function push(
         string $job,
         array $data = [],
-        ?OptionsInterface $options = null
+        ?OptionsInterface $options = null,
+        \Closure $finishCallback = null,
     ): void;
 }
