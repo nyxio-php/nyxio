@@ -34,4 +34,32 @@ class OptionsTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         new Options(retryCount: -1, retryDelay: 10, delay: 100);
     }
+
+    public function testDecreaseRetryCount(): void
+    {
+        $options = new Options(retryCount: 2);
+        $this->assertEquals(2, $options->getRetryCount());
+        $options->decreaseRetryCount();
+        $this->assertEquals(1, $options->getRetryCount());
+        $options->decreaseRetryCount();
+        $this->assertEquals(0, $options->getRetryCount());
+        $options->decreaseRetryCount();
+        $this->assertEquals(0, $options->getRetryCount());
+    }
+
+    public function testDecreaseRetryCount2(): void
+    {
+        $options = new Options(retryCount: 0);
+        $this->assertEquals(0, $options->getRetryCount());
+        $options->decreaseRetryCount();
+        $this->assertEquals(0, $options->getRetryCount());
+    }
+
+    public function testDecreaseRetryCount3(): void
+    {
+        $options = new Options();
+        $this->assertEquals(null, $options->getRetryCount());
+        $options->decreaseRetryCount();
+        $this->assertEquals(null, $options->getRetryCount());
+    }
 }

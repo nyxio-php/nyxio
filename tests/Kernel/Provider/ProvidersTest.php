@@ -10,8 +10,11 @@ use Nyxio\Contract\Event\EventDispatcherInterface;
 use Nyxio\Contract\Kernel\Exception\Transformer\ExceptionTransformerInterface;
 use Nyxio\Contract\Kernel\Request\ActionCollectionInterface;
 use Nyxio\Contract\Kernel\Request\RequestHandlerInterface;
+use Nyxio\Contract\Kernel\Server\CronLauncherInterface;
 use Nyxio\Contract\Kernel\Server\ServerEventHandlerInterface;
+use Nyxio\Contract\Kernel\Text\MessageInterface;
 use Nyxio\Contract\Provider\ProviderDispatcherInterface;
+use Nyxio\Contract\Queue\QueueInterface;
 use Nyxio\Contract\Routing\GroupCollectionInterface;
 use Nyxio\Contract\Routing\UriMatcherInterface;
 use Nyxio\Contract\Validation\RuleExecutorCollectionInterface;
@@ -73,8 +76,11 @@ class ProvidersTest extends TestCase
             [RulesCheckerInterface::class, true],
             [ValidationInterface::class, false],
 
+            [MessageInterface::class, true],
+
             [Server::class, true],
-            [ServerEventHandlerInterface::class, true],
+            [CronLauncherInterface::class, true],
+            [QueueInterface::class, true],
         ];
     }
 }
