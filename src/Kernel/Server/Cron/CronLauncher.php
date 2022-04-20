@@ -31,7 +31,7 @@ class CronLauncher implements CronLauncherInterface
                     continue;
                 }
 
-                echo \sprintf('Cron job %s is registered (5s)' . \PHP_EOL, $job, $cronAttribute->expression);
+                echo \sprintf('Cron job %s is registered (%s)' . \PHP_EOL, $job, $cronAttribute->expression);
 
                 $cron = new CronExpression($cronAttribute->expression);
 
