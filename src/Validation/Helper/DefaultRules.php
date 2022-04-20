@@ -128,6 +128,7 @@ class DefaultRules
             $equal = \mb_strtolower($equal);
         }
 
+        /** @noinspection TypeUnsafeComparisonInspection */
         return $strict ? $value === $equal : $value == $equal;
     }
 

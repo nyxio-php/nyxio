@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Nyxio\Event;
 
-class Event
+abstract class Event
 {
     public const NAME = 'event';
 

@@ -11,7 +11,9 @@ class EventTest extends TestCase
 {
     public function testBasic(): void
     {
-        $event = new Event();
+        $event = new class () extends Event {
+
+        };
 
         $this->assertNotEmpty($event::NAME);
         $this->assertFalse($event->isPropagationStopped());
