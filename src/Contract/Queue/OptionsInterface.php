@@ -10,5 +10,7 @@ interface OptionsInterface
 
     public function getRetryCount(): ?int;
 
+    public function decreaseRetryCount(): static;
+
     public function getRetryDelay(): ?int;
 }
