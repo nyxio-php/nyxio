@@ -26,10 +26,12 @@ function getFormattedText(string $source, array $params = []): string
 {
     $params = \array_filter(
         $params,
-        static fn(mixed $param) => !(\is_array($param) && count($param) !== count(
+        static fn(mixed $param) => !(
+                \is_array($param) && count($param) !== count(
                     $param,
                     \COUNT_RECURSIVE
-                )) && !\is_object($param)
+                ))
+            && !\is_object($param)
     );
 
     $params = \array_map(

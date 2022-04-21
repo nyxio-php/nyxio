@@ -50,7 +50,8 @@
         "phpunit/phpunit": "^9.5",
         "symplify/monorepo-builder": "^10.0",
         "vimeo/psalm": "^4.16",
-        "openswoole/ide-helper": "@dev"
+        "openswoole/ide-helper": "@dev",
+        "squizlabs/php_codesniffer": "4.0.x-dev"
     },
     "config": {
         "allow-plugins": {

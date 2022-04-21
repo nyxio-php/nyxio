@@ -23,10 +23,11 @@ class RuleExecutor
                 \array_intersect_key(
                     $arguments,
                     \array_merge(
-                        ...array_map(
-                               static fn(\ReflectionParameter $param) => [$param->getName() => true],
-                               $this->method->getParameters()
-                           )
+                        ...
+                        array_map(
+                            static fn(\ReflectionParameter $param) => [$param->getName() => true],
+                            $this->method->getParameters()
+                        )
                     )
                 )
             );

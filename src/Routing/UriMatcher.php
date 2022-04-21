@@ -57,8 +57,10 @@ class UriMatcher implements UriMatcherInterface
 
             $this->params[$param] = $parsedValue;
 
-            if ($validator instanceof Field
-                && !empty($this->rulesChecker->check($this->params, $validator))) {
+            if (
+                $validator instanceof Field
+                && !empty($this->rulesChecker->check($this->params, $validator))
+            ) {
                 return false;
             }
         }

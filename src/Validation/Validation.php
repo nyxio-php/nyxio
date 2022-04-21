@@ -32,10 +32,11 @@ class Validation implements ValidationInterface
     public function getErrors(array $source): array
     {
         return \array_merge(
-            ...\array_map(
-                   fn(Field $validator) => $this->rulesChecker->check($source, $validator),
-                   $this->fields
-               )
+            ...
+            \array_map(
+                fn(Field $validator) => $this->rulesChecker->check($source, $validator),
+                $this->fields
+            )
         );
     }
 

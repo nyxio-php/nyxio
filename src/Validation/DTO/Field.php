@@ -156,7 +156,7 @@ class Field
     public function isDateTime(string $format = DateFormat::DATE_TIME, ?string $message = null): static
     {
         return $this->rule(
-                        Rule::DateTime,
+            rule:       Rule::DateTime,
             parameters: ['format' => $format],
             message:    $message
         );
@@ -165,7 +165,7 @@ class Field
     public function isDate(string $format = DateFormat::DATE, ?string $message = null): static
     {
         return $this->rule(
-                        Rule::Date,
+            rule:       Rule::Date,
             parameters: ['format' => $format],
             message:    $message
         );
@@ -174,7 +174,7 @@ class Field
     public function isTime(string $format = DateFormat::TIME, ?string $message = null): static
     {
         return $this->rule(
-                        Rule::Time,
+            rule:       Rule::Time,
             parameters: ['format' => $format],
             message:    $message
         );

@@ -6,10 +6,17 @@ namespace Nyxio\Helper\Attribute;
 
 class ExtractAttribute
 {
-    public function first(
-        \ReflectionClass|\ReflectionClassConstant|\ReflectionMethod|\ReflectionFunction|\ReflectionProperty|\ReflectionParameter|string $source,
-        string $attributeName
-    ): ?object {
+    private const ALLOWED_REFLECTION_CLASSES = [
+        \ReflectionClass::class,
+        \ReflectionClassConstant::class,
+        \ReflectionMethod::class,
+        \ReflectionFunction::class,
+        \ReflectionProperty::class,
+        \ReflectionParameter::class,
+    ];
+
+    public function first(mixed $source, string $attributeName): ?object
+    {
         $source = $this->getReflection($source);
 
         $attributes = $source->getAttributes($attributeName);
@@ -22,13 +29,13 @@ class ExtractAttribute
     }
 
     /**
-     * @param \ReflectionClass|\ReflectionClassConstant|\ReflectionMethod|\ReflectionFunction|\ReflectionProperty|\ReflectionParameter|string $source
+     * @param mixed $source
      * @param string $attributeName
      * @param bool $parent
      * @return object[]
      */
     public function all(
-        \ReflectionClass|\ReflectionClassConstant|\ReflectionMethod|\ReflectionFunction|\ReflectionProperty|\ReflectionParameter|string $source,
+        mixed $source,
         string $attributeName,
         bool $parent = false
     ): array {
@@ -51,24 +58,36 @@ class ExtractAttribute
         );
     }
 
-    protected function getReflection($reflectionOrClass
-    ): \ReflectionClass|\ReflectionClassConstant|\ReflectionMethod|\ReflectionFunction|\ReflectionProperty|\ReflectionParameter {
-        if (\is_string($reflectionOrClass)) {
+    protected function getReflection($reflectionOrClass): mixed
+    {
+        if (\is_object($reflectionOrClass)) {
+            if (\in_array(\get_class($reflectionOrClass), static::ALLOWED_REFLECTION_CLASSES)) {
+                return $reflectionOrClass;
+            }
+        } elseif (\is_string($reflectionOrClass)) {
             try {
                 return new \ReflectionClass($reflectionOrClass);
             } catch (\ReflectionException $exception) {
-                throw new \InvalidArgumentException($exception->getMessage(), $exception->getCode(), $exception);
+                throw new \InvalidArgumentException(
+                    $exception->getMessage(),
+                    $exception->getCode(),
+                    $exception
+                );
             }
         }
 
-        return $reflectionOrClass;
+        throw new \InvalidArgumentException(
+            \sprintf('Invalid $reflectionOrClass argument: %s', \get_class($reflectionOrClass))
+        );
     }
 
     private function getParentSource(mixed $source): mixed
     {
         $parentClass = match (\get_class($source)) {
             \ReflectionClass::class => $source->getParentClass(),
-            \ReflectionMethod::class, \ReflectionProperty::class, \ReflectionClassConstant::class => $source
+            \ReflectionMethod::class,
+            \ReflectionProperty::class,
+            \ReflectionClassConstant::class => $source
                 ->getDeclaringClass()
                 ->getParentClass(),
             default => null,
