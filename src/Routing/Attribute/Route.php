@@ -23,7 +23,7 @@ class Route
     public function __construct(
         public readonly Method $method,
         protected string $uri,
-        private readonly array $rules = [],
+        array $rules = [],
     ) {
         $this->uri = normalizeUri($uri);
         $this->createFields($rules);

@@ -195,7 +195,7 @@ class Container implements ContainerInterface
         /** @var \ReflectionMethod $constructor */
         $constructor = $reflection->getConstructor();
 
-        if ($constructor === null) {
+        if (!$constructor instanceof \ReflectionMethod) {
             return $reflection->newInstanceWithoutConstructor();
         }
 

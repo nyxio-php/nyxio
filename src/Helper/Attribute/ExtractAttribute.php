@@ -61,7 +61,7 @@ class ExtractAttribute
     protected function getReflection($reflectionOrClass): mixed
     {
         if (\is_object($reflectionOrClass)) {
-            if (\in_array(\get_class($reflectionOrClass), static::ALLOWED_REFLECTION_CLASSES)) {
+            if (\in_array(\get_class($reflectionOrClass), self::ALLOWED_REFLECTION_CLASSES)) {
                 return $reflectionOrClass;
             }
         } elseif (\is_string($reflectionOrClass)) {

@@ -51,7 +51,8 @@
         "symplify/monorepo-builder": "^10.0",
         "vimeo/psalm": "^4.16",
         "openswoole/ide-helper": "@dev",
-        "squizlabs/php_codesniffer": "4.0.x-dev"
+        "squizlabs/php_codesniffer": "4.0.x-dev",
+        "phpstan/phpstan": "1.6.x-dev"
     },
     "config": {
         "allow-plugins": {
