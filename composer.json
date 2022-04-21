@@ -2,6 +2,7 @@
     "name": "nyxio/nyxio",
     "description": "nyxio framework",
     "type": "library",
+    "keywords": ["framework", "microframework", "openswoole", "swoole", "async"],
     "license": "MIT",
     "autoload": {
         "files": [
