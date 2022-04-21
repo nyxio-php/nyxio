@@ -77,7 +77,8 @@ class ExtractAttribute
         }
 
         throw new \InvalidArgumentException(
-            \sprintf('Invalid $reflectionOrClass argument: %s', \get_class($reflectionOrClass))
+            \sprintf(
+                'Invalid $reflectionOrClass argument: %s', \get_class($reflectionOrClass))
         );
     }
 
