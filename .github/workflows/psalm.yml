@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-  tests:
+  psalm:
     runs-on: ubuntu-latest
 
     steps:
@@ -35,6 +35,6 @@ jobs:
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress
 
-    - name: Run test suite
+    - name: Run psalm
       run: vendor/bin/psalm --output-format=github --no-progress
     
