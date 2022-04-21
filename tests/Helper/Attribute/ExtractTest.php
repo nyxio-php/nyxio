@@ -116,6 +116,14 @@ class ExtractTest extends TestCase
         );
     }
 
+    public function testInvalidArgument(): void
+    {
+        $helper = new ExtractAttribute();
+
+        $this->expectException(\InvalidArgumentException::class);
+        $helper->first(new \ReflectionNamedType(), MethodAttribute::class);
+    }
+
     private function getExtractSingleAttributeDataProvider(): \Generator
     {
         $helper = new ExtractAttribute();
