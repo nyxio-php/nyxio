@@ -114,18 +114,20 @@ class Container implements ContainerInterface
             );
         }
 
-        if ($type->isBuiltin()) {
-            throw new \ReflectionException(
-                \sprintf(
-                    'Property $%s has no default value (%s::%s)',
-                    $parameter->getName(),
-                    $method->getDeclaringClass()->getName(),
-                    $method->getName(),
-                )
-            );
-        }
+        if ($type instanceof \ReflectionNamedType) {
+            if ($type->isBuiltin()) {
+                throw new \ReflectionException(
+                    \sprintf(
+                        'Property $%s has no default value (%s::%s)',
+                        $parameter->getName(),
+                        $method->getDeclaringClass()->getName(),
+                        $method->getName(),
+                    )
+                );
+            }
 
-        return $this->resolve($type->getName());
+            return $this->resolve($type->getName());
+        }
     }
 
     /**
@@ -139,13 +141,17 @@ class Container implements ContainerInterface
 
         $hasSingleton = $this->hasSingleton($name);
         if ($hasSingleton && $this->singletons[$name]->hasInstance() === true) {
-            return $this->singletons[$name]->getInstance();
+            $instance = $this->singletons[$name]->getInstance();
+
+            if (\is_object($instance)) {
+                return $instance;
+            }
         }
 
         try {
             $instance = $this->getInstance($name, $constructorParams);
         } catch (\Throwable $exception) {
-            throw new \ReflectionException($exception->getMessage(), $exception->getCode(), $exception);
+            throw new \ReflectionException($exception->getMessage(), (int)$exception->getCode(), $exception);
         }
 
         if ($hasSingleton && $this->singletons[$name]->hasInstance() === false) {

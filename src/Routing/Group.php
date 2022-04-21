@@ -19,7 +19,7 @@ class Group
         public readonly ?Group $parent = null,
     ) {
         if ($this->prefix !== null) {
-            $this->prefix = normalizeUri($prefix);
+            $this->prefix = normalizeUri($this->prefix);
         }
 
         $this->createFields($this->rules);

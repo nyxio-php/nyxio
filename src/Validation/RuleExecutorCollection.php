@@ -27,6 +27,10 @@ class RuleExecutorCollection implements RuleExecutorCollectionInterface
     public function register(string $class): static
     {
         try {
+            if (!\class_exists($class)) {
+                throw new \ReflectionException(\sprintf('Class %s doesn\'t exists', $class));
+            }
+
             $reflection = new \ReflectionClass($class);
             $this->container->singleton($class);
 
