@@ -17,6 +17,6 @@
     "minimum-stability": "dev",
     "require": {
         "php": ">=8.1",
-        "nyxio/contract": "^1.0.13"
+        "nyxio/contract": "^1.1"
     }
 }
