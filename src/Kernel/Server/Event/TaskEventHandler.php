@@ -78,7 +78,11 @@ class TaskEventHandler
             $handle->invokeArgs($job, $taskData->data);
             $server->finish($taskData);
         } catch (\Throwable $exception) {
-            if (($taskData->options instanceof OptionsInterface) && $taskData->options->getRetryCount() !== null) {
+            if (
+                ($taskData->options instanceof OptionsInterface)
+                && $taskData->options->getRetryCount() !== null
+                && $taskData->options->getRetryCount() > 0
+            ) {
                 $taskData->options->decreaseRetryCount();
                 $this->invoke($server, $taskData);
 
