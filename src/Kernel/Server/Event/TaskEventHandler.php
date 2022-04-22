@@ -81,6 +81,8 @@ class TaskEventHandler
             if (($taskData->options instanceof OptionsInterface) && $taskData->options->getRetryCount() !== null) {
                 $taskData->options->decreaseRetryCount();
                 $this->invoke($server, $taskData);
+
+                return;
             }
 
             throw $exception;
