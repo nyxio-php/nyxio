@@ -29,20 +29,7 @@ class TaskEventHandler
         try {
             $this->invoke($server, $taskData);
         } catch (\Throwable $exception) {
-            switch ($taskData->type) {
-                case JobType::Queue:
-                    $this->eventDispatcher->dispatch(
-                        QueueException::NAME,
-                        new QueueException($taskData, $exception)
-                    );
-                    break;
-                case  JobType::Scheduled:
-                    $this->eventDispatcher->dispatch(
-                        ScheduleException::NAME,
-                        new ScheduleException($taskData, $exception)
-                    );
-                    break;
-            }
+            $this->catchException($exception, $taskData);
         }
     }
 
@@ -81,7 +68,7 @@ class TaskEventHandler
 
             $handle->invokeArgs($job, $taskData->data);
             $server->finish($taskData);
-        } catch (\Throwable $exception) {
+        } catch (\Throwable) {
             if (
                 ($taskData->options instanceof OptionsInterface)
                 && $taskData->options->getRetryCount() !== null
@@ -101,8 +88,24 @@ class TaskEventHandler
 
                 return;
             }
+        }
+    }
 
-            throw $exception;
+    private function catchException(\Throwable $exception, TaskData $taskData): void
+    {
+        switch ($taskData->type) {
+            case JobType::Queue:
+                $this->eventDispatcher->dispatch(
+                    QueueException::NAME,
+                    new QueueException($taskData, $exception)
+                );
+                break;
+            case  JobType::Scheduled:
+                $this->eventDispatcher->dispatch(
+                    ScheduleException::NAME,
+                    new ScheduleException($taskData, $exception)
+                );
+                break;
         }
     }
 }
