@@ -73,6 +73,7 @@ class TaskEventHandler
     {
         try {
             $handle->invokeArgs($job, $taskData->data);
+            /** @psalm-suppress InvalidArgument */
             $server->finish($taskData);
         } catch (\Throwable $exception) {
             $this->retry($server, $taskData, $exception);
@@ -114,7 +115,7 @@ class TaskEventHandler
                     new QueueException($taskData, $exception)
                 );
                 break;
-            case  JobType::Scheduled:
+            case JobType::Scheduled:
                 $this->eventDispatcher->dispatch(
                     ScheduleException::NAME,
                     new ScheduleException($taskData, $exception)

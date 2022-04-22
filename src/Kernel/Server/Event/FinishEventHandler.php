@@ -26,7 +26,7 @@ class FinishEventHandler
             case JobType::Queue:
                 $this->finishQueueJob($taskData);
                 break;
-            case  JobType::Scheduled:
+            case JobType::Scheduled:
                 $this->finishScheduleJob($taskData);
                 break;
         }

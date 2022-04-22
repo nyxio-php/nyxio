@@ -13,4 +13,6 @@ interface OptionsInterface
     public function decreaseRetryCount(): static;
 
     public function getRetryDelay(): ?int;
+
+    public function getFinishCallback(): ?\Closure;
 }

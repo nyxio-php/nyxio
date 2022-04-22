@@ -139,7 +139,5 @@ class KernelProvider implements Contract\Provider\ProviderInterface
             Contract\Kernel\Server\Job\Schedule\ScheduleDispatcherInterface::class,
             Kernel\Server\Job\Schedule\ScheduleDispatcher::class
         );
-
-
     }
 }
