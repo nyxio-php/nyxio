@@ -11,7 +11,6 @@ use Nyxio\Contract\Kernel\Exception\Transformer\ExceptionTransformerInterface;
 use Nyxio\Contract\Kernel\Request\ActionCollectionInterface;
 use Nyxio\Contract\Kernel\Request\RequestHandlerInterface;
 use Nyxio\Contract\Kernel\Server\Job\DispatcherInterface;
-use Nyxio\Contract\Kernel\Server\Job\Queue\QueueDispatcherInterface;
 use Nyxio\Contract\Kernel\Server\Job\Queue\QueueInterface;
 use Nyxio\Contract\Kernel\Server\Job\Schedule\ScheduleDispatcherInterface;
 use Nyxio\Contract\Kernel\Text\MessageInterface;
@@ -81,7 +80,6 @@ class ProvidersTest extends TestCase
 
             [Server::class, true],
             [ScheduleDispatcherInterface::class, true],
-            [QueueDispatcherInterface::class, true],
             [QueueInterface::class, true],
             [DispatcherInterface::class, true],
         ];

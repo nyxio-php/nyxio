@@ -131,11 +131,6 @@ class KernelProvider implements Contract\Provider\ProviderInterface
         );
 
         $this->container->singleton(
-            Contract\Kernel\Server\Job\Queue\QueueDispatcherInterface::class,
-            Kernel\Server\Job\Queue\QueueDispatcher::class
-        );
-
-        $this->container->singleton(
             Contract\Kernel\Server\Job\DispatcherInterface::class,
             Kernel\Server\Job\Dispatcher::class
         );
