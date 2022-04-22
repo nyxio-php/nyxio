@@ -24,7 +24,7 @@ class QueueDispatcher implements QueueDispatcherInterface
 
     public function launch(): void
     {
-        $this->server->tick($this->config->get('app.queue.delay', self::DEFAULT_DELAY), function (): void {
+        $this->server->tick($this->config->get('server.queue.delay', self::DEFAULT_DELAY), function (): void {
             foreach ($this->queue->getQueue() as $taskData) {
                 $this->dispatcher->dispatch($taskData);
             }
