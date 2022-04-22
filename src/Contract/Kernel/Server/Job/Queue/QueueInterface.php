@@ -1,0 +1,12 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Nyxio\Contract\Kernel\Server\Job\Queue;
+
+use Nyxio\Contract\Kernel\Server\Job\OptionsInterface;
+
+interface QueueInterface
+{
+    public function push(string $job, array $data = [], ?OptionsInterface $options = null): void;
+}

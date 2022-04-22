@@ -6,33 +6,36 @@ namespace Nyxio\Tests\Kernel\Event;
 
 use Nyholm\Psr7\Response;
 use Nyholm\Psr7\ServerRequest;
-use Nyxio\Kernel\Event\CronJobCompleted;
-use Nyxio\Kernel\Event\CronJobError;
-use Nyxio\Kernel\Event\JobCompleted;
-use Nyxio\Kernel\Event\JobError;
+use Nyxio\Kernel\Event\ScheduleComplete;
+use Nyxio\Kernel\Event\ScheduleException;
+use Nyxio\Kernel\Event\QueueComplete;
+use Nyxio\Kernel\Event\QueueException;
 use Nyxio\Kernel\Event\ResponseEvent;
+use Nyxio\Kernel\Server\Job\JobType;
+use Nyxio\Kernel\Server\Job\TaskData;
 use PHPUnit\Framework\TestCase;
 
 class EventTest extends TestCase
 {
     public function testBasic(): void
     {
-        $event = new CronJobCompleted('cron.job');
-        $this->assertEquals('kernel.cron.completed', $event::NAME);
-        $this->assertEquals('cron.job', $event->job);
+        $taskData = new TaskData('test.job', uuid: 'test', type: JobType::Queue);
+        $event = new ScheduleComplete($taskData);
+        $this->assertEquals('kernel.job.schedule.complete', $event::NAME);
+        $this->assertEquals('test', $event->taskData->uuid);
 
-        $event = new CronJobError('cron.job', new \Exception('exception message'));
-        $this->assertEquals('kernel.cron.error', $event::NAME);
-        $this->assertEquals('cron.job', $event->job);
+        $event = new ScheduleException($taskData, new \Exception('exception message'));
+        $this->assertEquals('kernel.job.schedule.exception', $event::NAME);
+        $this->assertEquals('test', $event->taskData->uuid);
         $this->assertEquals('exception message', $event->exception->getMessage());
 
-        $event = new JobCompleted('app.job');
-        $this->assertEquals('kernel.job.completed', $event::NAME);
-        $this->assertEquals('app.job', $event->job);
+        $event = new QueueComplete($taskData);
+        $this->assertEquals('kernel.job.queue.complete', $event::NAME);
+        $this->assertEquals('test', $event->taskData->uuid);
 
-        $event = new JobError('app.job', new \Exception('exception message'));
-        $this->assertEquals('kernel.job.error', $event::NAME);
-        $this->assertEquals('app.job', $event->job);
+        $event = new QueueException($taskData, new \Exception('exception message'));
+        $this->assertEquals('kernel.job.queue.exception', $event::NAME);
+        $this->assertEquals('test', $event->taskData->uuid);
         $this->assertEquals('exception message', $event->exception->getMessage());
 
         $event = new ResponseEvent(new Response(200), new ServerRequest('GET', '/'));
