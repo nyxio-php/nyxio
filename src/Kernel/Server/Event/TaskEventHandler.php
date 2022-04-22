@@ -33,7 +33,7 @@ class TaskEventHandler
         }
     }
 
-    private function dispatch(Server $server, TaskData $taskData): void
+    private function dispatch(Server $server, TaskData $taskData, bool $isRetry = false): void
     {
         try {
             $job = $this->container->get($taskData->job);
@@ -48,7 +48,11 @@ class TaskEventHandler
 
             $handle = $reflection->getMethod('handle');
 
-            if (($taskData->options instanceof OptionsInterface) && $taskData->options->getDelay() !== null) {
+            if (
+                $isRetry === false
+                && ($taskData->options instanceof OptionsInterface)
+                && $taskData->options->getDelay() !== null
+            ) {
                 $server->after(
                     $taskData->options->getDelay(),
                     function () use ($job, $taskData, $handle, $server) {
@@ -86,13 +90,13 @@ class TaskEventHandler
 
             if ($taskData->options->getRetryDelay() !== null) {
                 $server->after($taskData->options->getRetryDelay(), function () use ($server, $taskData) {
-                    $this->dispatch($server, $taskData);
+                    $this->dispatch($server, $taskData, isRetry: true);
                 });
 
                 return;
             }
 
-            $this->dispatch($server, $taskData);
+            $this->dispatch($server, $taskData, isRetry: true);
 
             return;
         }
