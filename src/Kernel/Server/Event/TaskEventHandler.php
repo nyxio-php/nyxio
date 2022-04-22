@@ -68,9 +68,13 @@ class TaskEventHandler
             $handle = $reflection->getMethod('handle');
 
             if (($taskData->options instanceof OptionsInterface) && $taskData->options->getDelay() !== null) {
-                $server->after($taskData->options->getDelay(), static function () use ($job, $taskData, $handle) {
-                    $handle->invokeArgs($job, $taskData->data);
-                });
+                $server->after(
+                    $taskData->options->getDelay(),
+                    static function () use ($job, $taskData, $handle, $server) {
+                        $handle->invokeArgs($job, $taskData->data);
+                        $server->finish($taskData);
+                    }
+                );
 
                 return;
             }
@@ -84,6 +88,15 @@ class TaskEventHandler
                 && $taskData->options->getRetryCount() > 0
             ) {
                 $taskData->options->decreaseRetryCount();
+
+                if ($taskData->options->getRetryDelay() !== null) {
+                    $server->after($taskData->options->getRetryDelay(), function () use ($server, $taskData) {
+                        $this->invoke($server, $taskData);
+                    });
+
+                    return;
+                }
+
                 $this->invoke($server, $taskData);
 
                 return;
