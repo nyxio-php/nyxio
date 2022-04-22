@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Nyxio\Tests\Kernel\Server;
+namespace Nyxio\Tests\Kernel\Server\Job;
 
 use Nyxio\Kernel\Server\Job\JobType;
 use Nyxio\Kernel\Server\Job\Options;
 use Nyxio\Kernel\Server\Job\TaskData;
 use PHPUnit\Framework\TestCase;
 
-class WorkerDataTest extends TestCase
+class TaskDataTest extends TestCase
 {
     public function testBasic(): void
     {

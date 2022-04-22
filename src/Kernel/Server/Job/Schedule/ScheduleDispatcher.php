@@ -43,18 +43,18 @@ class ScheduleDispatcher implements ScheduleDispatcherInterface
                     continue;
                 }
 
-                $cronAttribute = $this->extractAttribute->first($reflection, Schedule::class);
+                $scheduleAttribute = $this->extractAttribute->first($reflection, Schedule::class);
 
-                if (!$cronAttribute instanceof Schedule) {
+                if (!$scheduleAttribute instanceof Schedule) {
                     continue;
                 }
 
-                $cron = new CronExpression($cronAttribute->expression);
+                $cron = new CronExpression($scheduleAttribute->expression);
 
                 echo \sprintf(
-                    'Cron job %s is registered | %s' . \PHP_EOL,
+                    'Scheduled job %s is registered | %s' . \PHP_EOL,
                     $job,
-                    $cronAttribute->expression,
+                    $scheduleAttribute->expression,
                 );
 
                 $this->server->after(
@@ -77,7 +77,7 @@ class ScheduleDispatcher implements ScheduleDispatcherInterface
                 );
             } catch (\Throwable $exception) {
                 echo \sprintf(
-                    'Cron job %s is not registered (%s)' . \PHP_EOL,
+                    'Scheduled job %s is not registered (%s)' . \PHP_EOL,
                     $job,
                     $exception->getMessage()
                 );

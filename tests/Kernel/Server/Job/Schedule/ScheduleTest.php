@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Nyxio\Tests\Kernel\Server\Cron\Attribute;
+namespace Nyxio\Tests\Kernel\Server\Job\Schedule;
 
 use Nyxio\Kernel\Server\Job\Schedule\Attribute\Schedule;
 use PHPUnit\Framework\TestCase;
 
-class CronTest extends TestCase
+class ScheduleTest extends TestCase
 {
     public function testBasic(): void
     {
