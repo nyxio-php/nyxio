@@ -31,6 +31,8 @@ class QueueDispatcher implements QueueDispatcherInterface
     {
         foreach ($this->queue->getQueue() as $taskData) {
             $this->dispatcher->dispatch($taskData);
+
+            $this->queue->complete($taskData->uuid);
         }
     }
 }

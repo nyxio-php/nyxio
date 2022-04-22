@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Nyxio\Kernel\Server\Event;
 
 use Nyxio\Contract\Event\EventDispatcherInterface;
-use Nyxio\Contract\Kernel\Server\Job\Queue\QueueInterface;
 use Nyxio\Kernel\Event\QueueComplete;
 use Nyxio\Kernel\Event\ScheduleComplete;
 use Nyxio\Kernel\Server\Job\JobType;
@@ -17,10 +16,8 @@ use Swoole\Http\Server;
  */
 class FinishEventHandler
 {
-    public function __construct(
-        private readonly EventDispatcherInterface $eventDispatcher,
-        private readonly QueueInterface $queue
-    ) {
+    public function __construct(private readonly EventDispatcherInterface $eventDispatcher)
+    {
     }
 
     public function handle(Server $server, int $taskId, TaskData $taskData): void
@@ -46,7 +43,6 @@ class FinishEventHandler
 
     private function finishQueueJob(TaskData $taskData): void
     {
-        $this->queue->complete($taskData->uuid);
         $this->eventDispatcher->dispatch(
             QueueComplete::NAME,
             new QueueComplete($taskData)
