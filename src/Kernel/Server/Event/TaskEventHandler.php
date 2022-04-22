@@ -33,12 +33,6 @@ class TaskEventHandler
         }
     }
 
-    /**
-     * @param Server $server
-     * @param TaskData $taskData
-     * @return void
-     * @throws \Throwable
-     */
     private function dispatch(Server $server, TaskData $taskData): void
     {
         try {
@@ -57,46 +51,53 @@ class TaskEventHandler
             if (($taskData->options instanceof OptionsInterface) && $taskData->options->getDelay() !== null) {
                 $server->after(
                     $taskData->options->getDelay(),
-                    static function () use ($job, $taskData, $handle, $server) {
-                        $handle->invoke($server, $handle, $job, $taskData->data);
+                    function () use ($job, $taskData, $handle, $server) {
+                        $this->invoke($server, $handle, $job, $taskData);
                     }
                 );
 
                 return;
             }
 
-            $handle->invoke($server, $handle, $job, $taskData->data);
-        } catch (\Throwable) {
-            if (
-                ($taskData->options instanceof OptionsInterface)
-                && $taskData->options->getRetryCount() !== null
-                && $taskData->options->getRetryCount() > 0
-            ) {
-                $taskData->options->decreaseRetryCount();
-
-                if ($taskData->options->getRetryDelay() !== null) {
-                    $server->after($taskData->options->getRetryDelay(), function () use ($server, $taskData) {
-                        $this->dispatch($server, $taskData);
-                    });
-
-                    return;
-                }
-
-                $this->dispatch($server, $taskData);
-
-                return;
-            }
+            $this->invoke($server, $handle, $job, $taskData);
+        } catch (\Throwable $exception) {
+            $this->retry($server, $taskData, $exception);
         }
     }
 
-    private function invoke($server, \ReflectionMethod $handle, object $job, TaskData $taskData): void
+    private function invoke(Server $server, \ReflectionMethod $handle, object $job, TaskData $taskData): void
     {
         try {
             $handle->invokeArgs($job, $taskData->data);
             $server->finish($taskData);
         } catch (\Throwable $exception) {
-
+            $this->retry($server, $taskData, $exception);
         }
+    }
+
+    private function retry(Server $server, TaskData $taskData, \Throwable $exception): void
+    {
+        if (
+            ($taskData->options instanceof OptionsInterface)
+            && $taskData->options->getRetryCount() !== null
+            && $taskData->options->getRetryCount() > 0
+        ) {
+            $taskData->options->decreaseRetryCount();
+
+            if ($taskData->options->getRetryDelay() !== null) {
+                $server->after($taskData->options->getRetryDelay(), function () use ($server, $taskData) {
+                    $this->dispatch($server, $taskData);
+                });
+
+                return;
+            }
+
+            $this->dispatch($server, $taskData);
+
+            return;
+        }
+
+        $this->catchException($exception, $taskData);
     }
 
 
