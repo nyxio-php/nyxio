@@ -27,7 +27,7 @@ class TaskEventHandler
     public function handle(Server $server, int $taskId, int $reactorId, TaskData $taskData): void
     {
         try {
-            $this->invoke($server, $taskData);
+            $this->dispatch($server, $taskData);
         } catch (\Throwable $exception) {
             $this->catchException($exception, $taskData);
         }
@@ -39,7 +39,7 @@ class TaskEventHandler
      * @return void
      * @throws \Throwable
      */
-    private function invoke(Server $server, TaskData $taskData): void
+    private function dispatch(Server $server, TaskData $taskData): void
     {
         try {
             $job = $this->container->get($taskData->job);
@@ -58,16 +58,14 @@ class TaskEventHandler
                 $server->after(
                     $taskData->options->getDelay(),
                     static function () use ($job, $taskData, $handle, $server) {
-                        $handle->invokeArgs($job, $taskData->data);
-                        $server->finish($taskData);
+                        $handle->invoke($server, $handle, $job, $taskData->data);
                     }
                 );
 
                 return;
             }
 
-            $handle->invokeArgs($job, $taskData->data);
-            $server->finish($taskData);
+            $handle->invoke($server, $handle, $job, $taskData->data);
         } catch (\Throwable) {
             if (
                 ($taskData->options instanceof OptionsInterface)
@@ -78,18 +76,29 @@ class TaskEventHandler
 
                 if ($taskData->options->getRetryDelay() !== null) {
                     $server->after($taskData->options->getRetryDelay(), function () use ($server, $taskData) {
-                        $this->invoke($server, $taskData);
+                        $this->dispatch($server, $taskData);
                     });
 
                     return;
                 }
 
-                $this->invoke($server, $taskData);
+                $this->dispatch($server, $taskData);
 
                 return;
             }
         }
     }
+
+    private function invoke($server, \ReflectionMethod $handle, object $job, TaskData $taskData): void
+    {
+        try {
+            $handle->invokeArgs($job, $taskData->data);
+            $server->finish($taskData);
+        } catch (\Throwable $exception) {
+
+        }
+    }
+
 
     private function catchException(\Throwable $exception, TaskData $taskData): void
     {
