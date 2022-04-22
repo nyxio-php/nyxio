@@ -7,7 +7,8 @@ namespace Nyxio\Kernel\Server\Job\Queue;
 use Nyxio\Contract\Config\ConfigInterface;
 use Nyxio\Contract\Kernel\Server\Job\DispatcherInterface;
 use Nyxio\Contract\Kernel\Server\Job\Queue\QueueDispatcherInterface;
-use Nyxio\Contract\Kernel\Server\Job\Queue\QueueInterface;
+use Nyxio\Kernel\Server\Job\TaskData;
+use Ramsey\Uuid\Uuid;
 use Swoole\Http\Server;
 
 class QueueDispatcher implements QueueDispatcherInterface
@@ -17,7 +18,6 @@ class QueueDispatcher implements QueueDispatcherInterface
     public function __construct(
         private readonly Server $server,
         private readonly ConfigInterface $config,
-        private readonly QueueInterface $queue,
         private readonly DispatcherInterface $dispatcher
     ) {
     }
@@ -29,10 +29,8 @@ class QueueDispatcher implements QueueDispatcherInterface
 
     private function dispatch(): void
     {
-        foreach ($this->queue->getQueue() as $taskData) {
-            $this->dispatcher->dispatch($taskData);
-
-            $this->queue->complete($taskData->uuid);
-        }
+        $this->dispatcher->dispatch(
+            new TaskData(job: QueueJob::class, uuid: Uuid::uuid4()->toString())
+        );
     }
 }
