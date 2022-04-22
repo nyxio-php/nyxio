@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Nyxio\Tests\Kernel\Server\Queue;
 
-use Nyxio\Kernel\Server\Queue\Options;
+use Nyxio\Kernel\Server\Job\Options;
 use PHPUnit\Framework\TestCase;
 
 class OptionsTest extends TestCase

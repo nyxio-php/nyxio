@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Nyxio\Contract\Queue;
+namespace Nyxio\Contract\Kernel\Server\Job;
 
 interface OptionsInterface
 {

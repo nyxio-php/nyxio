@@ -2,24 +2,28 @@
 
 declare(strict_types=1);
 
-namespace Nyxio\Kernel\Server\Cron;
+namespace Nyxio\Kernel\Server\Job\Schedule;
 
 use Cron\CronExpression;
-use Nyxio\Contract\Kernel\Server\CronInterface;
-use Nyxio\Contract\Kernel\Server\CronLauncherInterface;
+use Nyxio\Contract\Kernel\Server\Job\DispatcherInterface;
+use Nyxio\Contract\Kernel\Server\Job\Schedule\ScheduleDispatcherInterface;
+use Nyxio\Contract\Kernel\Server\Job\Schedule\ScheduledJobInterface;
 use Nyxio\Helper\Attribute\ExtractAttribute;
-use Nyxio\Kernel\Server\Cron\Attribute\Cron;
-use Nyxio\Kernel\Server\WorkerData;
+use Nyxio\Kernel\Server\Job\JobType;
+use Nyxio\Kernel\Server\Job\Schedule\Attribute\Schedule;
+use Nyxio\Kernel\Server\Job\TaskData;
+use Ramsey\Uuid\Uuid;
 use Swoole\Http\Server;
 
 /**
  * @codeCoverageIgnore
  */
-class CronLauncher implements CronLauncherInterface
+class ScheduleDispatcher implements ScheduleDispatcherInterface
 {
     public function __construct(
         private readonly Server $server,
         private readonly ExtractAttribute $extractAttribute,
+        private readonly DispatcherInterface $dispatcher,
     ) {
     }
 
@@ -35,13 +39,13 @@ class CronLauncher implements CronLauncherInterface
 
                 $reflection = new \ReflectionClass($job);
 
-                if (!$reflection->implementsInterface(CronInterface::class)) {
+                if (!$reflection->implementsInterface(ScheduledJobInterface::class)) {
                     continue;
                 }
 
-                $cronAttribute = $this->extractAttribute->first($reflection, Cron::class);
+                $cronAttribute = $this->extractAttribute->first($reflection, Schedule::class);
 
-                if (!$cronAttribute instanceof Cron) {
+                if (!$cronAttribute instanceof Schedule) {
                     continue;
                 }
 
@@ -60,7 +64,13 @@ class CronLauncher implements CronLauncherInterface
                             $this->calculateNextRunInMilliseconds(new \DateTime(), $cron->getNextRunDate()),
                             function () use ($job) {
                                 /** @psalm-suppress InvalidArgument */
-                                $this->server->task(new WorkerData($job, isCronJob: true));
+                                $this->dispatcher->dispatch(
+                                    new TaskData(
+                                        job: $job,
+                                        uuid: Uuid::uuid4()->toString(),
+                                        type: JobType::Scheduled
+                                    )
+                                );
                             }
                         );
                     }
