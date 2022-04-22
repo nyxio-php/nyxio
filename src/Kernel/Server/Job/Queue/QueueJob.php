@@ -19,12 +19,12 @@ class QueueJob
 
     public function handle(): void
     {
-        $this->server->after(1000, function () {
-            foreach ($this->queue->getQueue() as $taskData) {
-                $this->dispatcher->dispatch($taskData);
+        foreach ($this->queue->getQueue() as $taskData) {
+            $this->dispatcher->dispatch($taskData);
 
-                $this->queue->complete($taskData->uuid);
-            }
-        });
+            $this->queue->complete($taskData->uuid);
+        }
+
+        $this->server->after(1000, [$this, 'handle']);
     }
 }
