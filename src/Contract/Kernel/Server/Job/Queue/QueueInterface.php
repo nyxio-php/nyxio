@@ -9,7 +9,7 @@ use Nyxio\Kernel\Server\Job\TaskData;
 
 interface QueueInterface
 {
-    public function push(string $job, mixed $data, ?OptionsInterface $options = null): void;
+    public function push(string $job, array $data = [], ?OptionsInterface $options = null): void;
 
     /**
      * @return TaskData[]

@@ -18,11 +18,11 @@ class Queue implements QueueInterface
     private array $queue = [];
 
 
-    public function push(string $job, mixed $data, ?OptionsInterface $options = null): void
+    public function push(string $job, array $data = [], ?OptionsInterface $options = null): void
     {
         $this->queue[Uuid::uuid4()->toString()] = new TaskData(
             job:     $job,
-            uuid:    $this->uuid::uuid4()->toString(),
+            uuid:    Uuid::uuid4()->toString(),
             type:    JobType::Queue,
             data:    $data,
             options: $options
