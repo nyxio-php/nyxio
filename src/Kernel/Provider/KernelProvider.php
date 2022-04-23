@@ -169,5 +169,9 @@ class KernelProvider implements Contract\Provider\ProviderInterface
             Contract\Kernel\Server\Job\Pool\ConnectionPoolInterface::class,
             Kernel\Server\Job\Pool\ConnectionPool::class,
         );
+
+        $this->container->singleton(
+            Kernel\Server\Starter::class,
+        );
     }
 }

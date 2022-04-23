@@ -9,7 +9,7 @@ use Swoole\Http\Server;
 
 class ConnectionPool implements ConnectionPoolInterface
 {
-    private array $connection = [];
+    private array $pool = [];
 
     public function __construct(private readonly Server $server)
     {
@@ -17,13 +17,13 @@ class ConnectionPool implements ConnectionPoolInterface
 
     public function add(int $workerId, string $key, mixed $data): static
     {
-        $this->connection[$workerId][$key] = $data;
+        $this->pool[$workerId][$key] = $data;
 
         return $this;
     }
 
     public function get(string $key): mixed
     {
-        return $this->connection[$this->server->getWorkerId()][$key] ?? null;
+        return $this->pool[$this->server->getWorkerId()][$key] ?? null;
     }
 }

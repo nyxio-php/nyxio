@@ -12,7 +12,11 @@ use Nyxio\Contract\Kernel\Request\ActionCollectionInterface;
 use Nyxio\Contract\Kernel\Request\RequestHandlerInterface;
 use Nyxio\Contract\Kernel\Server\Job\Async\Queue\QueueInterface;
 use Nyxio\Contract\Kernel\Server\Job\Async\Schedule\ScheduleDispatcherInterface;
+use Nyxio\Contract\Kernel\Server\Job\Await;
+use Nyxio\Contract\Kernel\Server\Job\Async;
 use Nyxio\Contract\Kernel\Server\Job\DispatcherInterface;
+use Nyxio\Contract\Kernel\Server\Job\Pool\ConnectionPoolInterface;
+use Nyxio\Contract\Kernel\Server\Job\Pool\ConnectionPoolProviderInterface;
 use Nyxio\Contract\Kernel\Text\MessageInterface;
 use Nyxio\Contract\Kernel\Utility\UuidFactoryInterface;
 use Nyxio\Contract\Provider\ProviderDispatcherInterface;
@@ -23,6 +27,7 @@ use Nyxio\Contract\Validation\RulesCheckerInterface;
 use Nyxio\Contract\Validation\ValidationInterface;
 use Nyxio\Kernel\Application;
 use Nyxio\Kernel\Provider\KernelProvider;
+use Nyxio\Kernel\Server\Starter;
 use Nyxio\Routing\Group;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseFactoryInterface;
@@ -81,9 +86,18 @@ class ProvidersTest extends TestCase
             [UuidFactoryInterface::class, true],
 
             [Server::class, true],
+            [Starter::class, true],
+
+            [DispatcherInterface::class, true],
+
             [ScheduleDispatcherInterface::class, true],
             [QueueInterface::class, true],
-            [DispatcherInterface::class, true],
+            [Await\AwaitTaskInterface::class, true],
+
+            [Async\TaskHandlerInterface::class, true],
+            [Await\TaskHandlerInterface::class, true],
+            [ConnectionPoolProviderInterface::class, true],
+            [ConnectionPoolInterface::class, true],
         ];
     }
 }
