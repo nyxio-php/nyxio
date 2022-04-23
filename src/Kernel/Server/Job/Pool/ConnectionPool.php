@@ -28,7 +28,7 @@ class ConnectionPool implements ConnectionPoolInterface
         $workerId = $this->server->getWorkerId();
 
         if ($workerId < $this->server->setting[Constant::OPTION_WORKER_NUM]) {
-            throw new \RuntimeException('ConnectionPool cannot be used outside async/await tasks');
+            throw new \RuntimeException('ConnectionPool cannot be used outside of async/await tasks');
         }
 
         return $this->pool[$this->server->getWorkerId()][$key] ?? null;
