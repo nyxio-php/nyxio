@@ -8,5 +8,5 @@ enum TaskType: string
 {
     case Scheduled = 'scheduled';
     case Queue = 'queue';
-    case Await = 'sync';
+    case Await = 'await';
 }

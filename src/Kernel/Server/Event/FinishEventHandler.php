@@ -11,7 +11,7 @@ use Swoole\Http\Server;
  */
 class FinishEventHandler
 {
-    public function handle(Server $server, int $taskId, mixed $taskData): void
+    public function handle(Server $server, int $taskId, mixed $returnData): void
     {
     }
 }

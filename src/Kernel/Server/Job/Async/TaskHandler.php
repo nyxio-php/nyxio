@@ -63,6 +63,7 @@ class TaskHandler extends BaseTaskHandler implements TaskHandlerInterface
         try {
             /** @psalm-suppress InvalidArgument */
             $server->finish($this->invokeJob($taskData));
+
             switch ($taskData->type) {
                 case TaskType::Queue:
                     $this->finishQueueJob($taskData);

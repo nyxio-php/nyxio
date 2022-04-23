@@ -12,7 +12,7 @@ class TaskData
     public function __construct(
         public readonly string|\Closure $job,
         public readonly string $uuid,
-        public readonly TaskType $type = TaskType::Queue,
+        public readonly TaskType $type,
         public readonly array $data = [],
         public readonly Await\OptionsInterface|Async\OptionsInterface|null $options = null,
     ) {

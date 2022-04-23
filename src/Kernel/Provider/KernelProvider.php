@@ -145,7 +145,6 @@ class KernelProvider implements Contract\Provider\ProviderInterface
             Kernel\Server\Job\Async\Schedule\ScheduleDispatcher::class
         );
 
-
         $this->container->singleton(
             Contract\Kernel\Server\Job\Await\TaskHandlerInterface::class,
             Kernel\Server\Job\Await\TaskHandler::class,
