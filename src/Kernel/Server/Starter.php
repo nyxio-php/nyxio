@@ -27,12 +27,14 @@ class Starter
 
     private function connectionPoolInit(): void
     {
+        $tasksCount = $this->server->setting[Constant::OPTION_TASK_WORKER_NUM];
         $workersCount = $this->server->setting[Constant::OPTION_TASK_WORKER_NUM];
+
         foreach ($this->connectionPoolProvider->getAllRegisterClosures() as $key => $closure) {
             try {
-                for ($workerId = $workersCount - 1; $workerId >= 0; $workerId--) {
+                for ($workerId = $tasksCount - 1; $workerId >= 0; $workerId--) {
                     $this->connectionPool->add(
-                        $workerId,
+                        $workersCount + $workerId,
                         $key,
                         $closure(),
                     );
