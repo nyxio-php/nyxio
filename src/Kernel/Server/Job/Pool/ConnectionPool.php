@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Nyxio\Kernel\Server\Job\Pool;
 
 use Nyxio\Contract\Kernel\Server\Job\Pool\ConnectionPoolInterface;
+use Swoole\Constant;
 use Swoole\Http\Server;
 
 class ConnectionPool implements ConnectionPoolInterface
@@ -24,6 +25,12 @@ class ConnectionPool implements ConnectionPoolInterface
 
     public function get(string $key): mixed
     {
+        $workerId = $this->server->getWorkerId();
+
+        if ($workerId < $this->server->setting[Constant::OPTION_WORKER_NUM]) {
+            throw new \RuntimeException('ConnectionPool cannot be used outside async/await tasks');
+        }
+
         return $this->pool[$this->server->getWorkerId()][$key] ?? null;
     }
 }

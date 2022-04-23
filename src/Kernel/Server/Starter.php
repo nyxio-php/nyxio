@@ -28,7 +28,7 @@ class Starter
     private function connectionPoolInit(): void
     {
         $tasksCount = $this->server->setting[Constant::OPTION_TASK_WORKER_NUM];
-        $workersCount = $this->server->setting[Constant::OPTION_TASK_WORKER_NUM];
+        $workersCount = $this->server->setting[Constant::OPTION_WORKER_NUM];
 
         foreach ($this->connectionPoolProvider->getAllRegisterClosures() as $key => $closure) {
             try {
