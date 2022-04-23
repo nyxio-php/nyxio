@@ -7,7 +7,7 @@ namespace Nyxio\Kernel\Server\Event;
 use Nyxio\Contract\Event\EventDispatcherInterface;
 use Nyxio\Kernel\Event\QueueComplete;
 use Nyxio\Kernel\Event\ScheduleComplete;
-use Nyxio\Kernel\Server\Job\JobType;
+use Nyxio\Kernel\Server\Job\TaskType;
 use Nyxio\Kernel\Server\Job\TaskData;
 use Swoole\Http\Server;
 
@@ -23,11 +23,13 @@ class FinishEventHandler
     public function handle(Server $server, int $taskId, TaskData $taskData): void
     {
         switch ($taskData->type) {
-            case JobType::Queue:
+            case TaskType::Queue:
                 $this->finishQueueJob($taskData);
                 break;
-            case JobType::Scheduled:
+            case TaskType::Scheduled:
                 $this->finishScheduleJob($taskData);
+                break;
+            default:
                 break;
         }
     }

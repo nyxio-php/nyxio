@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Nyxio\Tests\Kernel\Server\Job\Schedule;
+namespace Nyxio\Tests\Kernel\Server\Job\Async\Schedule;
 
-use Nyxio\Kernel\Server\Job\Schedule\Attribute\Schedule;
+use Nyxio\Kernel\Server\Job\Async\Schedule\Attribute\Schedule;
 use PHPUnit\Framework\TestCase;
 
 class ScheduleTest extends TestCase

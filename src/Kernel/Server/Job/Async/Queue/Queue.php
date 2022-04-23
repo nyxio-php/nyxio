@@ -2,15 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Nyxio\Kernel\Server\Job\Queue;
+namespace Nyxio\Kernel\Server\Job\Async\Queue;
 
+use Nyxio\Contract\Kernel\Server\Job\Async\OptionsInterface;
+use Nyxio\Contract\Kernel\Server\Job\Async\Queue\QueueInterface;
 use Nyxio\Contract\Kernel\Server\Job\DispatcherInterface;
-use Nyxio\Contract\Kernel\Server\Job\OptionsInterface;
-use Nyxio\Contract\Kernel\Server\Job\Queue\QueueInterface;
 use Nyxio\Contract\Kernel\Utility\UuidFactoryInterface;
-use Nyxio\Kernel\Server\Job\JobType;
 use Nyxio\Kernel\Server\Job\TaskData;
+use Nyxio\Kernel\Server\Job\TaskType;
 
+/**
+ * @codeCoverageIgnore
+ */
 class Queue implements QueueInterface
 {
     public function __construct(
@@ -19,13 +22,13 @@ class Queue implements QueueInterface
     ) {
     }
 
-    public function push(string $job, array $data = [], ?OptionsInterface $options = null): void
+    public function push(string|\Closure $job, array $data = [], ?OptionsInterface $options = null): void
     {
         $this->dispatcher->dispatch(
             new TaskData(
                 job:     $job,
                 uuid:    $this->uuidFactory->generate(),
-                type:    JobType::Queue,
+                type:    TaskType::Queue,
                 data:    $data,
                 options: $options
             )

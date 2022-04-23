@@ -131,8 +131,8 @@ class KernelProvider implements Contract\Provider\ProviderInterface
         });
 
         $this->container->singleton(
-            Contract\Kernel\Server\Job\Queue\QueueInterface::class,
-            Kernel\Server\Job\Queue\Queue::class
+            Contract\Kernel\Server\Job\Async\Queue\QueueInterface::class,
+            Kernel\Server\Job\Async\Queue\Queue::class
         );
 
         $this->container->singleton(
@@ -141,8 +141,29 @@ class KernelProvider implements Contract\Provider\ProviderInterface
         );
 
         $this->container->singleton(
-            Contract\Kernel\Server\Job\Schedule\ScheduleDispatcherInterface::class,
-            Kernel\Server\Job\Schedule\ScheduleDispatcher::class
+            Contract\Kernel\Server\Job\Async\Schedule\ScheduleDispatcherInterface::class,
+            Kernel\Server\Job\Async\Schedule\ScheduleDispatcher::class
+        );
+
+
+        $this->container->singleton(
+            Contract\Kernel\Server\Job\Await\TaskHandlerInterface::class,
+            Kernel\Server\Job\Await\TaskHandler::class,
+        );
+
+        $this->container->singleton(
+            Contract\Kernel\Server\Job\Async\TaskHandlerInterface::class,
+            Kernel\Server\Job\Async\TaskHandler::class,
+        );
+
+        $this->container->singleton(
+            Contract\Kernel\Server\Job\Pool\ConnectionPoolProviderInterface::class,
+            Kernel\Server\Job\Pool\ConnectionPoolProvider::class,
+        );
+
+        $this->container->singleton(
+            Contract\Kernel\Server\Job\Pool\ConnectionPoolInterface::class,
+            Kernel\Server\Job\Pool\ConnectionPool::class,
         );
     }
 }

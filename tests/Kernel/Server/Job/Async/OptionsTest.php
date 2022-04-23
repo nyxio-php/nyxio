@@ -2,19 +2,24 @@
 
 declare(strict_types=1);
 
-namespace Nyxio\Tests\Kernel\Server\Job;
+namespace Nyxio\Tests\Kernel\Server\Job\Async;
 
-use Nyxio\Kernel\Server\Job\Options;
+use Nyxio\Kernel\Server\Job\Async\Options;
 use PHPUnit\Framework\TestCase;
 
 class OptionsTest extends TestCase
 {
     public function testBasic(): void
     {
-        $options = new Options(retryCount: 10, retryDelay: 1000, delay: 5);
+        $function = static function () {
+
+        };
+        $options = new Options(retryCount: 10, retryDelay: 1000, delay: 5, finishCallback: $function);
         $this->assertEquals(10, $options->getRetryCount());
         $this->assertEquals(1000, $options->getRetryDelay());
         $this->assertEquals(5, $options->getDelay());
+        $this->assertEquals(5, $options->getDelay());
+        $this->assertEquals($function, $options->getFinishCallback());
     }
 
     public function testException1(): void

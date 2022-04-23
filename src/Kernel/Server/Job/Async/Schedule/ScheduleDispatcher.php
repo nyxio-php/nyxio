@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Nyxio\Kernel\Server\Job\Schedule;
+namespace Nyxio\Kernel\Server\Job\Async\Schedule;
 
 use Cron\CronExpression;
+use Nyxio\Contract\Kernel\Server\Job\Async\Schedule\ScheduleDispatcherInterface;
+use Nyxio\Contract\Kernel\Server\Job\Async\Schedule\ScheduledJobInterface;
 use Nyxio\Contract\Kernel\Server\Job\DispatcherInterface;
-use Nyxio\Contract\Kernel\Server\Job\Schedule\ScheduleDispatcherInterface;
-use Nyxio\Contract\Kernel\Server\Job\Schedule\ScheduledJobInterface;
 use Nyxio\Contract\Kernel\Utility\UuidFactoryInterface;
 use Nyxio\Helper\Attribute\ExtractAttribute;
-use Nyxio\Kernel\Server\Job\JobType;
-use Nyxio\Kernel\Server\Job\Schedule\Attribute\Schedule;
+use Nyxio\Kernel\Server\Job\Async\Schedule\Attribute\Schedule;
 use Nyxio\Kernel\Server\Job\TaskData;
+use Nyxio\Kernel\Server\Job\TaskType;
 use Swoole\Http\Server;
 
 /**
@@ -67,9 +67,9 @@ class ScheduleDispatcher implements ScheduleDispatcherInterface
                                 /** @psalm-suppress InvalidArgument */
                                 $this->dispatcher->dispatch(
                                     new TaskData(
-                                        job: $job,
+                                        job:  $job,
                                         uuid: $this->uuidFactory->generate(),
-                                        type: JobType::Scheduled
+                                        type: TaskType::Scheduled
                                     )
                                 );
                             }

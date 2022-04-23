@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Nyxio\Kernel\Server\Job;
+namespace Nyxio\Kernel\Server\Job\Async;
 
-use Nyxio\Contract\Kernel\Server\Job\OptionsInterface;
+use Nyxio\Contract\Kernel\Server\Job\Async\OptionsInterface;
 
 class Options implements OptionsInterface
 {

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Nyxio\Contract\Kernel\Server\Job\Queue;
+namespace Nyxio\Contract\Kernel\Server\Job\Async\Queue;
 
-use Nyxio\Contract\Kernel\Server\Job\OptionsInterface;
+use Nyxio\Contract\Kernel\Server\Job\Async\OptionsInterface;
 
 interface QueueInterface
 {

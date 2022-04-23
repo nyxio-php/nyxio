@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Nyxio\Contract\Kernel\Server\Job\Schedule;
+namespace Nyxio\Contract\Kernel\Server\Job\Async\Schedule;
 
 interface ScheduledJobInterface
 {
