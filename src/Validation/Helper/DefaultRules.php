@@ -65,7 +65,7 @@ class DefaultRules
             throw new \InvalidArgumentException('Max cannot be less than or equal to zero');
         }
 
-        return strlen($value) <= $max;
+        return \mb_strlen($value) <= $max;
     }
 
     #[Rule(RuleEnum::MinLength, 'validation.field_length_shorter')]
@@ -75,7 +75,7 @@ class DefaultRules
             throw new \InvalidArgumentException('Min cannot be less than zero');
         }
 
-        return strlen($value) >= $min;
+        return \mb_strlen($value) >= $min;
     }
 
     #[Rule(RuleEnum::Min, 'validation.field_value_smaller')]

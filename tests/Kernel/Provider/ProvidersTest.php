@@ -14,6 +14,7 @@ use Nyxio\Contract\Kernel\Server\Job\DispatcherInterface;
 use Nyxio\Contract\Kernel\Server\Job\Queue\QueueInterface;
 use Nyxio\Contract\Kernel\Server\Job\Schedule\ScheduleDispatcherInterface;
 use Nyxio\Contract\Kernel\Text\MessageInterface;
+use Nyxio\Contract\Kernel\Utility\UuidFactoryInterface;
 use Nyxio\Contract\Provider\ProviderDispatcherInterface;
 use Nyxio\Contract\Routing\GroupCollectionInterface;
 use Nyxio\Contract\Routing\UriMatcherInterface;
@@ -77,6 +78,7 @@ class ProvidersTest extends TestCase
             [ValidationInterface::class, false],
 
             [MessageInterface::class, true],
+            [UuidFactoryInterface::class, true],
 
             [Server::class, true],
             [ScheduleDispatcherInterface::class, true],
