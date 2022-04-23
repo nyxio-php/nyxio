@@ -15,7 +15,7 @@ class ConnectionPoolProvider implements ConnectionPoolProviderInterface
 
     public function register(string $key, \Closure $closure): static
     {
-        $this->connectionClosures[$key] = $closure();
+        $this->connectionClosures[$key] = $closure;
 
         return $this;
     }
