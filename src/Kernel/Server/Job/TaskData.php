@@ -10,7 +10,7 @@ use Nyxio\Contract\Kernel\Server\Job\Await;
 class TaskData
 {
     public function __construct(
-        public readonly string|\Closure $job,
+        public readonly string $job,
         public readonly string $uuid,
         public readonly TaskType $type,
         public readonly array $data = [],

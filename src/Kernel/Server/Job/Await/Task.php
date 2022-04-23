@@ -22,7 +22,7 @@ class Task implements TaskInterface
     ) {
     }
 
-    public function run(string|\Closure $job, array $data = [], OptionsInterface $options = null): mixed
+    public function run(string $job, array $data = [], OptionsInterface $options = null): mixed
     {
         return $this->dispatcher->dispatch(
             new TaskData(

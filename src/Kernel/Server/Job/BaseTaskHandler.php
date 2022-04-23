@@ -19,12 +19,6 @@ abstract class BaseTaskHandler
      */
     protected function invokeJob(TaskData $taskData): mixed
     {
-        $job = $taskData->job;
-
-        if (\is_callable($job)) {
-            return \call_user_func_array($job, $taskData->data);
-        }
-
         if (!\class_exists($taskData->job)) {
             throw new \ReflectionException(\sprintf("Class %s doesn't exists", $taskData->job));
         }

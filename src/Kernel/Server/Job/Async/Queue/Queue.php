@@ -22,7 +22,7 @@ class Queue implements QueueInterface
     ) {
     }
 
-    public function push(string|\Closure $job, array $data = [], ?OptionsInterface $options = null): void
+    public function push(string $job, array $data = [], ?OptionsInterface $options = null): void
     {
         $this->dispatcher->dispatch(
             new TaskData(
