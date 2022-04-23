@@ -8,5 +8,5 @@ interface ConnectionPoolInterface
 {
     public function add(int $workerId, string $key, mixed $data): static;
 
-    public function get(int $workerId, string $key): mixed;
+    public function get(string $key): mixed;
 }
