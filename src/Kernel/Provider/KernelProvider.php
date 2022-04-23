@@ -136,8 +136,8 @@ class KernelProvider implements Contract\Provider\ProviderInterface
         );
 
         $this->container->singleton(
-            Contract\Kernel\Server\Job\Await\TaskInterface::class,
-            Kernel\Server\Job\Await\Task::class
+            Contract\Kernel\Server\Job\Await\AwaitTaskInterface::class,
+            Kernel\Server\Job\Await\AwaitTask::class
         );
 
         $this->container->singleton(

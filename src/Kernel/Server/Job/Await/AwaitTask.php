@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Nyxio\Kernel\Server\Job\Await;
 
 use Nyxio\Contract\Kernel\Server\Job\Await\OptionsInterface;
-use Nyxio\Contract\Kernel\Server\Job\Await\TaskInterface;
+use Nyxio\Contract\Kernel\Server\Job\Await\AwaitTaskInterface;
 use Nyxio\Contract\Kernel\Server\Job\DispatcherInterface;
 use Nyxio\Contract\Kernel\Utility\UuidFactoryInterface;
 use Nyxio\Kernel\Server\Job\TaskData;
@@ -14,7 +14,7 @@ use Nyxio\Kernel\Server\Job\TaskType;
 /**
  * @codeCoverageIgnore
  */
-class Task implements TaskInterface
+class AwaitTask implements AwaitTaskInterface
 {
     public function __construct(
         private readonly DispatcherInterface $dispatcher,
