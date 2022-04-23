@@ -8,7 +8,9 @@ use Nyxio\Contract\Container\ContainerInterface;
 use Nyxio\Contract\Event\EventDispatcherInterface;
 use Nyxio\Contract\Kernel\Server\Job\Async\OptionsInterface;
 use Nyxio\Contract\Kernel\Server\Job\Async\TaskHandlerInterface;
+use Nyxio\Kernel\Event\QueueComplete;
 use Nyxio\Kernel\Event\QueueException;
+use Nyxio\Kernel\Event\ScheduleComplete;
 use Nyxio\Kernel\Event\ScheduleException;
 use Nyxio\Kernel\Server\Job\BaseTaskHandler;
 use Nyxio\Kernel\Server\Job\TaskData;
@@ -61,6 +63,16 @@ class TaskHandler extends BaseTaskHandler implements TaskHandlerInterface
         try {
             /** @psalm-suppress InvalidArgument */
             $server->finish($this->invokeJob($taskData));
+            switch ($taskData->type) {
+                case TaskType::Queue:
+                    $this->finishQueueJob($taskData);
+                    break;
+                case TaskType::Scheduled:
+                    $this->finishScheduleJob($taskData);
+                    break;
+                default:
+                    break;
+            }
         } catch (\Throwable $exception) {
             $this->retry($server, $taskData, $exception);
         }
@@ -110,5 +122,21 @@ class TaskHandler extends BaseTaskHandler implements TaskHandlerInterface
             default:
                 break;
         }
+    }
+
+    private function finishScheduleJob(TaskData $taskData): void
+    {
+        $this->eventDispatcher->dispatch(
+            ScheduleComplete::NAME,
+            new ScheduleComplete($taskData)
+        );
+    }
+
+    private function finishQueueJob(TaskData $taskData): void
+    {
+        $this->eventDispatcher->dispatch(
+            QueueComplete::NAME,
+            new QueueComplete($taskData)
+        );
     }
 }
