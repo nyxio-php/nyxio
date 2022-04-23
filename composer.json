@@ -40,7 +40,7 @@
     "require": {
         "ext-mbstring": "*",
         "ext-openswoole": "*",
-        "nyholm/psr7": "^1.4",
+        "nyholm/psr7": "^1.5",
         "php": ">=8.1",
         "php-http/message-factory": "^1.0",
         "psr/http-factory": "^1.0",
