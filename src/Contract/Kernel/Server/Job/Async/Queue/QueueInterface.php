@@ -8,5 +8,5 @@ use Nyxio\Contract\Kernel\Server\Job\Async\OptionsInterface;
 
 interface QueueInterface
 {
-    public function push(string $job, array $data = [], ?OptionsInterface $options = null): void;
+    public function push(string|\Closure $job, array $data = [], ?OptionsInterface $options = null): void;
 }
