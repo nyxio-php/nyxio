@@ -74,20 +74,10 @@ class ServerProvider implements ProviderInterface
 
         $this->container->singleton(Kernel\Server\Starter::class);
 
-        $server = $this->container->get(Server::class);
-
-        if ($server instanceof Server) {
-            $this->events($server);
-        }
+        $this->events();
     }
 
-    /**
-     * @param Server $server
-     * @return void
-     *
-     * @codeCoverageIgnore
-     */
-    private function events(Server $server): void
+    private function events(): void
     {
         $this->container->singleton(
             Contract\Kernel\Server\Event\StartHandlerInterface::class,
