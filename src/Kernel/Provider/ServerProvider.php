@@ -21,6 +21,43 @@ class ServerProvider implements ProviderInterface
 
     public function process(): void
     {
+        $this->server();
+        $this->jobs();
+        $this->events();
+
+        $this->container->singleton(Kernel\Server\Starter::class);
+    }
+
+    private function events(): void
+    {
+        $this->container->singleton(
+            Contract\Kernel\Server\Event\StartHandlerInterface::class,
+            Kernel\Server\Event\StartHandler::class
+        );
+
+        $this->container->singleton(
+            Contract\Kernel\Server\Event\RequestHandlerInterface::class,
+            Kernel\Server\Event\RequestHandler::class
+        );
+
+        $this->container->singleton(
+            Contract\Kernel\Server\Event\TaskHandlerInterface::class,
+            Kernel\Server\Event\TaskHandler::class
+        );
+
+        $this->container->singleton(
+            Contract\Kernel\Server\Event\FinishHandlerInterface::class,
+            Kernel\Server\Event\FinishHandler::class
+        );
+
+        $this->container->singleton(
+            Contract\Kernel\Server\Event\WorkerStartHandlerInterface::class,
+            Kernel\Server\Event\WorkerStartHandler::class
+        );
+    }
+
+    private function server(): void
+    {
         $this->container->singletonFn(Server::class, function () {
             $server = new Server(
                 $this->config->get('server.host', '127.0.0.1'),
@@ -31,7 +68,10 @@ class ServerProvider implements ProviderInterface
 
             return $server;
         });
+    }
 
+    private function jobs(): void
+    {
         $this->container->singleton(
             Contract\Kernel\Server\Job\DispatcherInterface::class,
             Kernel\Server\Job\Dispatcher::class
@@ -70,38 +110,6 @@ class ServerProvider implements ProviderInterface
         $this->container->singleton(
             Contract\Kernel\Server\Job\Pool\ConnectionPoolInterface::class,
             Kernel\Server\Job\Pool\ConnectionPool::class,
-        );
-
-        $this->container->singleton(Kernel\Server\Starter::class);
-
-        $this->events();
-    }
-
-    private function events(): void
-    {
-        $this->container->singleton(
-            Contract\Kernel\Server\Event\StartHandlerInterface::class,
-            Kernel\Server\Event\StartHandler::class
-        );
-
-        $this->container->singleton(
-            Contract\Kernel\Server\Event\RequestHandlerInterface::class,
-            Kernel\Server\Event\RequestHandler::class
-        );
-
-        $this->container->singleton(
-            Contract\Kernel\Server\Event\TaskHandlerInterface::class,
-            Kernel\Server\Event\TaskHandler::class
-        );
-
-        $this->container->singleton(
-            Contract\Kernel\Server\Event\FinishHandlerInterface::class,
-            Kernel\Server\Event\FinishHandler::class
-        );
-
-        $this->container->singleton(
-            Contract\Kernel\Server\Event\WorkerStartHandlerInterface::class,
-            Kernel\Server\Event\WorkerStartHandler::class
         );
     }
 }
