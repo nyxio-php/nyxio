@@ -10,5 +10,4 @@ use Swoole\Http\Server;
 interface TaskHandlerInterface
 {
     public function handle(Server $server, TaskData $taskData): mixed;
-
 }

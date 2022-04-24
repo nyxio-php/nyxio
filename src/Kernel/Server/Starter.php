@@ -40,7 +40,8 @@ class Starter
                     );
                 }
             } catch (\Throwable $exception) {
-                echo \sprintf(
+                echo
+                    \sprintf(
                         'Connection Pool Provider (%s) create instance error: %s',
                         $key,
                         $exception->getMessage()
