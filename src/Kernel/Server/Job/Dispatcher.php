@@ -32,11 +32,18 @@ class Dispatcher implements DispatcherInterface
         }
 
         if ($taskData->isAsync()) {
+            $finishCallback = null;
+
+            if ($taskData->options instanceof Async\OptionsInterface) {
+                $finishCallback = $taskData->options->getFinishCallback();
+                $taskData->options->resetFinishCallback();
+            }
+
             /** @psalm-suppress InvalidArgument */
             $this->server->task(
                 $taskData,
                 $workerId,
-                $taskData->options instanceof Async\OptionsInterface ? $taskData->options->getFinishCallback() : null,
+                $finishCallback,
             );
 
             return null;

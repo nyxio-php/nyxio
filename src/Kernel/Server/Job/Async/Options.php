@@ -12,7 +12,7 @@ class Options implements OptionsInterface
         private ?int $retryCount = null,
         private readonly ?int $retryDelay = null,
         private readonly ?int $delay = null,
-        private readonly ?\Closure $finishCallback = null,
+        private ?\Closure $finishCallback = null,
     ) {
         if ($this->delay !== null && $this->delay <= 0) {
             throw new \InvalidArgumentException('Delay cannot be less or equals zero');
@@ -56,5 +56,12 @@ class Options implements OptionsInterface
     public function getRetryDelay(): ?int
     {
         return $this->retryDelay;
+    }
+
+    public function resetFinishCallback(): static
+    {
+        $this->finishCallback = null;
+
+        return $this;
     }
 }
