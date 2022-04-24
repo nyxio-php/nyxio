@@ -27,6 +27,7 @@ class ConnectionPool implements ConnectionPoolInterface
     {
         $workerId = $this->server->getWorkerId();
 
+        /** @psalm-suppress UndefinedClass Constant */
         if ($workerId < $this->server->setting[Constant::OPTION_WORKER_NUM]) {
             throw new \RuntimeException('ConnectionPool cannot be used outside of async/await tasks');
         }

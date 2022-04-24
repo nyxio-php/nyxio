@@ -27,7 +27,10 @@ class Starter
 
     private function connectionPoolInit(): void
     {
+        /** @psalm-suppress UndefinedClass Constant */
         $tasksCount = $this->server->setting[Constant::OPTION_TASK_WORKER_NUM];
+
+        /** @psalm-suppress UndefinedClass Constant */
         $workersCount = $this->server->setting[Constant::OPTION_WORKER_NUM];
 
         foreach ($this->connectionPoolProvider->getAllRegisterClosures() as $key => $closure) {

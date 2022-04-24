@@ -52,6 +52,7 @@ class Dispatcher implements DispatcherInterface
 
     public function getIdleWorkerId(): int
     {
+        /** @psalm-suppress UndefinedClass Constant */
         $workers = $this->server->setting[Constant::OPTION_WORKER_NUM] ?? null;
 
         if ($workers === null) {
