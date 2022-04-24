@@ -31,6 +31,7 @@ use Nyxio\Contract\Validation\RulesCheckerInterface;
 use Nyxio\Contract\Validation\ValidationInterface;
 use Nyxio\Kernel\Application;
 use Nyxio\Kernel\Provider\KernelProvider;
+use Nyxio\Kernel\Provider\ServerProvider;
 use Nyxio\Kernel\Server\Starter;
 use Nyxio\Routing\Group;
 use PHPUnit\Framework\TestCase;
@@ -54,20 +55,11 @@ class ProvidersTest extends TestCase
     public function testKernelProvider(string $alias, bool $singleton): void
     {
         $container = new Container();
-        $provider = new KernelProvider(
-            $container, (new MemoryConfig())->addConfig('http', ['groups' => [new Group('test')]])
-        );
-
-        $provider->process();
+        $config = (new MemoryConfig())->addConfig('http', ['groups' => [new Group('test')]]);
+        (new KernelProvider($container, $config))->process();
+        (new ServerProvider($container, new MemoryConfig()))->process();
 
         $this->assertTrue($singleton ? $container->hasSingleton($alias) : $container->hasBind($alias));
-    }
-
-    private function getDataProviderForServer(): array
-    {
-        return [
-
-        ];
     }
 
     private function getDataProviderForKernel(): array
@@ -96,7 +88,7 @@ class ProvidersTest extends TestCase
             [MessageInterface::class, true],
             [UuidFactoryInterface::class, true],
 
-             // Server
+            // Server
             [Server::class, true],
             [Starter::class, true],
 

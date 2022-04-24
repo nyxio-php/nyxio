@@ -10,6 +10,7 @@ use Nyxio\Contract\Provider\ProviderDispatcherInterface;
 use Nyxio\Event\Dispatcher;
 use Nyxio\Kernel\Application;
 use Nyxio\Kernel\Provider\KernelProvider;
+use Nyxio\Kernel\Provider\ServerProvider;
 use Nyxio\Kernel\Server\Starter;
 use PHPUnit\Framework\TestCase;
 use Swoole\Http\Server;
@@ -52,6 +53,7 @@ class ApplicationTest extends TestCase
             ->addConfig('app', [
                 'providers' => [
                     KernelProvider::class,
+                    ServerProvider::class,
                 ],
             ])
             ->addConfig('server', ['port' => 1245]);
@@ -70,7 +72,7 @@ class ApplicationTest extends TestCase
      * @throws \ReflectionException
      * @runInSeparateProcess
      */
-    public function testApplicationBootstrap(): void
+    public function testApplicationStart(): void
     {
         $container = new Container();
 
@@ -78,6 +80,7 @@ class ApplicationTest extends TestCase
             ->addConfig('app', [
                 'providers' => [
                     KernelProvider::class,
+                    ServerProvider::class,
                 ],
             ]);
 
