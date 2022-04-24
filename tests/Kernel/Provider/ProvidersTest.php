@@ -31,7 +31,6 @@ use Nyxio\Contract\Validation\RulesCheckerInterface;
 use Nyxio\Contract\Validation\ValidationInterface;
 use Nyxio\Kernel\Application;
 use Nyxio\Kernel\Provider\KernelProvider;
-use Nyxio\Kernel\Provider\ServerProvider;
 use Nyxio\Kernel\Server\Starter;
 use Nyxio\Routing\Group;
 use PHPUnit\Framework\TestCase;
@@ -64,55 +63,10 @@ class ProvidersTest extends TestCase
         $this->assertTrue($singleton ? $container->hasSingleton($alias) : $container->hasBind($alias));
     }
 
-    /**
-     * @param string $alias
-     * @param bool $singleton
-     * @return void
-     *
-     * @dataProvider getDataProviderForServer
-     * @runInSeparateProcess
-     */
-    public function testServerProvider(string $alias, bool $singleton): void
-    {
-        $container = new Container();
-
-        $kernelProvider = new KernelProvider(
-            $container, (new MemoryConfig())->addConfig('http', ['groups' => [new Group('test')]])
-        );
-
-        $kernelProvider->process();
-
-        $provider = new ServerProvider(
-            container: $container,
-            config:    new MemoryConfig(),
-        );
-
-        $provider->process();
-
-        $this->assertTrue($singleton ? $container->hasSingleton($alias) : $container->hasBind($alias));
-    }
-
     private function getDataProviderForServer(): array
     {
         return [
-            [Server::class, true],
-            [Starter::class, true],
 
-            [DispatcherInterface::class, true],
-
-            [ScheduleDispatcherInterface::class, true],
-            [QueueInterface::class, true],
-            [Await\AwaitTaskInterface::class, true],
-
-            [Async\TaskHandlerInterface::class, true],
-            [Await\TaskHandlerInterface::class, true],
-            [ConnectionPoolProviderInterface::class, true],
-            [ConnectionPoolInterface::class, true],
-            [StartHandlerInterface::class, true],
-            [\Nyxio\Contract\Kernel\Server\Event\RequestHandlerInterface::class, true],
-            [FinishHandlerInterface::class, true],
-            [TaskHandlerInterface::class, true],
-            [WorkerStartHandlerInterface::class, true],
         ];
     }
 
@@ -141,6 +95,26 @@ class ProvidersTest extends TestCase
 
             [MessageInterface::class, true],
             [UuidFactoryInterface::class, true],
+
+             // Server
+            [Server::class, true],
+            [Starter::class, true],
+
+            [DispatcherInterface::class, true],
+
+            [ScheduleDispatcherInterface::class, true],
+            [QueueInterface::class, true],
+            [Await\AwaitTaskInterface::class, true],
+
+            [Async\TaskHandlerInterface::class, true],
+            [Await\TaskHandlerInterface::class, true],
+            [ConnectionPoolProviderInterface::class, true],
+            [ConnectionPoolInterface::class, true],
+            [StartHandlerInterface::class, true],
+            [\Nyxio\Contract\Kernel\Server\Event\RequestHandlerInterface::class, true],
+            [FinishHandlerInterface::class, true],
+            [TaskHandlerInterface::class, true],
+            [WorkerStartHandlerInterface::class, true],
         ];
     }
 }
