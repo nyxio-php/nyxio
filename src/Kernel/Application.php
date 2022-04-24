@@ -35,11 +35,10 @@ class Application
     }
 
     /**
-     * @return void
+     * @return bool
      * @throws \ReflectionException
-     * @codeCoverageIgnore
      */
-    public function start(): void
+    public function start(): bool
     {
         $starter = $this->container->get(Starter::class);
 
@@ -47,7 +46,7 @@ class Application
             throw new \RuntimeException(\sprintf('%s was not specified', Starter::class));
         }
 
-        $starter->start();
+        return $starter->start();
     }
 
     /**

@@ -4,15 +4,13 @@ declare(strict_types=1);
 
 namespace Nyxio\Kernel\Server\Event;
 
+use Nyxio\Contract\Kernel\Server\Event\TaskHandlerInterface;
 use Nyxio\Contract\Kernel\Server\Job\Async;
 use Nyxio\Contract\Kernel\Server\Job\Await;
 use Nyxio\Kernel\Server\Job\TaskData;
 use Swoole\Http\Server;
 
-/**
- * @codeCoverageIgnore
- */
-class TaskEventHandler
+class TaskHandler implements TaskHandlerInterface
 {
     public function __construct(
         private readonly Async\TaskHandlerInterface $asyncTaskHandler,

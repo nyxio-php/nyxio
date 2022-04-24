@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Nyxio\Tests\Kernel\Server;
 
+use Nyxio\Container\Container;
 use Nyxio\Kernel\Server\Job\Pool\ConnectionPool;
 use Nyxio\Kernel\Server\Job\Pool\ConnectionPoolProvider;
 use Nyxio\Kernel\Server\Starter;
@@ -40,10 +41,13 @@ class StarterTest extends TestCase
 
         $pool = new ConnectionPool(server: $server);
 
+        $container = new Container();
+
         $starter = new Starter(
             server:                 $server,
             connectionPoolProvider: $poolProvider,
             connectionPool:         $pool,
+            container:              $container,
         );
 
         $starter->start();
@@ -65,15 +69,18 @@ class StarterTest extends TestCase
         $poolProvider = new ConnectionPoolProvider();
 
         $poolProvider->register('database', static function () {
-            throw new \Exception('test');
+            throw new \RuntimeException('test');
         });
 
         $pool = new ConnectionPool(server: $server);
+
+        $container = new Container();
 
         $starter = new Starter(
             server:                 $server,
             connectionPoolProvider: $poolProvider,
             connectionPool:         $pool,
+            container:              $container,
         );
 
         $starter->start();

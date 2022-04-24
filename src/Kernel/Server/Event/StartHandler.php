@@ -5,11 +5,9 @@ declare(strict_types=1);
 namespace Nyxio\Kernel\Server\Event;
 
 use Nyxio\Contract\Config\ConfigInterface;
+use Nyxio\Contract\Kernel\Server\Event\StartHandlerInterface;
 
-/**
- * @codeCoverageIgnore
- */
-class StartEventHandler
+class StartHandler implements StartHandlerInterface
 {
     public function __construct(private readonly ConfigInterface $config)
     {
