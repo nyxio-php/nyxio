@@ -8,5 +8,5 @@ use Nyxio\Kernel\Server\Job\TaskData;
 
 interface DispatcherInterface
 {
-    public function dispatch(TaskData $taskData): void;
+    public function dispatch(TaskData $taskData): mixed;
 }

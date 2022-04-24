@@ -11,7 +11,7 @@ use Nyxio\Kernel\Event\ScheduleException;
 use Nyxio\Kernel\Event\QueueComplete;
 use Nyxio\Kernel\Event\QueueException;
 use Nyxio\Kernel\Event\ResponseEvent;
-use Nyxio\Kernel\Server\Job\JobType;
+use Nyxio\Kernel\Server\Job\TaskType;
 use Nyxio\Kernel\Server\Job\TaskData;
 use PHPUnit\Framework\TestCase;
 
@@ -19,7 +19,7 @@ class EventTest extends TestCase
 {
     public function testBasic(): void
     {
-        $taskData = new TaskData('test.job', uuid: 'test', type: JobType::Queue);
+        $taskData = new TaskData('test.job', uuid: 'test', type: TaskType::Queue);
         $event = new ScheduleComplete($taskData);
         $this->assertEquals('kernel.job.schedule.complete', $event::NAME);
         $this->assertEquals('test', $event->taskData->uuid);

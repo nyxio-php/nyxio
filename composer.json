@@ -50,11 +50,12 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5",
-        "symplify/monorepo-builder": "^10.0",
-        "vimeo/psalm": "^4.16",
+        "symplify/monorepo-builder": "^10.2",
+        "vimeo/psalm": "5.x-dev",
         "openswoole/ide-helper": "@dev",
         "squizlabs/php_codesniffer": "4.0.x-dev",
-        "phpstan/phpstan": "1.6.x-dev"
+        "phpstan/phpstan": "1.6.x-dev",
+        "mockery/mockery": "^1.5"
     },
     "config": {
         "allow-plugins": {
