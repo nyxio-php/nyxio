@@ -17,9 +17,6 @@ use Nyxio\Kernel\Server\Job\TaskData;
 use Nyxio\Kernel\Server\Job\TaskType;
 use Swoole\Http\Server;
 
-/**
- * @codeCoverageIgnore
- */
 class TaskHandler extends BaseTaskHandler implements TaskHandlerInterface
 {
     public function __construct(

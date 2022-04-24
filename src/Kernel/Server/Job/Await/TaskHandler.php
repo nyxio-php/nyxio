@@ -9,9 +9,6 @@ use Nyxio\Kernel\Server\Job\BaseTaskHandler;
 use Nyxio\Kernel\Server\Job\TaskData;
 use Swoole\Http\Server;
 
-/**
- * @codeCoverageIgnore
- */
 class TaskHandler extends BaseTaskHandler implements TaskHandlerInterface
 {
     /**

@@ -10,9 +10,6 @@ use Nyxio\Contract\Kernel\Server\Job\DispatcherInterface;
 use Swoole\Constant;
 use Swoole\Http\Server;
 
-/**
- * @codeCoverageIgnore
- */
 class Dispatcher implements DispatcherInterface
 {
     public function __construct(private readonly Server $server)

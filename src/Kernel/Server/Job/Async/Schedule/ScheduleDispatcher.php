@@ -15,9 +15,6 @@ use Nyxio\Kernel\Server\Job\TaskData;
 use Nyxio\Kernel\Server\Job\TaskType;
 use Swoole\Http\Server;
 
-/**
- * @codeCoverageIgnore
- */
 class ScheduleDispatcher implements ScheduleDispatcherInterface
 {
     public function __construct(

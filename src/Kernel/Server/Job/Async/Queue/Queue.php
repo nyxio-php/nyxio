@@ -11,9 +11,6 @@ use Nyxio\Contract\Kernel\Utility\UuidFactoryInterface;
 use Nyxio\Kernel\Server\Job\TaskData;
 use Nyxio\Kernel\Server\Job\TaskType;
 
-/**
- * @codeCoverageIgnore
- */
 class Queue implements QueueInterface
 {
     public function __construct(

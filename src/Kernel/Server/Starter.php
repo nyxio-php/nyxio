@@ -33,11 +33,13 @@ class Starter
     ) {
     }
 
+    /** @psalm-suppress InvalidNullableReturnType */
     public function start(): bool
     {
         $this->serverEventBindings();
         $this->connectionPoolInit();
 
+        /** @psalm-suppress NullableReturnStatement */
         return $this->server->start();
     }
 
