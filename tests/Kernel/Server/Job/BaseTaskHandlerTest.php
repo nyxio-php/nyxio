@@ -8,6 +8,7 @@ use Nyxio\Container\Container;
 use Nyxio\Kernel\Server\Job\BaseTaskHandler;
 use Nyxio\Kernel\Server\Job\TaskData;
 use Nyxio\Kernel\Server\Job\TaskType;
+use Nyxio\Tests\Kernel\Server\Job\Fixtures\TestInvalidJob;
 use Nyxio\Tests\Kernel\Server\Job\Fixtures\TestJob;
 use PHPUnit\Framework\TestCase;
 
@@ -31,5 +32,49 @@ class BaseTaskHandlerTest extends TestCase
         };
 
         $this->assertEquals('TEST MESSAGE', $handler->test('TEST MESSAGE'));
+    }
+
+    public function testJobClassNotExists(): void
+    {
+        $container = new Container();
+
+        $handler = new class ($container) extends BaseTaskHandler {
+            public function test(string $message): string
+            {
+                return $this->invokeJob(
+                    new TaskData(
+                        job: 'invalid job',
+                        uuid: 'test',
+                        type: TaskType::Await,
+                        data: ['message' => $message],
+                    )
+                );
+            }
+        };
+
+        $this->expectException(\ReflectionException::class);
+        $handler->test('TEST MESSAGE');
+    }
+
+    public function testJobWithoutHandlerMethod(): void
+    {
+        $container = new Container();
+
+        $handler = new class ($container) extends BaseTaskHandler {
+            public function test(string $message): string
+            {
+                return $this->invokeJob(
+                    new TaskData(
+                        job: TestInvalidJob::class,
+                        uuid: 'test',
+                        type: TaskType::Await,
+                        data: ['message' => $message],
+                    )
+                );
+            }
+        };
+
+        $this->expectException(\ReflectionException::class);
+        $handler->test('TEST MESSAGE');
     }
 }

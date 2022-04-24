@@ -28,7 +28,7 @@ abstract class BaseTaskHandler
         $reflection = new \ReflectionClass($taskData->job);
 
         if (!$reflection->hasMethod('handle')) {
-            throw new \RuntimeException(
+            throw new \ReflectionException(
                 \sprintf("Job %s (%s) doesn't have `handle` method", $taskData->job, $taskData->uuid)
             );
         }
